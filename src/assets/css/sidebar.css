@@ -1,0 +1,11 @@
+.active{
+    background-color: orange;
+    width: auto;
+    display: block;
+    transition: "all 300ms linear";
+    position: relative;
+    margin: "10px 15px 0";
+    border-radius: "3px";
+    padding: "10px 15px";
+    box-shadow: "0 12px 20px -10px rgba(#ff9800, .28), 0 4px 20px 0 rgba(#ff9800,.12), 0 7px 8px -5px rgba(#ff9800,.2)";
+}
