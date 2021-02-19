@@ -7,7 +7,7 @@ import {
   NavLink
 } from "react-router-dom";
 import styles from "../assets/jss/components/sidebarStyle.js"
-import { whiteColor } from "../assets/jss/components/material-dashboard-react";
+import { whiteColor, blackColor } from "../assets/jss/components/material-dashboard-react";
 // import "../assets/css/sidebar.css"
 
 const useSytles = makeStyles(styles);
@@ -25,43 +25,43 @@ export default function Sidebar(props) {
   const classes = useSytles();
 
   return (
-      <div className={classes.drawerPaper}>
-        <div className={classes.logo}>
-          <h3 style={{ color: whiteColor }}>客户管理系统</h3>
-        </div>
-        <div className={classes.sidebarWrapper}>
-          <List className={classes.list}>
-            {
-              routes.map((route, index) => {
+    <div className={classes.drawerPaper}>
+      <div className={classes.logo}>
+        <h3 style={{ color: blackColor }}>客户管理系统</h3>
+      </div>
+      <div className={classes.sidebarWrapper}>
+        <List className={classes.list}>
+          {
+            routes.map((route, index) => {
 
-                return (
-                  <NavLink
-                    to={route.path}
-                    className={classes.item}
-                    activeClassName={classes.itemActive}
-                    activeStyle={{ color: "yellow" }}
-                    key={index}>
-                    <ListItem button>
-                      <ListItemText
-                        primary={route.sidebar}
-                        disableTypography={true}
-                        className={classes.itemText}
-                      />
-                    </ListItem>
-                  </NavLink>
-                );
-              })
-            }
+              return (
+                <NavLink
+                  to={route.path}
+                  className={classes.item}
+                  activeClassName={classes.itemActive}
+                  // activeStyle={{ color: "yellow" }}
+                  key={index}>
+                  <ListItem button>
+                    <ListItemText
+                      primary={route.sidebar}
+                      disableTypography={true}
+                      className={classes.itemText}
+                    />
+                  </ListItem>
+                </NavLink>
+              );
+            })
+          }
 
-          </List>
-        </div>
+        </List>
+      </div>
 
-        <div
+      {/* <div
           className={classes.background}
           style={{ backgroundImage: "url(" + bgImage + ")" }}
-        />
+        /> */}
 
-      </div>
+    </div>
 
 
   );

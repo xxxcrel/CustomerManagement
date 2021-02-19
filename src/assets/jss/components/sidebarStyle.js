@@ -18,15 +18,19 @@ import {
 
 const sidebarStyle = theme => ({
     drawerPaper: {
-        border: "none",
+        // border: "none",
+        // border: "solid",
         position: "fixed",
         top: "0",
         bottom: "0",
         left: "0",
         zIndex: "1",
-        ...boxShadow,
+        // ...boxShadow,
+        borderRightWidth: "1px",
+        borderRightStyle: "solid",
+        borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
         width: drawerWidth,
-        background: "linear-gradient(blue, pink)"
+        // background: "linear-gradient(blue, pink)"
     },
     sidebarWrapper: {
         position: "relative",
@@ -34,12 +38,13 @@ const sidebarStyle = theme => ({
         overflow: "auto",
         width: drawerWidth,
         zIndex: "4",
-        ...boxShadow,
+        // ...boxShadow,
         overflowScrolling: "touch",
     },
     logo: {
         position: "relative",
         padding: "15px 15px",
+        color: blackColor,
         textAlign: "center",  
         zIndex: "4",
         "&:after": {
@@ -104,11 +109,12 @@ const sidebarStyle = theme => ({
         width: "auto",
         transition: "all 300ms linear",
         margin: "10px 12px 0",
-        borderRadius: "3px",
+        borderRadius: "5px",
         // padding: "10px 15px",
         textDecoration: "none",
         "&:hover,&:focus,&:visited,&": {
-            color: whiteColor
+            borderRadius: "5px",
+            color: "#C4F7CC"
         }
     },
     itemActive: {
@@ -117,12 +123,13 @@ const sidebarStyle = theme => ({
         width: "auto",
         transition: "all 300ms linear",
         margin: "10px 11px 0",
-        borderRadius: "3px",
+        borderRadius: "5px",
         // padding: "10px 15px",
         textDecoration: "none",
-        backgroundColor: "orange",
+        backgroundColor: "#83EB94",
         "&:hover,&:focus,&:visited,&": {
-            color: whiteColor
+            borderRadius: "5px",
+            color: "#C4F7CC"
         }
     },
     itemText: {
@@ -132,7 +139,7 @@ const sidebarStyle = theme => ({
         lineHeight: "30px",
         fontSize: "16px",
         fontWeight: 400,
-        color: whiteColor
+        color: blackColor
     },
     list: {
         marginTop: "20px",

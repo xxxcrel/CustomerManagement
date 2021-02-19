@@ -13,7 +13,7 @@ const routes = [
   {
     path: "/home",
     exact: true,
-    sidebar: "主页",
+    sidebar: "客户统计",
     main: Home
   },
   {
@@ -36,7 +36,7 @@ function App() {
     <Router
       path="/admin"
     >
-      <div>
+      <div className={classes.wrapper}>
         {/* <header className="App-header"> */}
         <div className={classes.sidebar}>
           <Sidebar

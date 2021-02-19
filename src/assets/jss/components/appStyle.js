@@ -7,45 +7,65 @@ import {
     grayColor,
     hexToRgb,
     warningColor,
-    blackColor
+    blackColor,
+    whiteColor
 } from "./material-dashboard-react.js";
 
 import bgImage from "../../img/sidebar-2.jpg";
 
 const appStyle = theme => ({
     wrapper: {
-        position: "relative",
-        top: "0",
-        height: "100vh"
+        // position: "r",
+        // top: "0",
+        // height: "100vh"
     },
     sidebar: {
-        position: "absloute",
+        position: "relative",
         left: "0px",
         top: "0px",
         height: "100%",
-        width: drawerWidth
+        width: "10%"
     },
     mainPanel: {
-        ...transition,
-        maxHeight: "100%",
-        marginLeft: drawerWidth,
+        // ...transition,
+        // position: "relative",
+        height: "60%",
+        width: "88%",
+        position: "fixed",
+        top: "0px",
+        // right: "0",
+        bottom: "0px",
+        // right: "0",
+        // left: "0",
+        marginLeft: drawerWidth + 1,
         overflowScrolling: "touch"
     },
+
     appBar: {
-        position: "relative",
+        // position: "absolute",
+        boxShadow: "none",
+        // top: "0",
+        height: "50px",
         width: "100%",
-        transition: "all 150ms ease 0s",
+        // transition: "all 150ms ease 0s",
         minHeight: "50px",
         display: "block",
-        backgroundImage: "url(" + bgImage + ")"
+        backgroundColor: "white",
+        // borderBottomWidth: "1px",
+        // borderBottomStyle: "solid",
+        // borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
+        // backgroundImage: "url(" + bgImage + ")"
     },
     content: {
-        position: "relative",
+        width: "100%",
+        height: "100%",
+        // marginTop: "50px",
+        // backgroundColor: "red"
         // minHeight: "calc(100vh - 123px)"
     },
     container: {
         ...container,
-        minHeight: "60px",
+        minHeight: "50px",
         // color: "white",
         // backgroundColor: "white"
     },
