@@ -8,56 +8,46 @@ import {
     hexToRgb,
     warningColor,
     blackColor
-} from "./material-dashboard-react.js"
+} from "./material-dashboard-react.js";
+
+import bgImage from "../../img/sidebar-2.jpg";
+
 const appStyle = theme => ({
     wrapper: {
         position: "relative",
         top: "0",
         height: "100vh"
     },
+    sidebar: {
+        position: "absloute",
+        left: "0px",
+        top: "0px",
+        height: "100%",
+        width: drawerWidth
+    },
     mainPanel: {
-        overflow: "auto",
-        position: "relative",
-        float: "right",
         ...transition,
         maxHeight: "100%",
-        width: "100%",
+        marginLeft: drawerWidth,
         overflowScrolling: "touch"
     },
-    content: {
-        marginTop: "20px",
-        padding: "20px 15px",
-        minHeight: "calc(100vh - 123px)"
-    },
-
     appBar: {
-        backgroundColor: "red",
-        // boxShadow:
-        //     "0 12px 20px -10px rgba(" +
-        //     hexToRgb(warningColor[0]) +
-        //     ",.28), 0 4px 20px 0 rgba(" +
-        //     hexToRgb(blackColor) +
-        //     ",.12), 0 7px 8px -5px rgba(" +
-        //     hexToRgb(warningColor[0]) +
-        //     ",.2)",
-        borderBottom: "0",
-        marginBottom: "0",
-        position: "absolute",
+        position: "relative",
         width: "100%",
-        paddingTop: "10px",
-        zIndex: "1029",
-        color: lightBlue,
-        border: "0",
-        borderRadius: "3px",
-        padding: "10px 0",
         transition: "all 150ms ease 0s",
         minHeight: "50px",
-        display: "block"
+        display: "block",
+        backgroundImage: "url(" + bgImage + ")"
+    },
+    content: {
+        position: "relative",
+        // minHeight: "calc(100vh - 123px)"
     },
     container: {
         ...container,
-        minHeight: "50px",
-        color: "blue"
+        minHeight: "60px",
+        // color: "white",
+        // backgroundColor: "white"
     },
     flex: {
         flex: 1

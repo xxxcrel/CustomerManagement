@@ -26,6 +26,7 @@ const sidebarStyle = theme => ({
         zIndex: "1",
         ...boxShadow,
         width: drawerWidth,
+        background: "linear-gradient(blue, pink)"
     },
     sidebarWrapper: {
         position: "relative",
@@ -39,6 +40,7 @@ const sidebarStyle = theme => ({
     logo: {
         position: "relative",
         padding: "15px 15px",
+        textAlign: "center",  
         zIndex: "4",
         "&:after": {
             content: '""',

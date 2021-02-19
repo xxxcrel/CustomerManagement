@@ -4,7 +4,9 @@ import Sidebar from './components/SideBar';
 import Home from "./views/Home";
 import CustomerManagement from "./views/CustomerManagement";
 import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
-import { AppBar, makeStyles, Toolbar, IconButton, Button } from '@material-ui/core';
+import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography } from '@material-ui/core';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+
 import styles from "./assets/jss/components/appStyle";
 
 const routes = [
@@ -34,26 +36,24 @@ function App() {
     <Router
       path="/admin"
     >
-      <div className={classes.wrapper}>
+      <div>
         {/* <header className="App-header"> */}
+        <div className={classes.sidebar}>
+          <Sidebar
+            routes={routes}
+          />
+        </div>
 
-        <Sidebar
-          routes={routes}
-        />
 
         <div className={classes.mainPanel}>
-
-          <AppBar className={classes.appBar}>
+          <AppBar className={classes.appBar} position="relative">
             <Toolbar className={classes.container}>
-              <div className={classes.flex}>
-                {/* Here we create navbar brand, based on route name */}
-                <IconButton edge="end" color="transparent" href="#" >
-                  hello
+                <Typography style={{flexGrow: "1"}}>hello</Typography>
+                <IconButton>
+                  <AccountCircle/>
                 </IconButton>
-              </div>
             </Toolbar>
           </AppBar>
-          {/* <div style={{height:"10px", color:"red"}}></div> */}
 
           <div className={classes.content}>
             <Switch>
