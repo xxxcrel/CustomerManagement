@@ -37,7 +37,7 @@ const appStyle = theme => ({
         bottom: "0px",
         // right: "0",
         // left: "0",
-        marginLeft: drawerWidth + 1,
+        marginLeft: drawerWidth + 10,
         overflowScrolling: "touch"
     },
 
@@ -59,7 +59,7 @@ const appStyle = theme => ({
     content: {
         width: "100%",
         height: "100%",
-        // marginTop: "50px",
+        marginTop: "35px",
         // backgroundColor: "red"
         // minHeight: "calc(100vh - 123px)"
     },

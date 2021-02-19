@@ -27,7 +27,7 @@ export default function Sidebar(props) {
   return (
     <div className={classes.drawerPaper}>
       <div className={classes.logo}>
-        <h3 style={{ color: blackColor }}>客户管理系统</h3>
+        <h3 style={{ color: whiteColor }}>客户管理系统</h3>
       </div>
       <div className={classes.sidebarWrapper}>
         <List className={classes.list}>
@@ -56,10 +56,10 @@ export default function Sidebar(props) {
         </List>
       </div>
 
-      {/* <div
+      <div
           className={classes.background}
           style={{ backgroundImage: "url(" + bgImage + ")" }}
-        /> */}
+        />
 
     </div>
 

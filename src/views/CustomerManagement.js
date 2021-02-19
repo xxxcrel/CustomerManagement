@@ -1,4 +1,5 @@
 import { forwardRef } from 'react';
+import React from 'react';
 import MaterialTable from "material-table";
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -15,14 +16,17 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
+import { Dialog, DialogActions, Button, Avatar, IconButton, TextField } from '@material-ui/core';
+import { PageviewRounded, FolderRounded, AddRounded } from '@material-ui/icons';
+// import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
 const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} style={{color:"lightBlue"}}/>),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
-  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} style={{color: "red"}}/>),
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} style={{ color: "purple" }} />),
+  Check: forwardRef((props, ref) => <Check {...props} ref={ref} style={{ color: "dodgerblue" }} />),
+  Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} style={{ color: "lightgray" }} />),
+  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} style={{ color: "red" }} />),
   DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} style={{color: "orange"}}/>),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} style={{ color: "#83EB94" }} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -36,68 +40,158 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
+
 const columns = [
+  {
+    field: "avatar", title: "头像", render: rowData => <Avatar src={rowData.avatarUrl} alt="无"></Avatar>, editComponent: props => {
+      return (
+        <div>
+          <Avatar
+            // style={{backgroundImage: "url(" + }}
+            onClick={event => { console.log("click") }}
+            src={props.rowData.avatarUrl} alt="无" />
+        </div>
+
+      );
+    }
+  },
   { field: 'id', title: 'ID', width: 70 },
   { field: 'fullName', title: '姓名', width: 40 },
   { field: 'gender', title: '性别', width: 30 },
+  { field: "IDCard", title: '身份证' },
   {
     field: 'age',
     title: '年龄',
     type: 'number',
     width: 40,
   },
-  // {
-  //   field: "actions",
-  //   title: "动作",
-  //   width: 30,
-  // }
 ];
 
 const rows = [
-  { id: 1, fullName: 'Snow', gender: 'Jon', age: 35 },
-  { id: 2, fullName: 'Lannister', gender: 'Cersei', age: 42 },
-  { id: 3, fullName: 'Lannister', gender: 'Jaime', age: 45 },
-  { id: 4, fullName: 'Stark', gender: 'Arya', age: 16 },
-  { id: 5, fullName: 'Targaryen', gender: 'Daenerys', age: null },
-  { id: 6, fullName: 'Melisandre', gender: null, age: 150 },
-  { id: 7, fullName: 'Clifford', gender: 'Ferrara', age: 44 },
-  { id: 8, fullName: 'Frances', gender: 'Rossini', age: 36 },
-  { id: 9, fullName: 'Roxie', gender: 'Harvey', age: 65 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 1, fullName: 'Snow', IDCard: "36233119329139129", gender: 'Jon', age: 35 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 2, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Cersei', age: 42 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 3, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Jaime', age: 45 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 4, fullName: 'Stark', IDCard: "36233119329139129", gender: 'Arya', age: 16 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 5, fullName: 'Targaryen', IDCard: "36233119329139129", gender: 'Daenerys', age: null },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 6, fullName: 'Melisandre', IDCard: "36233119329139129", gender: null, age: 150 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 7, fullName: 'Clifford', IDCard: "36233119329139129", gender: 'Ferrara', age: 44 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 8, fullName: 'Frances', IDCard: "36233119329139129", gender: 'Rossini', age: 36 },
+  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 9, fullName: 'Roxie', IDCard: "36233119329139129", gender: 'Harvey', age: 65 },
 ];
 
+const localization = {
+  header: {
+    actions: "操作"
+  },
+  body: {
+    editRow: {
+      deleteText: <div style={{ color: "red" }}>确定删除此客户吗?</div>
+    }
+  },
+  pagination: {
+    firstTooltip: "首页",
+    // firstAriaLabel: string;
+    previousTooltip: "上一页",
+    // previousAriaLabel?: string;
+    nextTooltip: "下一页",
+    lastTooltip: "末页",
+    // lastAriaLabel?: string;
+    labelRowsSelect: "行"
+  },
+  toolbar: {
+    searchTooltip: "精准查询",
+    searchPlaceholder: "请输入查询条件"
+  }
+}
+
 export default function CustomerManagement(props) {
+
+  const [add, setAdd] = React.useState(false);
+
+  const [data, setData] = React.useState(rows);
+
+  const handleAddOpen = () => {
+    setAdd(true);
+  };
+  const handleAddClose = () => {
+    setAdd(false);
+  };
   return (
-    // <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection />
-    <MaterialTable
-      title="所有客户"
-      style={{ boxShadow: "none" }}
-      icons={tableIcons}
-      columns={columns}
-      data={rows}
-      actions={[
-        {
-          position: "toolbar",
-          icon: tableIcons.Add,
-          onClick: (event, rowData) => {
+    <div>
+      <MaterialTable
+        title="客户信息"
+        style={{ boxShadow: "none" }}
+        icons={tableIcons}
+        columns={columns}
+        data={data}
+        editable={{
+          // onRowAdd: newData =>
+          //   new Promise((resolve, reject) => {
+          //     setTimeout(() => {
+          //       setData([...data, newData]);
 
-          }
-        },
-        {
-          icon: tableIcons.Edit,
-          tooltip: '编辑',
-          onClick: (event, rowData) => {
+          //       resolve();
+          //     }, 1000)
+          //   }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const dataUpdate = [...data];
+                const index = oldData.tableData.id;
+                dataUpdate[index] = newData;
+                setData([...dataUpdate]);
 
-          }
-        },
-        {
-          icon: tableIcons.Delete,
-          tooltip: '删除',
-          onClick: (event, rowData) => {
-            // Do save operation
-          }
+                resolve();
+              }, 1000)
+            }),
+          onRowDelete: oldData =>
+            new Promise((resolve, reject) => {
+              setTimeout(() => {
+                const dataDelete = [...data];
+                const index = oldData.tableData.id;
+                dataDelete.splice(index, 1);
+                setData([...dataDelete]);
+
+                resolve()
+              }, 1000)
+            }),
+          // deleteTooltip: rowData => "确定删除此客户吗?"
         }
-      ]}
-      options={{ actionsColumnIndex: 4}}
-    ></MaterialTable>
+        }
+        localization={localization}
+        options={{ actionsColumnIndex: columns.length }}
+        detailPanel={rowData => {
+          return <h4> "{rowData.IDCard}"</h4>
+        }
+        }
+        actions={[
+          {
+            icon: tableIcons.Add,
+            position: "toolbar",
+            onClick: (event, rowData) => {
+              handleAddOpen(true);
+            }
+          }
+        ]
+        }
+      />
+
+      <Dialog onClose={handleAddClose} open={add}>
+        <DialogActions onClick={handleAddClose}>
+          <Button>
+            添加
+          </Button>
+        </DialogActions>
+        <TextField></TextField>
+        <TextField />
+        <TextField />
+        <TextField />
+        <TextField />
+        <TextField />
+        <TextField />
+      </Dialog>
+
+    </div>
+
   )
 }

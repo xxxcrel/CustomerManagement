@@ -25,7 +25,7 @@ const sidebarStyle = theme => ({
         bottom: "0",
         left: "0",
         zIndex: "1",
-        // ...boxShadow,
+        ...boxShadow,
         borderRightWidth: "1px",
         borderRightStyle: "solid",
         borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
@@ -139,7 +139,7 @@ const sidebarStyle = theme => ({
         lineHeight: "30px",
         fontSize: "16px",
         fontWeight: 400,
-        color: blackColor
+        color: whiteColor
     },
     list: {
         marginTop: "20px",

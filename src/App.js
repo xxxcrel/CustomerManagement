@@ -4,7 +4,7 @@ import Sidebar from './components/SideBar';
 import Home from "./views/Home";
 import CustomerManagement from "./views/CustomerManagement";
 import { BrowserRouter as Router, Switch, Route, } from 'react-router-dom';
-import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography } from '@material-ui/core';
+import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography, Avatar } from '@material-ui/core';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import styles from "./assets/jss/components/appStyle";
@@ -48,10 +48,11 @@ function App() {
         <div className={classes.mainPanel}>
           <AppBar className={classes.appBar} position="relative">
             <Toolbar className={classes.container}>
-                <Typography style={{flexGrow: "1"}}>hello</Typography>
+                <Typography style={{flexGrow: "1"}}/>
                 <IconButton>
-                  <AccountCircle/>
+                  <Avatar src="/assets/img/default_avatar.jpeg" alt="登入"/>
                 </IconButton>
+                <Button>注销</Button>
             </Toolbar>
           </AppBar>
 
