@@ -23,21 +23,17 @@ const appStyle = theme => ({
         position: "relative",
         left: "0px",
         top: "0px",
+        bottom: "0px",
         height: "100%",
-        width: "10%"
+        width: drawerWidth
     },
     mainPanel: {
         // ...transition,
-        // position: "relative",
-        height: "60%",
-        width: "88%",
-        position: "fixed",
+        position: "relative",
+        height: "100%",
         top: "0px",
-        // right: "0",
-        bottom: "0px",
-        // right: "0",
-        // left: "0",
-        marginLeft: drawerWidth + 10,
+        left: "0px",
+        marginLeft: drawerWidth,
         overflowScrolling: "touch"
     },
 
@@ -46,8 +42,7 @@ const appStyle = theme => ({
         boxShadow: "none",
         // top: "0",
         height: "50px",
-        width: "100%",
-        // transition: "all 150ms ease 0s",
+        transition: "all 150ms ease 0s",
         minHeight: "50px",
         display: "block",
         backgroundColor: "white",
