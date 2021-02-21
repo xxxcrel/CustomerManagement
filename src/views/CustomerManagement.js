@@ -56,28 +56,36 @@ const columns = [
     }
   },
   { field: 'id', title: 'ID', width: 70 },
-  { field: 'fullName', title: '姓名', width: 40 },
+  { field: 'username', title: '姓名', width: 40 },
   { field: 'gender', title: '性别', width: 30 },
-  { field: "IDCard", title: '身份证' },
+  { field: "idCard", title: '身份证' },
   {
     field: 'age',
     title: '年龄',
-    type: 'number',
+    type: 'numeric',
     width: 40,
   },
+  {
+    field: 'address',
+    title: '住址',
+  },
+  {
+    field: 'tel',
+    title: '电话'
+  }
 ];
 
-const rows = [
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 1, fullName: 'Snow', IDCard: "36233119329139129", gender: 'Jon', age: 35 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 2, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Cersei', age: 42 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 3, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Jaime', age: 45 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 4, fullName: 'Stark', IDCard: "36233119329139129", gender: 'Arya', age: 16 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 5, fullName: 'Targaryen', IDCard: "36233119329139129", gender: 'Daenerys', age: null },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 6, fullName: 'Melisandre', IDCard: "36233119329139129", gender: null, age: 150 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 7, fullName: 'Clifford', IDCard: "36233119329139129", gender: 'Ferrara', age: 44 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 8, fullName: 'Frances', IDCard: "36233119329139129", gender: 'Rossini', age: 36 },
-  { avatarUrl: "/assets/img/default_avatar.jpeg", id: 9, fullName: 'Roxie', IDCard: "36233119329139129", gender: 'Harvey', age: 65 },
-];
+// r rows = [
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 1, fullName: 'Snow', IDCard: "36233119329139129", gender: 'Jon', age: 35 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 2, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Cersei', age: 42 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 3, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Jaime', age: 45 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 4, fullName: 'Stark', IDCard: "36233119329139129", gender: 'Arya', age: 16 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 5, fullName: 'Targaryen', IDCard: "36233119329139129", gender: 'Daenerys', age: null },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 6, fullName: 'Melisandre', IDCard: "36233119329139129", gender: null, age: 150 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 7, fullName: 'Clifford', IDCard: "36233119329139129", gender: 'Ferrara', age: 44 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 8, fullName: 'Frances', IDCard: "36233119329139129", gender: 'Rossini', age: 36 },
+//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 9, fullName: 'Roxie', IDCard: "36233119329139129", gender: 'Harvey', age: 65 },
+// ];
 
 const localization = {
   header: {
@@ -105,10 +113,24 @@ const localization = {
 }
 
 export default function CustomerManagement(props) {
+  let rows;
 
   const [add, setAdd] = React.useState(false);
 
   const [data, setData] = React.useState(rows);
+
+  React.useEffect(() => {
+    fetch("http://localhost:5147/api/userList")
+      .then(resp => {
+        return resp.json();
+      }).then(data => {
+        // setData(data["data"]);
+        rows = data["data"];
+        console.log(data);
+      }).catch(error => {
+        console.log("Error: " + error);
+      })
+  })
 
   const handleAddOpen = () => {
     setAdd(true);
@@ -144,6 +166,7 @@ export default function CustomerManagement(props) {
                 resolve();
               }, 1000)
             }),
+
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {

@@ -14,13 +14,30 @@ export default function Login(props) {
     const [password, setPassword] = React.useState("");
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [loginMessage, setLoginMessage] = React.useState("");
+    const [usernameError, setUsernameError] = React.useState(false);
+    const [usernameHelperText, setUsernameHelperText] = React.useState("");
+    const [passwordError, setPasswordError] = React.useState(false);
+    const [passwordHelperText, setPasswordHelperText] = React.useState("");
 
     const onLogin = (event) => {
+        setUsernameError(false);
+        setUsernameHelperText("");
+        setPasswordError(false);
+        setPasswordHelperText("");
         console.log("onLogin");
         console.log("username: " + username + "\npassword: " + password);
         var loginForm = new FormData();
         loginForm.set("username", username);
         loginForm.set("password", password);
+        if (username.length === 0) {
+            setUsernameError(true);
+            setUsernameHelperText("用户名不能为空");
+        }
+        if (password.length < 6 || password.length === 0) {
+            setPasswordError(true);
+            setPasswordHelperText("密码不能为空或小于6位");
+            return;
+        }
         fetch("http://localhost:5147/api/login", {
             method: "POST",
             // 如果前端设置了no-cors, 则无论成功与否都不会返回数据,所以采用后端解决cors问题, 
@@ -68,8 +85,8 @@ export default function Login(props) {
                 <h4 className={classes.header}>管理员登入</h4>
                 <form className={classes.inputWrapper}>
                     <TextField
-                        // error
-                        // helperText="请输入正确的用户名"
+                        error={usernameError}
+                        helperText={usernameHelperText}
                         value={username}
                         onChange={onUsernameChange}
                         className={classes.inputField}
@@ -80,7 +97,8 @@ export default function Login(props) {
                     <TextField
                         value={password}
                         onChange={onPasswordChange}
-                        // error
+                        error={passwordError}
+                        helperText={passwordHelperText}
                         className={classes.inputField}
                         type="password"
                         variant="outlined"
@@ -117,7 +135,7 @@ const useStyles = makeStyles(theme => ({
     loginPanel: {
         backgroundColor: "#D8DEE3",
         width: "300px",
-        height: "240px",
+        height: "260px",
         borderRadius: "10px",
         textAlign: "center",
         display: "flex",
