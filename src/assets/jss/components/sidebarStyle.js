@@ -25,11 +25,12 @@ const sidebarStyle = theme => ({
         bottom: "0",
         left: "0",
         zIndex: "1",
-        ...boxShadow,
+        // ...boxShadow,
         borderRightWidth: "1px",
         borderRightStyle: "solid",
         borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
         width: drawerWidth,
+        backgroundImage: "linear-gradient(to right, #2C3328, #07A8BA)",
         // background: "linear-gradient(blue, pink)"
     },
     sidebarWrapper: {
@@ -45,7 +46,7 @@ const sidebarStyle = theme => ({
         position: "relative",
         padding: "15px 15px",
         color: blackColor,
-        textAlign: "center",  
+        textAlign: "center",
         zIndex: "4",
         "&:after": {
             content: '""',

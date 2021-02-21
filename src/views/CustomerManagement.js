@@ -119,7 +119,7 @@ export default function CustomerManagement(props) {
   return (
     <div>
       <MaterialTable
-        title="客户信息"
+        title="客户"
         style={{ boxShadow: "none" }}
         icons={tableIcons}
         columns={columns}

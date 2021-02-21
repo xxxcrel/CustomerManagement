@@ -36,46 +36,46 @@ function App() {
 
   }
   return (
-      <div className={classes.wrapper}>
-        {/* <header className="App-header"> */}
-        <div className={classes.sidebar}>
-          <Sidebar
-            routes={routes}
-          />
-        </div>
-
-
-        <div className={classes.mainPanel}>
-          <AppBar className={classes.appBar} position="relative">
-            <Toolbar className={classes.container}>
-              <Typography style={{ flexGrow: "1" }} />
-              <IconButton>
-                <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
-              </IconButton>
-              <Link to="/login" replace={true}>
-                <Button onClick={onLogout}>注销</Button>
-              </Link>
-              
-            </Toolbar>
-          </AppBar>
-
-          <div className={classes.content}>
-            <Switch>
-              {routes.map((route, index) => (
-                // Render more <Route>s with the same paths as
-                // above, but different components this time.
-                <Route
-                  key={index}
-                  path={route.path}
-                  exact={route.exact}
-                  children={<route.main />}
-                />
-              ))}
-            </Switch>
-          </div>
-
-        </div>
+    <div className={classes.wrapper}>
+      {/* <header className="App-header"> */}
+      <div className={classes.sidebar}>
+        <Sidebar
+          routes={routes}
+        />
       </div>
+
+
+      <div className={classes.mainPanel}>
+        <AppBar className={classes.appBar} position="relative">
+          <Toolbar className={classes.container}>
+            <Typography style={{ flexGrow: "1" }} />
+            <IconButton>
+              <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
+            </IconButton>
+            <Link to="/login" replace={true}>
+              <Button style={{ textDecoration: "none" }} onClick={onLogout}>注销</Button>
+            </Link>
+
+          </Toolbar>
+        </AppBar>
+
+        <div className={classes.content}>
+          <Switch>
+            {routes.map((route, index) => (
+              // Render more <Route>s with the same paths as
+              // above, but different components this time.
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                children={<route.main />}
+              />
+            ))}
+          </Switch>
+        </div>
+
+      </div>
+    </div>
   );
 }
 

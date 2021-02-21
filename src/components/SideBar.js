@@ -56,10 +56,10 @@ export default function Sidebar(props) {
         </List>
       </div>
 
-      <div
+      {/* <div
           className={classes.background}
           style={{ backgroundImage: "url(" + bgImage + ")" }}
-        />
+        /> */}
 
     </div>
 

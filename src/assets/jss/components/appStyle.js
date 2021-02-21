@@ -29,11 +29,12 @@ const appStyle = theme => ({
     },
     mainPanel: {
         // ...transition,
+        // backgroundColor: "#A7FACE",
         position: "relative",
         height: "100%",
         top: "0px",
         left: "0px",
-        marginLeft: drawerWidth,
+        marginLeft: drawerWidth + 1,
         overflowScrolling: "touch"
     },
 
