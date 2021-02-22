@@ -16,7 +16,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import { Dialog, DialogActions, Button, Avatar, IconButton, TextField } from '@material-ui/core';
+import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress } from '@material-ui/core';
 import { PageviewRounded, FolderRounded, AddRounded } from '@material-ui/icons';
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
@@ -55,7 +55,7 @@ const columns = [
       );
     }
   },
-  { field: 'id', title: 'ID', width: 70 },
+  { field: 'id', title: 'ID', width: 40 },
   { field: 'username', title: '姓名', width: 40 },
   { field: 'gender', title: '性别', width: 30 },
   { field: "idCard", title: '身份证' },
@@ -92,6 +92,7 @@ const localization = {
     actions: "操作"
   },
   body: {
+    emptyDataSourceMessage: "",
     editRow: {
       deleteText: <div style={{ color: "red" }}>确定删除此客户吗?</div>
     }
@@ -119,17 +120,30 @@ export default function CustomerManagement(props) {
 
   const [data, setData] = React.useState(rows);
 
+  const [loaded, setLoaded] = React.useState(false);
+
   React.useEffect(() => {
-    fetch("http://localhost:5147/api/userList")
-      .then(resp => {
-        return resp.json();
-      }).then(data => {
-        // setData(data["data"]);
-        rows = data["data"];
-        console.log(data);
-      }).catch(error => {
-        console.log("Error: " + error);
-      })
+    console.log("effect start");
+    // setLoaded(false);
+    if (!loaded) {
+      setTimeout(() => {
+        fetch("http://localhost:5147/api/userList")
+          .then(resp => {
+            return resp.json();
+          }).then(data => {
+            // rows = data["data"];
+            setLoaded(true);
+            setData(data["data"]);
+            // rows = data["data"];
+            console.log(data);
+          }).catch(error => {
+            console.log("Error: " + error);
+
+          });
+      }, 1000);
+    }
+    console.log("effect end");
+    return () => { console.log("cleanup") }
   })
 
   const handleAddOpen = () => {
@@ -138,8 +152,9 @@ export default function CustomerManagement(props) {
   const handleAddClose = () => {
     setAdd(false);
   };
+
   return (
-    <div>
+    <div style={{ position: "relative", alignItems: "center" }}>
       <MaterialTable
         title="客户"
         style={{ boxShadow: "none" }}
@@ -199,6 +214,11 @@ export default function CustomerManagement(props) {
         }
       />
 
+      {!loaded &&
+        <div style={{ color: "#07A8BA", position: "absolute", top: "50%", left: "50%", }}>
+          <CircularProgress color="inherit" />
+        </div>
+      }
       <Dialog onClose={handleAddClose} open={add}>
         <DialogActions onClick={handleAddClose}>
           <Button>
@@ -216,5 +236,5 @@ export default function CustomerManagement(props) {
 
     </div>
 
-  )
+  );
 }
