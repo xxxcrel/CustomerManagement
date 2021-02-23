@@ -16,8 +16,9 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress } from '@material-ui/core';
+import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
 import { PageviewRounded, FolderRounded, AddRounded } from '@material-ui/icons';
+import { use } from 'echarts';
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
 const tableIcons = {
@@ -75,18 +76,6 @@ const columns = [
   }
 ];
 
-// r rows = [
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 1, fullName: 'Snow', IDCard: "36233119329139129", gender: 'Jon', age: 35 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 2, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Cersei', age: 42 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 3, fullName: 'Lannister', IDCard: "36233119329139129", gender: 'Jaime', age: 45 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 4, fullName: 'Stark', IDCard: "36233119329139129", gender: 'Arya', age: 16 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 5, fullName: 'Targaryen', IDCard: "36233119329139129", gender: 'Daenerys', age: null },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 6, fullName: 'Melisandre', IDCard: "36233119329139129", gender: null, age: 150 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 7, fullName: 'Clifford', IDCard: "36233119329139129", gender: 'Ferrara', age: 44 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 8, fullName: 'Frances', IDCard: "36233119329139129", gender: 'Rossini', age: 36 },
-//   { avatarUrl: "/assets/img/default_avatar.jpeg", id: 9, fullName: 'Roxie', IDCard: "36233119329139129", gender: 'Harvey', age: 65 },
-// ];
-
 const localization = {
   header: {
     actions: "操作"
@@ -112,15 +101,28 @@ const localization = {
     searchPlaceholder: "请输入查询条件"
   }
 }
-
+const genders = [
+  {
+    value: "male",
+    label: "男"
+  },
+  {
+    value: "female",
+    label: "女"
+  },
+];
 export default function CustomerManagement(props) {
   let rows;
+
+  const classes = useStyles();
 
   const [add, setAdd] = React.useState(false);
 
   const [data, setData] = React.useState(rows);
 
   const [loaded, setLoaded] = React.useState(false);
+
+  const [gender, setGender] = React.useState("");
 
   React.useEffect(() => {
     console.log("effect start");
@@ -219,22 +221,52 @@ export default function CustomerManagement(props) {
           <CircularProgress color="inherit" />
         </div>
       }
-      <Dialog onClose={handleAddClose} open={add}>
-        <DialogActions onClick={handleAddClose}>
-          <Button>
-            添加
-          </Button>
-        </DialogActions>
-        <TextField></TextField>
-        <TextField />
-        <TextField />
-        <TextField />
-        <TextField />
-        <TextField />
-        <TextField />
-      </Dialog>
 
+      <Dialog onClose={handleAddClose} open={add} >
+
+        <div className={classes.dialogWrapper}>
+          <h4>添加客户</h4>
+          <TextField label="姓名" className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="性别" select value={gender} onChange={event => { setGender(event.target.value) }} className={classes.inputWrapper} variant="outlined" size="small" >
+            {genders.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+          <TextField label="身份证" className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="年龄" className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="住址" className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="电话" className={classes.inputWrapper} variant="outlined" size="small" InputProps={{ startAdornment: <InputAdornment>+86 ： </InputAdornment> }} />
+          {/* <TextField className={classes.inputWrapper} variant="outlined" size="small" /> */}
+          <DialogActions onClick={handleAddClose}>
+            <Button>
+              添加
+            </Button>
+          </DialogActions>
+
+
+        </div>
+      </Dialog>
     </div>
 
   );
 }
+
+
+const useStyles = makeStyles(theme => ({
+  dialogWrapper: {
+    width: 400,
+    borderRadius: "30px",
+    height: 440,
+    // backgroundColor: "yellow",
+    display: "flex",
+    alignItems: "center",
+    flexDirection: "column",
+    padding: "20px, 10px"
+  },
+  inputWrapper: {
+    width: 280,
+    marginBottom: "10px",
+  }
+}));
