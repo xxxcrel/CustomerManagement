@@ -13,7 +13,7 @@ export default function Login(props) {
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [loginMessage, setLoginMessage] = React.useState("");
+    const [toastMessage, setToastMessage] = React.useState("");
     const [usernameError, setUsernameError] = React.useState(false);
     const [usernameHelperText, setUsernameHelperText] = React.useState("");
     const [passwordError, setPasswordError] = React.useState(false);
@@ -32,6 +32,7 @@ export default function Login(props) {
         if (username.length === 0) {
             setUsernameError(true);
             setUsernameHelperText("用户名不能为空");
+            return;
         }
         if (password.length < 6 || password.length === 0) {
             setPasswordError(true);
@@ -49,14 +50,11 @@ export default function Login(props) {
                 return resp.json();
             } else {
                 console.log("Oops, we haven't get JSON");
-                // return resp.json().then(json => {
-                //     console.log("json" + json);
-                // });
             }
         }).then(data => {
             console.log(data);
             setSnackbarOpen(true);
-            setLoginMessage(data["data"]);
+            setToastMessage(data["data"]);
             setTimeout(() => {
                 props.history.push("/admin/home");
             }, 1500);
@@ -110,7 +108,7 @@ export default function Login(props) {
                 <Button className={classes.button} onClick={onLogin} type="submit">登入</Button>
                 <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
                     <Alert severity="success">
-                        {loginMessage}
+                        {toastMessage}
                     </Alert>
                 </Snackbar>
             </div>
