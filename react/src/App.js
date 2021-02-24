@@ -1,14 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
 import Sidebar from './components/SideBar';
 import Home from "./views/Home";
 import CustomerManagement from "./views/CustomerManagement";
 import { BrowserRouter as Router, Switch, Route, Link, } from 'react-router-dom';
 import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography, Avatar } from '@material-ui/core';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 
 import styles from "./assets/jss/components/appStyle";
-import Login from './views/Login';
 
 const routes = [
   {
@@ -37,7 +33,7 @@ function App() {
   }
   return (
     <div className={classes.wrapper}>
-      {/* <header className="App-header"> */}
+
       <div className={classes.sidebar}>
         <Sidebar
           routes={routes}

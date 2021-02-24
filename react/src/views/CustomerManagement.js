@@ -245,7 +245,6 @@ export default function CustomerManagement(props) {
             </Button>
           </DialogActions>
 
-
         </div>
       </Dialog>
     </div>
@@ -257,13 +256,13 @@ export default function CustomerManagement(props) {
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
     width: 400,
-    borderRadius: "30px",
-    height: 440,
+    // borderRadius: "30px",
+    height: 420,
     // backgroundColor: "yellow",
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    padding: "20px, 10px"
+    // padding: "20px 10px"
   },
   inputWrapper: {
     width: 280,

@@ -29,7 +29,7 @@ const sidebarStyle = theme => ({
         borderRightWidth: "1px",
         borderRightStyle: "solid",
         borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
-        width: drawerWidth,
+        width: "19%",
         backgroundImage: "linear-gradient(to right, #2C3328, #07A8BA)",
         // background: "linear-gradient(blue, pink)"
     },
@@ -37,7 +37,7 @@ const sidebarStyle = theme => ({
         position: "relative",
         height: "calc(100vh - 75px)",
         overflow: "auto",
-        width: drawerWidth,
+        // width: drawerWidth,
         zIndex: "4",
         // ...boxShadow,
         overflowScrolling: "touch",

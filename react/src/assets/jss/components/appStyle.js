@@ -15,46 +15,44 @@ import bgImage from "../../img/sidebar-2.jpg";
 
 const appStyle = theme => ({
     wrapper: {
-        // position: "r",
-        // top: "0",
-        // height: "100vh"
+        display: "flex",
+        flexDirection: "row",
+        position: "absloute",
+        height: "100%",
+        width: "100%",
     },
     sidebar: {
         position: "relative",
-        left: "0px",
-        top: "0px",
-        bottom: "0px",
-        height: "100%",
-        width: drawerWidth
+        width: "19%",
+        height: "inherit",
     },
     mainPanel: {
-        // ...transition,
-        // backgroundColor: "#A7FACE",
         position: "relative",
-        height: "100%",
-        top: "0px",
-        left: "0px",
-        marginLeft: drawerWidth + 1,
-        overflowScrolling: "touch"
+        height: "800px",
+        width: "82%",
+        top: "0",
+        bottom: "0",
+        backgroundColor: "yellow"
     },
 
     appBar: {
         // position: "absolute",
         boxShadow: "none",
-        // top: "0",
+        // backgroundColor: "#F5F7FA",
         height: "50px",
+        // width: "inherit",
         transition: "all 150ms ease 0s",
         minHeight: "50px",
         display: "block",
-        backgroundColor: "white",
+        // backgroundColor: "white",
         // borderBottomWidth: "1px",
         // borderBottomStyle: "solid",
         // borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
         // backgroundImage: "url(" + bgImage + ")"
     },
     content: {
-        width: "100%",
-        height: "100%",
+        // width: "100%",
+        // height: "100%",
         marginTop: "35px",
         // backgroundColor: "red"
         // minHeight: "calc(100vh - 123px)"
