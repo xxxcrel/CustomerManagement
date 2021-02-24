@@ -27,7 +27,8 @@ const sidebarStyle = theme => ({
         zIndex: "1",
         // ...boxShadow,
         width: drawerWidth,
-        backgroundImage: "linear-gradient(to right, #2C3328, #07A8BA)",
+        backgroundColor: "#07a8ba"
+        // backgroundImage: "linear-gradient(to right, #2C3328, #07A8BA)",
         // background: "linear-gradient(blue, pink)"
     },
     sidebarWrapper: {
@@ -113,6 +114,11 @@ const sidebarStyle = theme => ({
         "&:hover,&:focus,&:visited,&": {
             borderRadius: "5px",
             color: "#C4F7CC"
+        }
+    },
+    itemInternal: {
+        "&:hover,&:focus,&:visited,&": {
+            borderRadius: "5px",
         }
     },
     itemActive: {

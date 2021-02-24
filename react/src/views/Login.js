@@ -128,7 +128,7 @@ const useStyles = makeStyles(theme => ({
         color: "black"
     },
     loginPanel: {
-        backgroundColor: "#D8DEE3",
+        backgroundColor: "#f5f7fa",
         width: "300px",
         height: "260px",
         borderRadius: "10px",

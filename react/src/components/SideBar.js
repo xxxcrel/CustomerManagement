@@ -41,7 +41,7 @@ export default function Sidebar(props) {
                   activeClassName={classes.itemActive}
                   // activeStyle={{ color: "yellow" }}
                   key={index}>
-                  <ListItem button>
+                  <ListItem button className={classes.itemInternal}>
                     <ListItemText
                       primary={route.sidebar}
                       disableTypography={true}
