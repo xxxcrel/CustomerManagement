@@ -58,7 +58,7 @@ public class UserController {
     @PutMapping(value = "/user")
     public Result<String> updateUser(@RequestParam("user_id") Long userId,
                                      @RequestBody Map<String, String> updateData) {
-        BeanUtils.copyProperties();
+        return Result.ok("success");
     }
 
     @DeleteMapping(value = "/user")
