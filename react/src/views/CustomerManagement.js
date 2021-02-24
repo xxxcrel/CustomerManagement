@@ -156,8 +156,9 @@ export default function CustomerManagement(props) {
   };
 
   return (
-    <div style={{ position: "relative", alignItems: "center" }}>
+    <div className={classes.tableWrapper}>
       <MaterialTable
+        // backgroundColor="#f5f7fa"
         title="客户"
         style={{ boxShadow: "none" }}
         icons={tableIcons}
@@ -254,6 +255,13 @@ export default function CustomerManagement(props) {
 
 
 const useStyles = makeStyles(theme => ({
+  tableWrapper: {
+    position: "relative",
+    alignItems: "center",
+    padding: "1px",
+    backgroundColor: "#f5f7fa",
+
+  },
   dialogWrapper: {
     width: 400,
     // borderRadius: "30px",

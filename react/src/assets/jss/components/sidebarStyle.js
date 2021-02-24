@@ -26,10 +26,7 @@ const sidebarStyle = theme => ({
         left: "0",
         zIndex: "1",
         // ...boxShadow,
-        borderRightWidth: "1px",
-        borderRightStyle: "solid",
-        borderColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)",
-        width: "19%",
+        width: drawerWidth,
         backgroundImage: "linear-gradient(to right, #2C3328, #07A8BA)",
         // background: "linear-gradient(blue, pink)"
     },

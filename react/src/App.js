@@ -42,14 +42,14 @@ function App() {
 
 
       <div className={classes.mainPanel}>
-        <AppBar className={classes.appBar} position="relative">
+        <AppBar className={classes.appBar} position="relative" disableElevation="true">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
             <IconButton>
               <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
             </IconButton>
-            <Link to="/login" replace={true}>
-              <Button style={{ textDecoration: "none" }} onClick={onLogout}>注销</Button>
+            <Link to="/login" replace={true} style={{ textDecoration: "none" }}>
+              <Button underline="none" onClick={onLogout}>注销</Button>
             </Link>
 
           </Toolbar>

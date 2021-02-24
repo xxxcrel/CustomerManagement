@@ -1,8 +1,6 @@
 import { Button, makeStyles, TextField, Snackbar } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
-import { setPageStateUpdate } from "@material-ui/data-grid";
 import React from "react";
-import { setState } from "react";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -66,7 +64,6 @@ export default function Login(props) {
     const onUsernameChange = (event) => {
         setUsername(event.target.value);
         // console.log(event.target.value);
-
     }
     const onPasswordChange = (event) => {
         setPassword(event.target.value);

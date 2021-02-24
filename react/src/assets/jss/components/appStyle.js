@@ -8,7 +8,8 @@ import {
     hexToRgb,
     warningColor,
     blackColor,
-    whiteColor
+    whiteColor,
+    boxShadow
 } from "./material-dashboard-react.js";
 
 import bgImage from "../../img/sidebar-2.jpg";
@@ -23,23 +24,24 @@ const appStyle = theme => ({
     },
     sidebar: {
         position: "relative",
-        width: "19%",
+        width: drawerWidth,
         height: "inherit",
+        ...boxShadow,
+        boxShadow: "0px 2px 8px rgb(0 0 0 / 10%), 3px 10px 30px rgb(0 0 0 / 8%)"
+        // marginLeft: -drawerWidth
     },
     mainPanel: {
         position: "relative",
-        height: "800px",
-        width: "82%",
-        top: "0",
-        bottom: "0",
-        backgroundColor: "yellow"
+        height: "inherit",
+        width: "calc(100% - 260px)",
+        backgroundColor: "#f5f7fa",
     },
 
     appBar: {
         // position: "absolute",
         boxShadow: "none",
-        // backgroundColor: "#F5F7FA",
-        height: "50px",
+        backgroundColor: "#F5F7FA",
+        // height: "50px",
         // width: "inherit",
         transition: "all 150ms ease 0s",
         minHeight: "50px",
@@ -51,8 +53,7 @@ const appStyle = theme => ({
         // backgroundImage: "url(" + bgImage + ")"
     },
     content: {
-        // width: "100%",
-        // height: "100%",
+        // width: "100k
         marginTop: "35px",
         // backgroundColor: "red"
         // minHeight: "calc(100vh - 123px)"
