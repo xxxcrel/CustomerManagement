@@ -15,6 +15,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
+    Long countUsersByAgeBetween(Long before, Long after);
+
     @Query("select new beer.cheese.entity.CountDTO(u.address, count(u.address)) from User u group by u.address")
     List<CountDTO> groupByAddress();
 
