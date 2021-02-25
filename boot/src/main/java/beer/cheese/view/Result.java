@@ -1,6 +1,5 @@
 package beer.cheese.view;
 
-import com.sun.org.apache.regexp.internal.RE;
 
 public class Result<T> {
     private int code;

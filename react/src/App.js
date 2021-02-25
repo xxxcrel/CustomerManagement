@@ -42,7 +42,7 @@ function App() {
 
 
       <div className={classes.mainPanel}>
-        <AppBar className={classes.appBar} position="relative" disableElevation="true">
+        <AppBar className={classes.appBar} position="relative">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
             <IconButton>

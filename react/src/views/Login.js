@@ -122,7 +122,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: "linear-gradient(to right, #e8198b, #0eb4dd)"
+        backgroundImage: "linear-gradient(to right, #e8198b, #0eb4dd)",
     },
     header: {
         color: "black"
@@ -137,7 +137,11 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         // justifyContent: "center",
         flexDirection: "column",
-        padding: "10px 10px"
+        padding: "10px 10px",
+        "&:hover,&:focus": {
+            boxShadow: "0px 2px 8px rgb(0 0 0 / 10%), 3px 10px 30px rgb(0 0 0 / 8%)",
+        }
+
     },
     inputWrapper: {
         display: "flex",

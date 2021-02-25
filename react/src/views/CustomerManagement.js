@@ -1,39 +1,35 @@
 import { forwardRef } from 'react';
 import React from 'react';
 import MaterialTable from "material-table";
-import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
 import DeleteOutline from '@material-ui/icons/DeleteOutline';
 import Edit from '@material-ui/icons/Edit';
 import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
 import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
-import { PageviewRounded, FolderRounded, AddRounded } from '@material-ui/icons';
+import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded } from '@material-ui/icons';
 import { use } from 'echarts';
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
 const tableIcons = {
-  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} style={{ color: "purple" }} />),
+  Add: forwardRef((props, ref) => <AddCircleRounded {...props} ref={ref} style={{ color: "#298CEE" }} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} style={{ color: "dodgerblue" }} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} style={{ color: "lightgray" }} />),
   Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} style={{ color: "red" }} />),
   DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} style={{ color: "#83EB94" }} />),
+  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} style={{ color: "blue" }} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
-  FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
-  LastPage: forwardRef((props, ref) => <LastPage {...props} ref={ref} />),
-  NextPage: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
-  PreviousPage: forwardRef((props, ref) => <ChevronLeft {...props} ref={ref} />),
+  FirstPage: forwardRef((props, ref) => <FirstPageRounded {...props} ref={ref} />),
+  LastPage: forwardRef((props, ref) => <LastPageRounded {...props} ref={ref} />),
+  NextPage: forwardRef((props, ref) => <ArrowRightRounded {...props} ref={ref} style={{ fontSize: "35" }} />),
+  PreviousPage: forwardRef((props, ref) => <ArrowLeftRounded {...props} ref={ref} style={{ fontSize: "35" }} />),
   ResetSearch: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
@@ -54,12 +50,13 @@ const columns = [
         </div>
 
       );
-    }
+    },
+    width: 40
   },
-  { field: 'id', title: 'ID', width: 40 },
-  { field: 'username', title: '姓名', width: 40 },
-  { field: 'gender', title: '性别', width: 30 },
-  { field: "idCard", title: '身份证' },
+  { field: 'id', title: 'ID', width: 10 },
+  { field: 'username', title: '姓名', width: 20 },
+  { field: 'gender', title: '性别', width: 20 },
+  { field: "idCard", title: '身份证', width: 40 },
   {
     field: 'age',
     title: '年龄',
@@ -69,10 +66,12 @@ const columns = [
   {
     field: 'address',
     title: '住址',
+    width: 20
   },
   {
     field: 'tel',
-    title: '电话'
+    title: '电话',
+    width: 50
   }
 ];
 
@@ -124,12 +123,14 @@ export default function CustomerManagement(props) {
 
   const [gender, setGender] = React.useState("");
 
+  const [selectedRow, setSelectedRow] = React.useState(null);
+
   React.useEffect(() => {
     console.log("effect start");
     // setLoaded(false);
     if (!loaded) {
       setTimeout(() => {
-        fetch("http://localhost:5147/api/userList")
+        fetch("http://localhost:5147/api/user/all")
           .then(resp => {
             return resp.json();
           }).then(data => {
@@ -165,14 +166,6 @@ export default function CustomerManagement(props) {
         columns={columns}
         data={data}
         editable={{
-          // onRowAdd: newData =>
-          //   new Promise((resolve, reject) => {
-          //     setTimeout(() => {
-          //       setData([...data, newData]);
-
-          //       resolve();
-          //     }, 1000)
-          //   }),
           onRowUpdate: (newData, oldData) =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
@@ -196,11 +189,24 @@ export default function CustomerManagement(props) {
                 resolve()
               }, 1000)
             }),
-          // deleteTooltip: rowData => "确定删除此客户吗?"
         }
         }
         localization={localization}
-        options={{ actionsColumnIndex: columns.length }}
+        options={{
+          showTitle: false,
+          draggable: true,
+          paginationType: "stepped",
+          searchFieldVariant: "outlined",
+          searchFieldStyle: {
+            borderRadius: "20px",
+            height: "35px",
+            // width: "200px",
+          },
+          actionsColumnIndex: columns.length,
+          rowStyle: {
+            backgroundColor: "#eee"
+          }
+        }}
         detailPanel={rowData => {
           return <h4> "{rowData.IDCard}"</h4>
         }
@@ -235,13 +241,13 @@ export default function CustomerManagement(props) {
               </MenuItem>
             ))}
           </TextField>
+          <TextField label="电话" className={classes.inputWrapper} variant="outlined" size="small" InputProps={{ startAdornment: <InputAdornment>+86 ： </InputAdornment> }} />
           <TextField label="身份证" className={classes.inputWrapper} variant="outlined" size="small" />
           <TextField label="年龄" className={classes.inputWrapper} variant="outlined" size="small" />
           <TextField label="住址" className={classes.inputWrapper} variant="outlined" size="small" />
-          <TextField label="电话" className={classes.inputWrapper} variant="outlined" size="small" InputProps={{ startAdornment: <InputAdornment>+86 ： </InputAdornment> }} />
           {/* <TextField className={classes.inputWrapper} variant="outlined" size="small" /> */}
           <DialogActions onClick={handleAddClose}>
-            <Button>
+            <Button className={classes.addButton}>
               添加
             </Button>
           </DialogActions>
@@ -258,12 +264,12 @@ const useStyles = makeStyles(theme => ({
   tableWrapper: {
     position: "relative",
     alignItems: "center",
-    padding: "1px",
+    // padding: "1px",
     backgroundColor: "#f5f7fa",
 
   },
   dialogWrapper: {
-    width: 400,
+    width: 360,
     // borderRadius: "30px",
     height: 420,
     // backgroundColor: "yellow",
@@ -275,5 +281,10 @@ const useStyles = makeStyles(theme => ({
   inputWrapper: {
     width: 280,
     marginBottom: "10px",
+  },
+  addButton: {
+    backgroundColor: "#eee",
+    borderRadius: "6px",
+    width: "160px"
   }
 }));
