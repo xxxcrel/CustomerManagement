@@ -1,7 +1,6 @@
 import { List, ListItem, makeStyles, ListItemText, Drawer } from "@material-ui/core";
 import React from "react";
 import PropTypes from "prop-types"
-import classNames from "classnames";
 import bgImage from "../assets/img/sidebar-2.jpg";
 import {
   NavLink

@@ -254,6 +254,7 @@ export default function Home(props) {
 const useStyles = makeStyles(theme => ({
     wrapper: {
         height: "100%",
+        // backgroundColor: "yellow",
         flexDirection: "column",
         display: "flex",
         margin: "10px",
@@ -264,7 +265,7 @@ const useStyles = makeStyles(theme => ({
         marginBottom: "15px",
         // flexBasis: "50%"
 
-        height: "400px"
+        height: "340px"
     },
     statisMonth: {
         position: "absloute",

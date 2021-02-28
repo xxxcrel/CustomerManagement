@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Switch, Route, Link, } from 'react-router-dom'
 import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography, Avatar } from '@material-ui/core';
 
 import styles from "./assets/jss/components/appStyle";
+import ContactUs from './views/ContactUs';
 
 const routes = [
   {
@@ -21,7 +22,7 @@ const routes = [
   {
     path: "/admin/contact-us",
     sidebar: "联系我们",
-    main: () => <h2>Shoelaces</h2>
+    main: ContactUs
   }
 ]
 const useStyles = makeStyles(styles);

@@ -18,6 +18,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'com.h2database:h2:1.4.200'
+    implementation 'mysql:mysql-connector-java:8.0.22'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-acl:5.4.2'
     implementation 'org.projectlombok:lombok:1.18.16'
 }
 

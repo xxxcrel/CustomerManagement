@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import beer.cheese.entity.User;
+import beer.cheese.entity.UserDTO;
 import beer.cheese.repository.UserRepository;
 import beer.cheese.view.Result;
 
@@ -55,6 +56,13 @@ public class UserController {
         return Result.ok(user.get());
     }
 
+    @PostMapping("/user")
+    public Result<String> addUser(@RequestBody UserDTO userDTO){
+        User user = new User();
+        BeanUtils.copyProperties(userDTO, user);
+        userRepository.save(user);
+        return Result.ok("add " + userDTO.getUsername() + " successful!!!");
+    }
     @PutMapping(value = "/user")
     public Result<String> updateUser(@RequestParam("user_id") Long userId,
                                      @RequestBody Map<String, String> updateData) {

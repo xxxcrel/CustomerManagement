@@ -36,10 +36,6 @@ public class StatisticsController {
 
     @GetMapping("/location")
     public Result getLocationStatistics() {
-//        userRepository.groupByAddress().forEach((add)->{
-//            System.out.println(add.getAddress());
-//            System.out.println(add.getValue());
-//        });
         return Result.ok(
                 userRepository.groupByAddress());
     }

@@ -13,7 +13,7 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
-import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded } from '@material-ui/icons';
+import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp } from '@material-ui/icons';
 import { use } from 'echarts';
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
@@ -123,6 +123,13 @@ export default function CustomerManagement(props) {
 
   const [gender, setGender] = React.useState("");
 
+  const [username, setUsername] = React.useState("");
+  const [password, setPassword] = React.useState("");
+  const [age, setAge] = React.useState("");
+  const [tel, setTel] = React.useState("");
+  const [address, setAddress] = React.useState("");
+  const [idCard, setIdCard] = React.useState("");
+
   const [selectedRow, setSelectedRow] = React.useState(null);
 
   React.useEffect(() => {
@@ -155,6 +162,32 @@ export default function CustomerManagement(props) {
   const handleAddClose = () => {
     setAdd(false);
   };
+
+  const onAddCustomer = () => {
+    console.log(username + age + tel + address + idCard + gender);
+    var userData = {
+      username: `${username}`,
+      tel: `${tel}`,
+      address: `${address}`,
+      gender: `${gender}`,
+      idCard: `${idCard}`,
+      age: `${age}`
+    }
+    console.log(JSON.stringify(userData));
+    // 
+    fetch("http://localhost:5147/api/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(userData)
+    }).then(resp => resp.json())
+      .then(json => {
+        console.log(json["data"]);
+      }).catch(error => {
+        console.log("Error: " + error);
+      });
+  }
 
   return (
     <div className={classes.tableWrapper}>
@@ -208,7 +241,7 @@ export default function CustomerManagement(props) {
           }
         }}
         detailPanel={rowData => {
-          return <h4> "{rowData.IDCard}"</h4>
+          return <h4> "{rowData.idCard}"</h4>
         }
         }
         actions={[
@@ -233,7 +266,7 @@ export default function CustomerManagement(props) {
 
         <div className={classes.dialogWrapper}>
           <h4>添加客户</h4>
-          <TextField label="姓名" className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="姓名" className={classes.inputWrapper} value={username} onChange={e => setUsername(e.target.value)} variant="outlined" size="small" />
           <TextField label="性别" select value={gender} onChange={event => { setGender(event.target.value) }} className={classes.inputWrapper} variant="outlined" size="small" >
             {genders.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -241,13 +274,13 @@ export default function CustomerManagement(props) {
               </MenuItem>
             ))}
           </TextField>
-          <TextField label="电话" className={classes.inputWrapper} variant="outlined" size="small" InputProps={{ startAdornment: <InputAdornment>+86 ： </InputAdornment> }} />
-          <TextField label="身份证" className={classes.inputWrapper} variant="outlined" size="small" />
-          <TextField label="年龄" className={classes.inputWrapper} variant="outlined" size="small" />
-          <TextField label="住址" className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="电话" value={tel} onChange={e => setTel(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" InputProps={{ startAdornment: <InputAdornment>+86 ： </InputAdornment> }} />
+          <TextField label="身份证" value={idCard} onChange={e => setIdCard(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="年龄" value={age} onChange={e => setAge(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" />
+          <TextField label="住址" value={address} onChange={e => setAddress(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" />
           {/* <TextField className={classes.inputWrapper} variant="outlined" size="small" /> */}
           <DialogActions onClick={handleAddClose}>
-            <Button className={classes.addButton}>
+            <Button className={classes.addButton} onClick={onAddCustomer}>
               添加
             </Button>
           </DialogActions>
