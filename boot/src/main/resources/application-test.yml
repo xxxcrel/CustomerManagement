@@ -5,7 +5,7 @@ spring:
     driver-class-name: org.h2.Driver
     username: root
     password: root
-    url: jdbc:h3:~/employees
+    url: jdbc:h2:~/employees
     data: classpath:data-mysql.sql
     initialization-mode: always
   h2:

@@ -13,15 +13,15 @@ public class Result<T> {
     }
 
     public static <T> Result<T> ok(T data){
-        Result result = new Result();
+        Result<T> result = new Result<>();
         result.setData(data);
         result.setMessage("success");
         result.setCode(200);
         return result;
     }
 
-    public static Result error(String message){
-        Result result = new Result();
+    public static Result<String> error(String message){
+        Result<String> result = new Result<>();
         result.setCode(404);
         result.setMessage(message);
         return result;

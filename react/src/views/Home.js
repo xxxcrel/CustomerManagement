@@ -1,6 +1,7 @@
 import { Card, makeStyles } from '@material-ui/core';
 import * as echarts from 'echarts';
 import React from 'react';
+import { API_URL } from '../assets/jss/components/constants';
 
 export default function Home(props) {
     var statisMonthChart, ageChart, customerPorprotionChart, genderChart;
@@ -181,7 +182,7 @@ export default function Home(props) {
 
     React.useEffect(() => {
 
-        fetch("http://localhost:5147/api/statistics/age", {
+        fetch(`${API_URL}/api/statistics/age`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -198,7 +199,7 @@ export default function Home(props) {
                 console.log("Error: " + error);
             });
 
-        fetch("http://localhost:5147/api/statistics/location", {
+        fetch(`${API_URL}/api/statistics/location`, {
             method: "GET"
         })
             .then(resp => resp.json())
@@ -209,7 +210,7 @@ export default function Home(props) {
             .catch(error => {
                 console.log("Error: " + error);
             });
-        fetch("http://localhost:5147/api/statistics/gender", {
+        fetch(`${API_URL}/api/statistics/gender`, {
             method: "GET"
         })
             .then(resp => resp.json())

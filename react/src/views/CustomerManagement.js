@@ -15,6 +15,7 @@ import ViewColumn from '@material-ui/icons/ViewColumn';
 import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
 import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp } from '@material-ui/icons';
 import { use } from 'echarts';
+import { API_URL } from '../assets/jss/components/constants';
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
 const tableIcons = {
@@ -112,32 +113,23 @@ const genders = [
 ];
 export default function CustomerManagement(props) {
   let rows;
-
   const classes = useStyles();
-
   const [add, setAdd] = React.useState(false);
-
   const [data, setData] = React.useState(rows);
-
   const [loaded, setLoaded] = React.useState(false);
-
   const [gender, setGender] = React.useState("");
-
   const [username, setUsername] = React.useState("");
-  const [password, setPassword] = React.useState("");
   const [age, setAge] = React.useState("");
   const [tel, setTel] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [idCard, setIdCard] = React.useState("");
-
-  const [selectedRow, setSelectedRow] = React.useState(null);
 
   React.useEffect(() => {
     console.log("effect start");
     // setLoaded(false);
     if (!loaded) {
       setTimeout(() => {
-        fetch("http://localhost:5147/api/user/all")
+        fetch(`${API_URL}/api/user/all`)
           .then(resp => {
             return resp.json();
           }).then(data => {
@@ -175,7 +167,7 @@ export default function CustomerManagement(props) {
     }
     console.log(JSON.stringify(userData));
     // 
-    fetch("http://localhost:5147/api/user", {
+    fetch(`${API_URL}/api/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

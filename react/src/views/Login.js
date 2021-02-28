@@ -1,6 +1,7 @@
 import { Button, makeStyles, TextField, Snackbar } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import React from "react";
+import { API_URL } from "../assets/jss/components/constants";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -37,7 +38,7 @@ export default function Login(props) {
             setPasswordHelperText("密码不能为空或小于6位");
             return;
         }
-        fetch("http://localhost:5147/api/login", {
+        fetch(`${API_URL}/api/login`, {
             method: "POST",
             // 如果前端设置了no-cors, 则无论成功与否都不会返回数据,所以采用后端解决cors问题, 
             // 见https://stackoverflow.com/questions/40182785/why-fetch-return-a-response-with-status-0
