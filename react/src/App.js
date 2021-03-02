@@ -35,10 +35,6 @@ const useStyles = makeStyles(styles);
 function App() {
   const classes = useStyles();
 
-  const onAvatarClick = e => {
-
-  }
-
   return (
     <div className={classes.wrapper}>
 
@@ -53,9 +49,9 @@ function App() {
         <AppBar className={classes.appBar} position="relative">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
-            <IconButton onClick={onAvatarClick}>
+            <Link to="/manager/detail">
               <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
-            </IconButton>
+            </Link>
             <Link to="/login" style={{ textDecoration: "none" }}>
               <Button underline="none">注销</Button>
             </Link>

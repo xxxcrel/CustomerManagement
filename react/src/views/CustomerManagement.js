@@ -218,6 +218,7 @@ export default function CustomerManagement(props) {
         }
         localization={localization}
         options={{
+          pageSize: 9,
           showTitle: false,
           draggable: true,
           paginationType: "stepped",
