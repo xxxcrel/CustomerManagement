@@ -12,7 +12,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
+import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment, Select } from '@material-ui/core';
 import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp } from '@material-ui/icons';
 import { use } from 'echarts';
 import { API_URL } from '../assets/jss/components/constants';
@@ -40,40 +40,26 @@ const tableIcons = {
 
 
 const columns = [
+  // { field: 'id', title: 'ID', width: 10 },
   {
-    field: "avatar", title: "头像", render: rowData => <Avatar src={rowData.avatarUrl} alt="无"></Avatar>, editComponent: props => {
-      return (
-        <div>
-          <Avatar
-            // style={{backgroundImage: "url(" + }}
-            onClick={event => { console.log("click") }}
-            src={props.rowData.avatarUrl} alt="无" />
-        </div>
-
-      );
-    },
-    width: 40
-  },
-  { field: 'id', title: 'ID', width: 10 },
-  { field: 'username', title: '姓名', width: 20 },
-  { field: 'gender', title: '性别', width: 20 },
-  { field: "idCard", title: '身份证', width: 40 },
-  {
-    field: 'age',
-    title: '年龄',
-    type: 'numeric',
-    width: 40,
-  },
-  {
-    field: 'address',
-    title: '住址',
+    field: 'area.name',
+    title: '地区',
     width: 20
   },
+  { field: 'username', title: '姓名', width: 10 },
   {
     field: 'tel',
     title: '电话',
-    width: 50
-  }
+    width: 20
+  },
+  { field: 'gender', title: '性别', width: 10 },
+  {
+    field: 'age',
+    title: '年龄',
+    // type: 'numeric',
+    width: 10,
+  },
+
 ];
 
 const localization = {
@@ -123,21 +109,22 @@ export default function CustomerManagement(props) {
   const [tel, setTel] = React.useState("");
   const [address, setAddress] = React.useState("");
   const [idCard, setIdCard] = React.useState("");
+  const [disable, setDisable] = React.useState(true);
 
   React.useEffect(() => {
     console.log("effect start");
     // setLoaded(false);
     if (!loaded) {
       setTimeout(() => {
-        fetch(`${API_URL}/api/user/all`)
+        fetch(`${API_URL}/user/all`)
           .then(resp => {
             return resp.json();
           }).then(data => {
             // rows = data["data"];
             setLoaded(true);
+            console.log(data["data"]);
             setData(data["data"]);
             // rows = data["data"];
-            console.log(data);
           }).catch(error => {
             console.log("Error: " + error);
 
@@ -181,11 +168,19 @@ export default function CustomerManagement(props) {
       });
   }
 
+  const AreaSelector = () => {
+    return (
+      <Select style={{ width: 90 }}>
+        <MenuItem>华中</MenuItem>
+        <MenuItem>华北</MenuItem>
+      </Select>
+    )
+  }
   return (
     <div className={classes.tableWrapper}>
       <MaterialTable
         // backgroundColor="#f5f7fa"
-        title="客户"
+        title={AreaSelector()}
         style={{ boxShadow: "none" }}
         icons={tableIcons}
         columns={columns}
@@ -218,9 +213,9 @@ export default function CustomerManagement(props) {
         }
         localization={localization}
         options={{
-          pageSize: 9,
+          pageSize: 10,
           columnResizable: true,
-          showTitle: false,
+          // showTitle: false,
           draggable: true,
           paginationType: "stepped",
           searchFieldVariant: "outlined",
@@ -229,12 +224,43 @@ export default function CustomerManagement(props) {
             height: "35px",
             // width: "200px",
           },
+          // selection: true,
           actionsColumnIndex: columns.length,
           rowStyle: {
             backgroundColor: "#eee"
           }
         }}
-        detailPanel={DetailPanel}
+        detailPanel={rowData =>
+        (
+          <div style={{ alignItems: "center", display: "flex", padding: "0px 200px", flexDirection: "column" }}>
+
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              <h3 style={{ alignSelf: "center", textAlign: "center" }}>客户详细信息</h3>
+              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "red", height: "30px", }} onClick={e => { setDisable(!disable) }}>编辑</Button></div>
+            </div>
+            <div style={{ width: "100%", height: 360, display: "flex", flexDirection: "row" }}>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                <TextField disabled={disable} label="地区" style={{ width: 280, height: 50 }} value={rowData.area.name} > </TextField>
+                <TextField disabled={disable} label="姓名" style={{ width: 280, height: 50 }} value={rowData.username}> </TextField>
+                <TextField disabled={disable} label="电话" style={{ width: 280, height: 50 }} value={rowData.tel}> </TextField>
+                <TextField disabled={disable} label="性别" style={{ width: 280, height: 50 }} value={rowData.gender}> </TextField>
+                <TextField disabled={disable} label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
+                <TextField disabled={disable} label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", marginLeft: 100 }}>
+                <TextField disabled={disable} label="客户状态" style={{ width: 280, height: 50 }} value={rowData.type.typeName} > </TextField>
+                <TextField disabled={disable} label="客户类型" style={{ width: 280, height: 50 }} value={rowData.state.name}> </TextField>
+                <TextField disabled={disable} label="签约日期" style={{ width: 280, height: 50 }} value={rowData.signDate}> </TextField>
+                <TextField disabled={disable} label="解约日期" style={{ width: 280, height: 50 }} value={rowData.termintedDate}> </TextField>
+                {/* <TextField label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
+                  <TextField label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField> */}
+
+              </div>
+            </div>
+          </div>
+        )}
+
         actions={[
           {
             icon: tableIcons.Add,
@@ -242,7 +268,7 @@ export default function CustomerManagement(props) {
             onClick: (event, rowData) => {
               handleAddOpen(true);
             }
-          }
+          },
         ]
         }
       />
@@ -284,21 +310,9 @@ export default function CustomerManagement(props) {
 }
 
 function DetailPanel(rowData) {
-  return (
-    <div style={{ alignItems: "center", display: "flex", padding: "20px 100px" }}>
-      {/* {rowData.idCard} */}
-      <div style={{ width: "100%", height: 200 }}>
-        <h4 style={{ alignSelf: "center" }}>客户详细信息</h4>
-        <h3>姓名: {rowData.username}</h3>
-        <h3>性别: {rowData.username}</h3>
-        <h3>年龄: {rowData.username}</h3>
-        <h3>电话: {rowData.username}</h3>
-        <h3>身份证: {rowData.username}</h3>
-        <h3>创建日期: {rowData.username}</h3>
-        <h3>地址: {rowData.username}</h3>
-      </div>
-    </div>
-  );
+  // const classes = useStyles();
+
+
 }
 
 
@@ -307,7 +321,7 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     alignItems: "center",
     // padding: "1px",
-    backgroundColor: "#f5f7fa",
+    backgroundColor: "white",
 
   },
   dialogWrapper: {
@@ -328,5 +342,9 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#eee",
     borderRadius: "6px",
     width: "160px"
+  },
+  detailInputField: {
+    height: 30,
+    width: 200
   }
 }));

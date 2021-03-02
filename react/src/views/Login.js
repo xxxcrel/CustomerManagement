@@ -1,4 +1,4 @@
-import { Button, makeStyles, TextField, Snackbar, withStyles } from "@material-ui/core";
+import { Button, makeStyles, TextField, Snackbar, withStyles, FormHelperText } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import React from "react";
 import { Link } from "react-router-dom";
@@ -57,7 +57,7 @@ export default function Login(props) {
     const [usernameHelperText, setUsernameHelperText] = React.useState("");
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordHelperText, setPasswordHelperText] = React.useState("");
-    const [type, setType] = React.useState('');
+    const [type, setType] = React.useState(0);
     const handleChange = (event) => {
         setType(event.target.value);
     };
@@ -90,7 +90,7 @@ export default function Login(props) {
                 return;
             }
         }
-        fetch(`${API_URL}/api/login`, {
+        fetch(`${API_URL}/manager/login`, {
             method: "POST",
             // 如果前端设置了no-cors, 则无论成功与否都不会返回数据,所以采用后端解决cors问题, 
             // 见https://stackoverflow.com/questions/40182785/why-fetch-return-a-response-with-status-0
@@ -107,7 +107,7 @@ export default function Login(props) {
             setSnackbarOpen(true);
             setToastMessage(data["data"]);
             setTimeout(() => {
-                props.history.push("/manager");
+                props.history.push("/manager/home");
             }, 1500);
 
         }).catch(error => {
@@ -154,12 +154,15 @@ export default function Login(props) {
                         size="small"
                         color="primary" />
 
-                    <FormControl className={classes.loginType}>
+                    <FormControl variant="outlined" className={classes.loginType}>
                         {/* <InputLabel id="demo-customized-select-label">登入类型</InputLabel> */}
+                        {/* <FormHelperText>登入类型</FormHelperText> */}
                         <Select
+                            label="账户类型"
                             labelId="demo-customized-select-label"
                             id="demo-customized-select"
                             value={type}
+                            variant=""
                             onChange={handleChange}
                             input={<BootstrapInput />}
                         >
@@ -167,6 +170,7 @@ export default function Login(props) {
                                 管理员
                             </MenuItem>
                             <MenuItem value={1}>系统管理员</MenuItem>
+
                         </Select>
                     </FormControl>
 
