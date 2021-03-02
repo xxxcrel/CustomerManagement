@@ -4,21 +4,22 @@ import { ArrowRightRounded } from "@material-ui/icons";
 import AllManager from "./AllManager";
 import AddManger from "./AddManager";
 import AuditManager from "./AuditManager";
+import Sidebar from "../components/SideBar";
 
 const routes = [
     {
-        path: "/employee/all",
+        path: "/manager/all",
         exact: true,
         sidebar: "在职管理员",
         main: AllManager
     },
     {
-        path: "/employee/add",
+        path: "/manager/add",
         sidebar: "添加管理员",
         main: AddManger
     },
     {
-        path: "/employee/audit",
+        path: "/manager/audit",
         sidebar: "管理员审计",
         main: AuditManager
     }
@@ -31,7 +32,7 @@ export default function EmpoloyeemManagement(props) {
     return (
         <div className={classes.wrapper}>
             <div className={classes.sidebarWrapper}>
-                <Sidebar />
+                <Sidebar routes={routes} title="员工管理" />
             </div>
 
             <div className={classes.panelWrapper}>
@@ -52,21 +53,7 @@ export default function EmpoloyeemManagement(props) {
     )
 }
 
-function Sidebar(props) {
 
-    return (
-        <div>
-            <h2 style={{ color: "white", paddingLeft: "90px" }}>管理员 </h2>
-            <ul>
-                <Link>
-
-                </Link>
-                <Link>
-                </Link>
-            </ul>
-        </div>
-    )
-}
 const useStyles = makeStyles(theme => ({
     wrapper: {
         display: "flex",

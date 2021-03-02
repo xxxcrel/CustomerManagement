@@ -1,7 +1,8 @@
-export default function AddManger(props) {
+
+export default function AddManager(props) {
     return (
         <div>
 
         </div>
-    )
+    );
 }

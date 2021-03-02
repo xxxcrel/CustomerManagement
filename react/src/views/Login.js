@@ -85,7 +85,7 @@ export default function Login(props) {
         if (type === 1) {
             if (username === "admin" && password === "admin") {
                 setTimeout(() => {
-                    props.history.push("/system")
+                    props.history.push("/manager")
                 }, 1500);
                 return;
             }
@@ -107,7 +107,7 @@ export default function Login(props) {
             setSnackbarOpen(true);
             setToastMessage(data["data"]);
             setTimeout(() => {
-                props.history.push("/manager/home");
+                props.history.push("/customer/home");
             }, 1500);
 
         }).catch(error => {

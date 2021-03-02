@@ -26,7 +26,7 @@ export default function Sidebar(props) {
   return (
     <div className={classes.drawerPaper}>
       <div className={classes.logo}>
-        <h3 style={{ color: whiteColor }}>客户管理系统</h3>
+        <h3 style={{ color: whiteColor }}>{props.title}</h3>
       </div>
       <div className={classes.sidebarWrapper}>
         <List className={classes.list}>
@@ -67,5 +67,6 @@ export default function Sidebar(props) {
 }
 
 Sidebar.propTypes = {
-  routes: PropTypes.arrayOf(PropTypes.object)
+  routes: PropTypes.arrayOf(PropTypes.object),
+  title: String
 }

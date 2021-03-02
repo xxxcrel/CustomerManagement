@@ -10,23 +10,23 @@ import ManagerDetail from './views/ManagerDetail';
 
 const routes = [
   {
-    path: "/manager/home",
+    path: "/customer/home",
     exact: true,
     sidebar: "客户统计",
     main: Home
   },
   {
-    path: "/manager/custome",
-    sidebar: "客户管理中心",
+    path: "/customer/custome",
+    sidebar: "客户管理",
     main: CustomerManagement
   },
   {
-    path: "/manager/contact-us",
+    path: "/customer/contact-us",
     sidebar: "联系我们",
     main: ContactUs
   },
   {
-    path: "/manager/detail",
+    path: "/customer/detail",
     main: ManagerDetail
   }
 ]
@@ -40,6 +40,7 @@ function App() {
 
       <div className={classes.sidebar}>
         <Sidebar
+          title="客户管理中心"
           routes={routes}
         />
       </div>
@@ -49,7 +50,7 @@ function App() {
         <AppBar className={classes.appBar} position="relative">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
-            <Link to="/manager/detail">
+            <Link to="/customer/detail">
               <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
             </Link>
             <Link to="/login" style={{ textDecoration: "none" }}>

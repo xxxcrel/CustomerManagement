@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -51,6 +53,7 @@ public class Manager {
      * 入职日期
      */
     @Column(name = "entry_date")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private Date entryDate;
 
     private Long age;
