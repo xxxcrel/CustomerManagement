@@ -6,6 +6,7 @@ import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography, Avatar } f
 
 import styles from "./assets/jss/components/appStyle";
 import ContactUs from './views/ContactUs';
+import ManagerDetail from './views/ManagerDetail';
 
 const routes = [
   {
@@ -23,12 +24,20 @@ const routes = [
     path: "/manager/contact-us",
     sidebar: "联系我们",
     main: ContactUs
+  },
+  {
+    path: "/manager/detail",
+    main: ManagerDetail
   }
 ]
 const useStyles = makeStyles(styles);
 
 function App() {
   const classes = useStyles();
+
+  const onAvatarClick = e => {
+
+  }
 
   return (
     <div className={classes.wrapper}>
@@ -44,7 +53,7 @@ function App() {
         <AppBar className={classes.appBar} position="relative">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
-            <IconButton>
+            <IconButton onClick={onAvatarClick}>
               <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
             </IconButton>
             <Link to="/login" style={{ textDecoration: "none" }}>
