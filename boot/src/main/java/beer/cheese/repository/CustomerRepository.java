@@ -8,18 +8,18 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import beer.cheese.entity.CountDTO;
-import beer.cheese.entity.User;
+import beer.cheese.entity.Customer;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
-    Optional<User> findByUsername(String username);
+    Optional<Customer> findByUsername(String username);
 
     Long countUsersByAgeBetween(Long before, Long after);
 
-    @Query("select new beer.cheese.entity.CountDTO(u.address, count(u.address)) from User u group by u.address")
+    @Query("select new beer.cheese.entity.CountDTO(u.address, count(u.address)) from Customer u group by u.address")
     List<CountDTO> groupByAddress();
 
-    @Query("select new beer.cheese.entity.CountDTO(u.gender, count(u.gender)) from User u group by u.gender")
+    @Query("select new beer.cheese.entity.CountDTO(u.gender, count(u.gender)) from Customer u group by u.gender")
     List<CountDTO> groupByGender();
 }

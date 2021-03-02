@@ -12,7 +12,7 @@ import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import { Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
+import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment } from '@material-ui/core';
 import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp } from '@material-ui/icons';
 import { use } from 'echarts';
 import { API_URL } from '../assets/jss/components/constants';
@@ -219,6 +219,7 @@ export default function CustomerManagement(props) {
         localization={localization}
         options={{
           pageSize: 9,
+          columnResizable: true,
           showTitle: false,
           draggable: true,
           paginationType: "stepped",
@@ -233,10 +234,7 @@ export default function CustomerManagement(props) {
             backgroundColor: "#eee"
           }
         }}
-        detailPanel={rowData => {
-          return <h4> "{rowData.idCard}"</h4>
-        }
-        }
+        detailPanel={DetailPanel}
         actions={[
           {
             icon: tableIcons.Add,
@@ -282,6 +280,24 @@ export default function CustomerManagement(props) {
       </Dialog>
     </div>
 
+  );
+}
+
+function DetailPanel(rowData) {
+  return (
+    <div style={{ alignItems: "center", display: "flex", padding: "20px 100px" }}>
+      {/* {rowData.idCard} */}
+      <div style={{ width: "100%", height: 200 }}>
+        <h4 style={{ alignSelf: "center" }}>客户详细信息</h4>
+        <h3>姓名: {rowData.username}</h3>
+        <h3>性别: {rowData.username}</h3>
+        <h3>年龄: {rowData.username}</h3>
+        <h3>电话: {rowData.username}</h3>
+        <h3>身份证: {rowData.username}</h3>
+        <h3>创建日期: {rowData.username}</h3>
+        <h3>地址: {rowData.username}</h3>
+      </div>
+    </div>
   );
 }
 

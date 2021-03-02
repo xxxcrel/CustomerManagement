@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 
 import beer.cheese.entity.Manager;
 import beer.cheese.repository.ManagerRepository;
-import beer.cheese.repository.UserRepository;
+import beer.cheese.repository.CustomerRepository;
 
 @Service
 public class ManagerService {
@@ -19,7 +19,7 @@ public class ManagerService {
     private ManagerRepository managerRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private CustomerRepository customerRepository;
 
 
     public void login(String jobNum, String password) {
@@ -39,6 +39,6 @@ public class ManagerService {
         managerRepository.saveAndFlush(manager);
     }
 
-    
+
 
 }

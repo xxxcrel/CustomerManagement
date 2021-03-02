@@ -1,12 +1,8 @@
 package beer.cheese;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-
-import beer.cheese.entity.User;
-import beer.cheese.repository.UserRepository;
 
 @SpringBootApplication
 public class App {

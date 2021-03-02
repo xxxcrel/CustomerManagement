@@ -1,11 +1,17 @@
 package beer.cheese.entity;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -49,12 +55,17 @@ public class Manager {
 
     private String gender;
 
+    @OneToMany
+    private Set<Area> manageArea = new HashSet<>();
+
     private int permission;
 
     /**
      * 员工在职状态
-     * 1：在职；2：离职；3：请假中；4：调休中
+     * 1：实习；2：在职；3：请假中；4：调休中；5：离职
      */
-    private int state;
+    @OneToOne
+    @JoinColumn(name = "state_id")
+    private State state;
 
 }

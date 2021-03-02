@@ -17,7 +17,7 @@ public class UnifiedExceptionHandler {
 
     @ExceptionHandler(BaseException.class)
     public Result handleBaseException(BaseException e) {
-        return Result.error(e.status.getCode(), e.status.getMessage(), e.getData());
+        return Result.error(e.status.getMessage());
     }
 
 //    @ExceptionHandler(NotFoundException.class)
