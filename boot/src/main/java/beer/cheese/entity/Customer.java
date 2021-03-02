@@ -31,9 +31,6 @@ public class Customer {
     @Column(name = "username", length = 16)
     private String username;
 
-    @Column(name = "id_card", length = 18)
-    private String idCard;
-
     @Column(name = "age")
     private Long age;
 
@@ -65,7 +62,7 @@ public class Customer {
      * 1：待签约，2：已签约，3：解约中，4：待解约
      */
     @OneToOne
-    @JoinColumn(name = "state")
+    @JoinColumn(name = "state_id")
     private State state;
 
     /**

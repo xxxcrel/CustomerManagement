@@ -35,6 +35,7 @@ public class InitData {
 
     @PostConstruct
     public void init() {
+        initState();
         initType();
         initArea();
         initManager();
@@ -118,7 +119,6 @@ public class InitData {
         customer.setUsername(stepNum + "号客户");
         customer.setAge(20L + stepNum);
         customer.setGender(stepNum % 2 == 0 ? "男" : "女");
-        customer.setIdCard("3623311988032031" + stepNum);
         customer.setSignDate(LocalDateTime.now().plusDays(stepNum));
         Long tel = 13023311923L + stepNum;
         customer.setTel(tel.toString());
