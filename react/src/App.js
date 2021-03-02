@@ -9,18 +9,18 @@ import ContactUs from './views/ContactUs';
 
 const routes = [
   {
-    path: "/admin/home",
+    path: "/manager/home",
     exact: true,
     sidebar: "客户统计",
     main: Home
   },
   {
-    path: "/admin/custome",
+    path: "/manager/custome",
     sidebar: "客户管理中心",
     main: CustomerManagement
   },
   {
-    path: "/admin/contact-us",
+    path: "/manager/contact-us",
     sidebar: "联系我们",
     main: ContactUs
   }
@@ -29,9 +29,7 @@ const useStyles = makeStyles(styles);
 
 function App() {
   const classes = useStyles();
-  const onLogout = event => {
 
-  }
   return (
     <div className={classes.wrapper}>
 
@@ -49,8 +47,8 @@ function App() {
             <IconButton>
               <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
             </IconButton>
-            <Link to="/login" replace={true} style={{ textDecoration: "none" }}>
-              <Button underline="none" onClick={onLogout}>注销</Button>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Button underline="none">注销</Button>
             </Link>
 
           </Toolbar>

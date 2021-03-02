@@ -27,7 +27,7 @@ import beer.cheese.repository.UserRepository;
 import beer.cheese.view.Result;
 
 @RestController
-@RequestMapping(value = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/user", produces = {MediaType.APPLICATION_JSON_VALUE})
 @CrossOrigin
 public class UserController {
 
@@ -36,40 +36,33 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(value = "/login", produces = {"application/json"})
-    @ResponseStatus(HttpStatus.OK)
-    public Result<String> login(@RequestParam("username") String username,
-                                @RequestParam("password") String password) {
-        logger.info("Username: " + username);
-        logger.info("Password: " + password);
-        return Result.ok("登入成功");
-    }
 
-    @GetMapping(value = "/user/all", produces = {MediaType.APPLICATION_JSON_VALUE})
+
+    @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Result<List<User>> getUserList() {
         return Result.ok(userRepository.findAll());
     }
 
-    @GetMapping("/user")
+    @GetMapping
     public Result<User> getUser() {
         Optional<User> user = userRepository.findByUsername("wuxc");
         return Result.ok(user.get());
     }
 
-    @PostMapping("/user")
+    @PostMapping
     public Result<String> addUser(@RequestBody UserDTO userDTO){
         User user = new User();
         BeanUtils.copyProperties(userDTO, user);
         userRepository.save(user);
         return Result.ok("add " + userDTO.getUsername() + " successful!!!");
     }
-    @PutMapping(value = "/user")
+    @PutMapping
     public Result<String> updateUser(@RequestParam("user_id") Long userId,
                                      @RequestBody Map<String, String> updateData) {
         return Result.ok("success");
     }
 
-    @DeleteMapping(value = "/user")
+    @DeleteMapping
     public Result<String> removeUser(@RequestParam("user_id")Long userId) {
         userRepository.deleteById(userId);
         return Result.ok("删除客户: " + userId + " 成功");

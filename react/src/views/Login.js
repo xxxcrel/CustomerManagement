@@ -1,11 +1,51 @@
-import { Button, makeStyles, TextField, Snackbar } from "@material-ui/core";
+import { Button, makeStyles, TextField, Snackbar, withStyles } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import React from "react";
+import { Link } from "react-router-dom";
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputBase from '@material-ui/core/InputBase';
 import { API_URL } from "../assets/jss/components/constants";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
+const BootstrapInput = withStyles((theme) => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 14,
+        padding: '10px 26px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        // Use the system font instead of the default Roboto font.
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
 
 export default function Login(props) {
     const classes = useStyles();
@@ -17,6 +57,10 @@ export default function Login(props) {
     const [usernameHelperText, setUsernameHelperText] = React.useState("");
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordHelperText, setPasswordHelperText] = React.useState("");
+    const [type, setType] = React.useState('');
+    const handleChange = (event) => {
+        setType(event.target.value);
+    };
 
     const onLogin = (event) => {
         setUsernameError(false);
@@ -33,10 +77,18 @@ export default function Login(props) {
             setUsernameHelperText("用户名不能为空");
             return;
         }
-        if (password.length < 6 || password.length === 0) {
+        if (password.length < 5 || password.length === 0) {
             setPasswordError(true);
-            setPasswordHelperText("密码不能为空或小于6位");
+            setPasswordHelperText("密码不能为空或小于5位");
             return;
+        }
+        if (type === 1) {
+            if (username === "admin" && password === "admin") {
+                setTimeout(() => {
+                    props.history.push("/system")
+                }, 1500);
+                return;
+            }
         }
         fetch(`${API_URL}/api/login`, {
             method: "POST",
@@ -55,7 +107,7 @@ export default function Login(props) {
             setSnackbarOpen(true);
             setToastMessage(data["data"]);
             setTimeout(() => {
-                props.history.push("/admin/home");
+                props.history.push("/manager");
             }, 1500);
 
         }).catch(error => {
@@ -102,8 +154,29 @@ export default function Login(props) {
                         size="small"
                         color="primary" />
 
+                    <FormControl className={classes.loginType}>
+                        {/* <InputLabel id="demo-customized-select-label">登入类型</InputLabel> */}
+                        <Select
+                            labelId="demo-customized-select-label"
+                            id="demo-customized-select"
+                            value={type}
+                            onChange={handleChange}
+                            input={<BootstrapInput />}
+                        >
+                            <MenuItem value={0}>
+                                管理员
+                            </MenuItem>
+                            <MenuItem value={1}>系统管理员</MenuItem>
+                        </Select>
+                    </FormControl>
+
                 </form>
-                <Button className={classes.button} onClick={onLogin} type="submit">登入</Button>
+                <Button className={classes.button} onClick={onLogin} type="submit" style={{
+                    backgroundImage: "linear-gradient(to right, #7B75B1, #19D6EB)",
+                }}>登入</Button>
+                {/* <Link to="/admin-login" style={{ textDecoration: "none" }}>
+                    <Button className={classes.button} stylle={{ backgroundColor: "red", color: "red" }}>超级管理员登入</Button>
+                </Link> */}
                 <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
                     <Alert severity="success">
                         {toastMessage}
@@ -131,7 +204,7 @@ const useStyles = makeStyles(theme => ({
     loginPanel: {
         backgroundColor: "#f5f7fa",
         width: "300px",
-        height: "260px",
+        height: "300px",
         borderRadius: "10px",
         textAlign: "center",
         display: "flex",
@@ -157,6 +230,9 @@ const useStyles = makeStyles(theme => ({
         borderRadius: "8px",
         width: "220px",
         marginTop: "10px",
-        backgroundImage: "linear-gradient(to right, #7B75B1, #19D6EB)",
+        // backgroundImage: "linear-gradient(to right, #7B75B1, #19D6EB)",
+    },
+    loginType: {
+        marginTop: "20px"
     }
 }));
