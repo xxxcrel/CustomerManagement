@@ -32,10 +32,14 @@ export default function EmpoloyeemManagement(props) {
     return (
         <div className={classes.wrapper}>
             <div className={classes.sidebarWrapper}>
-                <Sidebar routes={routes} title="员工管理" color="balck" />
+                <Sidebar routes={routes} title="管理员审计中心" color="balck" />
 
                 {/* <h2> hello</h2> */}
-                <Button style={{ backgroundColor: "red", color: "white" }} onClick={e => { }}>退出登入</Button>
+                {/* <Link to="/login" style={{ textDecoration: "none", width: "auto" }}> */}
+                <Button style={{ backgroundColor: "red", color: "white", margin: "20px 20px" }} onClick={e => {
+                    props.history.push("/login");
+                }} >退出登入</Button>
+                {/* </Link> */}
 
             </div>
 

@@ -147,6 +147,6 @@ export default function Sidebar(props) {
 
 Sidebar.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object),
-  title: String,
-  color: String
+  title: PropTypes.string,
+  color: PropTypes.string
 }

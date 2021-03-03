@@ -33,6 +33,7 @@ public class InitData {
     @Autowired
     StateRepository stateRepository;
 
+    String[] names = {"华东", "华西", "华南", "华北"};
     @PostConstruct
     public void init() {
         initState();
@@ -55,7 +56,6 @@ public class InitData {
     }
 
     public void initArea() {
-        String[] names = {"华东", "华西", "华北", "华南", "华中"};
         List<Area> areaList = Arrays.stream(names).map(name -> {
             Area area = new Area();
             area.setName(name);
@@ -93,15 +93,15 @@ public class InitData {
         manager.setUsername("管理员" + stepNum + "号");
         manager.setJobNum("12312" + stepNum);
         manager.setPassword("password" + stepNum);
-        manager.setAvatarUrl("www.cheese.beer/default_avatar.jpg");
+        manager.setAvatarUrl("http://www.cheese.beer/img/img" + stepNum + ".jpg");
         manager.setEntryDate(new Date());
         manager.setAge(20L + stepNum);
 
         manager.setGender(stepNum % 2 == 0 ? "男" : "女");
         manager.setState(stateRepository.findByName("实习"));
         manager.setPermission(0x01 << 1);
-        Area area = areaRepository.findByName("华中");
-        manager.getManageArea().add(area);
+        Area area = areaRepository.findByName(names[stepNum % 4]);
+        manager.getAreas().add(area);
         return manager;
     }
 
@@ -126,7 +126,7 @@ public class InitData {
         customer.setType(type);
         customer.setState(stateRepository.findByName("已签约"));
         customer.setAddress("江西");
-        customer.setArea(areaRepository.findByName("华中"));
+        customer.setArea(areaRepository.findByName(names[stepNum % 4]));
         return customer;
     }
 }
