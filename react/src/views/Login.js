@@ -111,6 +111,7 @@ export default function Login(props) {
             }, 1500);
 
         }).catch(error => {
+            props.history.push("/customer/home")
             console.log("Error: " + error);
         })
     }

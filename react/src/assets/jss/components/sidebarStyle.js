@@ -22,14 +22,11 @@ const sidebarStyle = theme => ({
         // border: "solid",
         position: "fixed",
         top: "0",
-        bottom: "0",
         left: "0",
         zIndex: "1",
-        // ...boxShadow,
         width: drawerWidth,
         backgroundColor: "#07a8ba"
-        // backgroundImage: "linear-gradient(to right, #2C3328, #07A8BA)",
-        // background: "linear-gradient(blue, pink)"
+
     },
     sidebarWrapper: {
         position: "relative",

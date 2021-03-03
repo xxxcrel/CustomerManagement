@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { Button, makeStyles } from "@material-ui/core";
 import { Link, Switch, Route } from 'react-router-dom';
 import { ArrowRightRounded } from "@material-ui/icons";
 import AllManager from "./AllManager";
@@ -18,11 +18,11 @@ const routes = [
         sidebar: "添加管理员",
         main: AddManger
     },
-    {
-        path: "/manager/audit",
-        sidebar: "管理员审计",
-        main: AuditManager
-    }
+    // {
+    //     path: "/manager/audit",
+    //     sidebar: "管理员审计",
+    //     main: AuditManager
+    // }
 ]
 export default function EmpoloyeemManagement(props) {
 
@@ -32,7 +32,11 @@ export default function EmpoloyeemManagement(props) {
     return (
         <div className={classes.wrapper}>
             <div className={classes.sidebarWrapper}>
-                <Sidebar routes={routes} title="员工管理" />
+                <Sidebar routes={routes} title="员工管理" color="balck" />
+
+                {/* <h2> hello</h2> */}
+                <Button style={{ backgroundColor: "red", color: "white" }} onClick={e => { }}>退出登入</Button>
+
             </div>
 
             <div className={classes.panelWrapper}>
@@ -64,10 +68,12 @@ const useStyles = makeStyles(theme => ({
     },
     sidebarWrapper: {
         height: "100%",
-        position: "relative",
+        // position: "relative",
         width: "260px",
-        backgroundColor: "black"
-
+        backgroundColor: "black",
+        display: "flex",
+        // backgroundColor: "yellow",
+        flexDirection: "column"
     },
     panelWrapper: {
         height: "100%",
