@@ -60,6 +60,10 @@ public class Manager {
 
     private String gender;
 
+    private String tel;
+
+    private String address;
+
     @ManyToMany
     @JoinTable(name = "tbl_manager_area")
     private Set<Area> manageArea = new HashSet<>();
