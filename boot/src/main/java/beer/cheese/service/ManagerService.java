@@ -6,9 +6,11 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import beer.cheese.entity.Manager;
+import beer.cheese.exception.BaseException;
 import beer.cheese.repository.ManagerRepository;
 import beer.cheese.repository.CustomerRepository;
 import beer.cheese.view.Result;
+import beer.cheese.view.ResultEnum;
 
 @Service
 public class ManagerService {
@@ -24,15 +26,16 @@ public class ManagerService {
     private CustomerRepository customerRepository;
 
 
-    public void login(String jobNum, String password) {
+    public Manager login(String jobNum, String password) {
         Assert.notNull(jobNum, "工号不能为空");
         Assert.notNull(password, "密码不能为空");
 
         Manager manager = managerRepository.findByJobNum(jobNum).orElseThrow(() -> new RuntimeException("can't find jobNum: " + jobNum));
         String truePasswd = manager.getPassword();
         if (truePasswd == null || truePasswd.isEmpty() || password.isEmpty() || !truePasswd.equals(password)) {
-            throw new RuntimeException("密码错误请重新输入");
+            throw new BaseException(ResultEnum.ERROR, "密码错误");
         }
+        return manager;
     }
 
     public void modifyPermission(String jobNum, int permission) {

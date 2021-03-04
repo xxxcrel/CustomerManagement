@@ -64,8 +64,6 @@ public class Manager {
 
     private String tel;
 
-    private String address;
-
     @ManyToMany
     @JoinTable(name = "tbl_manager_area")
     @JsonIgnore

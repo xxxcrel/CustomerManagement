@@ -1,4 +1,4 @@
-import { Avatar, makeStyles, Box, Typography, AppBar, Toolbar, IconButton } from "@material-ui/core";
+import { Avatar, makeStyles, Box, Typography, AppBar, Toolbar, IconButton, TextField, Button } from "@material-ui/core";
 import PropTypes from 'prop-types';
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
@@ -7,8 +7,49 @@ import Tab from '@material-ui/core/Tab';
 import PhoneIcon from '@material-ui/icons/Phone';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import { ArrowLeftRounded, BackspaceRounded, BackupRounded, KeyboardArrowLeftRounded } from "@material-ui/icons";
+import { withStyles } from '@material-ui/core/styles';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import InputBase from '@material-ui/core/InputBase';
+import { AddCircleRounded, ArrowLeftRounded, BackspaceRounded, BackupRounded, KeyboardArrowLeftRounded } from "@material-ui/icons";
 
+const BootstrapInput = withStyles((theme) => ({
+    root: {
+        'label + &': {
+            marginTop: theme.spacing(3),
+        },
+    },
+    input: {
+        borderRadius: 4,
+        position: 'relative',
+        backgroundColor: theme.palette.background.paper,
+        border: '1px solid #ced4da',
+        fontSize: 16,
+        padding: '10px 26px 10px 12px',
+        transition: theme.transitions.create(['border-color', 'box-shadow']),
+        // Use the system font instead of the default Roboto font.
+        fontFamily: [
+            '-apple-system',
+            'BlinkMacSystemFont',
+            '"Segoe UI"',
+            'Roboto',
+            '"Helvetica Neue"',
+            'Arial',
+            'sans-serif',
+            '"Apple Color Emoji"',
+            '"Segoe UI Emoji"',
+            '"Segoe UI Symbol"',
+        ].join(','),
+        '&:focus': {
+            borderRadius: 4,
+            borderColor: '#80bdff',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
+        },
+    },
+}))(InputBase);
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -40,6 +81,15 @@ export default function AuditManager(props) {
     const info = props.location.state;
 
     const [value, setValue] = React.useState(0);
+    const [permission, setPermission] = React.useState('');
+    const [area, setArea] = React.useState("")
+
+    const handleAreaChange = e => {
+        setArea(e.target.value);
+    }
+    const handlePermissionChange = (event) => {
+        setPermission(event.target.value);
+    };
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -99,18 +149,83 @@ export default function AuditManager(props) {
                         // }}
                         aria-label="icon tabs example"
                     >
-                        <Tab icon={<PersonPinIcon />} aria-label="person" />
-                        <Tab icon={<PhoneIcon />} aria-label="phone" />
+                        <Tab label="基础信息" aria-label="person" />
+                        <Tab label="权限管理" aria-label="phone" />
                         {/* <Tab icon={<FavoriteIcon />} aria-label="favorite" /> */}
                     </Tabs>
                     <hr style={{ height: 1, marginTop: 0 }} />
 
                 </Paper>
-                <TabPanel value={value} index={0}>
-                    Item One
+                <TabPanel value={value} index={0} style={{ width: "100%" }}>
+                    <div style={{ width: "inherit" }}>
+                        <Button style={{ position: "fixed", right: 10, backgroundColor: "#50EBEB" }}>编辑</Button>
+
+                    </div>
+                    <div className={classes.inputWrapper}>
+                        <label style={{ marginRight: 30, paddingTop: 10 }}>姓名:</label>
+                        <TextField variant="outlined" size="small" value={info.username}></TextField>
+
+                    </div>
+                    <div className={classes.inputWrapper}>
+                        <label style={{ marginRight: 30, marginTop: 10 }}>年龄:</label>
+                        <TextField variant="outlined" size="small" value={info.age}></TextField>
+
+                    </div>
+                    <div className={classes.inputWrapper}>
+                        <label style={{ marginRight: 30 }}>性别:</label>
+                        <TextField variant="outlined" size="small" value={info.gender}></TextField>
+
+                    </div>
+
+                    <div className={classes.inputWrapper}>
+                        <label>入职日期:</label>
+                        <TextField variant="outlined" size="small" value={info.entryDate}></TextField>
+
+                    </div>
+                    <div className={classes.inputWrapper}>
+                        <label>联系电话:</label>
+                        <TextField variant="outlined" size="small" value={info.tel}></TextField>
+
+                    </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    Item Two
+                    <div>
+
+                        <FormControl className={classes.margin}>
+                            <InputLabel htmlFor="demo-customized-select-native">地区</InputLabel>
+                            <NativeSelect
+                                id="demo-customized-select-native"
+                                value={area}
+                                onChange={handleAreaChange}
+                                input={<BootstrapInput />}
+                            >
+                                {/* <option aria-label="None" value="" /> */}
+                                <option value={10}>华东</option>
+                                <option value={20}>华西</option>
+                                <option value={30}>华南</option>
+                                <option value={40}>华北</option>
+                            </NativeSelect>
+                        </FormControl>
+                        <FormControl className={classes.margin}>
+                            <InputLabel htmlFor="demo-customized-select-native">权限</InputLabel>
+                            <NativeSelect
+                                id="demo-customized-select-native"
+                                value={permission}
+                                onChange={handlePermissionChange}
+                                input={<BootstrapInput />}
+                            >
+                                <option aria-label="None" value={0}>无</option>
+
+                                <option value={10}>所有权</option>
+                                <option value={20}>查看</option>
+                                <option value={30}>添加</option>
+                                <option value={40}>删除</option>
+                                <option value={50}>修改</option>
+                            </NativeSelect>
+                        </FormControl>
+                        <Button style={{ marginTop: 25, position: "fixed", right: 10, backgroundColor: "red", color: "white" }}>删除</Button>
+                        <Button style={{ marginTop: 25, position: "fixed", right: 80, backgroundColor: "#50EBEB" }}>修改</Button>
+                    </div>
                 </TabPanel>
             </div>
         </div>
@@ -128,7 +243,7 @@ const useStyles = makeStyles(theme => ({
         display: "flex",
         flexDirection: "row",
         height: 140,
-        marginLeft: 80,
+        marginLeft: 60,
         marginTop: 20
     },
     avatar: {
@@ -139,5 +254,15 @@ const useStyles = makeStyles(theme => ({
     tabWrapper: {
         boxShadow: "none",
         backgroundColor: "$f5f7fa"
+    },
+    inputWrapper: {
+        marginBottom: 10,
+        alignItems: "center",
+        // justifyContent: "center",
+        display: "flex",
+        flexDirection: "row"
+    },
+    margin: {
+        width: 200
     }
 }))

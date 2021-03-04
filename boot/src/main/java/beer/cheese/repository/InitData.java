@@ -93,6 +93,7 @@ public class InitData {
         manager.setUsername("管理员" + stepNum + "号");
         manager.setJobNum("12312" + stepNum);
         manager.setPassword("password" + stepNum);
+        manager.setTel("1877777232" + stepNum);
         manager.setAvatarUrl("http://www.cheese.beer/img/img" + stepNum + ".jpg");
         manager.setEntryDate(new Date());
         manager.setAge(20L + stepNum);

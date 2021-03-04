@@ -1,6 +1,7 @@
 package beer.cheese.entity;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -31,5 +32,5 @@ public class Area {
     private String name;
 
     @ManyToMany(mappedBy = "areas")
-    private Set<Manager> managers = new HashSet<>();
+    private Set<Manager> managers = new LinkedHashSet<>();
 }

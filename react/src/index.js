@@ -7,6 +7,7 @@ import { createBrowserHistory } from 'history';
 import { Route, Router, Switch, Redirect } from 'react-router-dom';
 import Login from './views/Login';
 import EmpoloyeemManagement from './views/EmployeeManagement';
+import ModifyPassword from './views/ModifyPassword';
 
 const hist = createBrowserHistory();
 ReactDOM.render(
@@ -17,6 +18,7 @@ ReactDOM.render(
       <Route path="/login" component={Login} />
       {/* <Route path="/admin-login" component={AdminLogin} /> */}
       <Route path="/manager" component={EmpoloyeemManagement} />
+      <Route path="/updatePassword" component={ModifyPassword} />
       <Redirect from="/" to="/login" />
     </Switch>
   </Router>

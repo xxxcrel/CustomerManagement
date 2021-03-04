@@ -3,8 +3,10 @@ package beer.cheese.exception;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import beer.cheese.view.Result;
 
@@ -16,6 +18,7 @@ public class UnifiedExceptionHandler {
     private final Log logger = LogFactory.getLog(getClass());
 
     @ExceptionHandler(BaseException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result handleBaseException(BaseException e) {
         return Result.error(e.status.getMessage());
     }

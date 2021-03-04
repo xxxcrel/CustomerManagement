@@ -1,12 +1,13 @@
 import Sidebar from './components/SideBar';
 import Home from "./views/Home";
 import CustomerManagement from "./views/CustomerManagement";
-import { BrowserRouter as Router, Switch, Route, Link, } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect, } from 'react-router-dom';
 import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography, Avatar } from '@material-ui/core';
 
 import styles from "./assets/jss/components/appStyle";
 import ContactUs from './views/ContactUs';
 import ManagerDetail from './views/ManagerDetail';
+import { LiveTvOutlined } from '@material-ui/icons';
 
 const routes = [
   {
@@ -29,7 +30,18 @@ const routes = [
 ]
 const useStyles = makeStyles(styles);
 
-function App() {
+let info;
+
+function App(props) {
+
+  console.log(props);
+  if (props.location.state != null) {
+
+    info = props.location.state;
+
+  }
+
+
   const classes = useStyles();
 
   return (
@@ -48,10 +60,10 @@ function App() {
         <AppBar className={classes.appBar} position="relative">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
-            <Link to="/customer/detail">
-              <Avatar src="/assets/img/default_avatar.jpeg" alt="登入" />
+            <Link to={{ pathname: "/customer/details", state: info }}>
+              <Avatar src={info.avatarUrl} alt="登入" />
             </Link>
-            <Link to="/login" style={{ textDecoration: "none" }}>
+            <Link to="/login" style={{ textDecoration: "none", marginLeft: 20 }}>
               <Button underline="none">注销</Button>
             </Link>
 
@@ -67,14 +79,15 @@ function App() {
                 key={index}
                 path={route.path}
                 exact={route.exact}
-                children={<route.main />}
+                component={route.main}
               />
             ))}
             <Route
               key={10}
               path="/customer/details"
               exact={true}
-              children={ManagerDetail} />
+              component={ManagerDetail} />
+            {/* <Redirect from="/customer" to="/customer/home" /> */}
           </Switch>
         </div>
 

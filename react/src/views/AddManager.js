@@ -80,8 +80,8 @@ export default function AddManager(props) {
                 <MenuItem value={1}>正式员工</MenuItem>
                 <MenuItem value={2}>离职</MenuItem>
             </TextField>
-            <b className={classes.labelWrapper} >管理区域</b>
-            <TextField className={classes.inputWrapper} size="small" variant="outlined" />
+            {/* <b className={classes.labelWrapper} >管理区域</b>
+            <TextField className={classes.inputWrapper} size="small" variant="outlined" /> */}
         </div>
     );
 }

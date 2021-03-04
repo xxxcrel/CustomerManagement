@@ -36,13 +36,12 @@ public class ManagerController {
 
     @PostMapping(value = "/login", produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public Result<String> login(@RequestParam("username") String username,
+    public Result<Manager> login(@RequestParam("username") String username,
                                 @RequestParam("password") String password) {
         logger.info("Username: " + username);
         logger.info("Password: " + password);
 
-        managerService.login(username, password);
-        return Result.ok("登入成功");
+        return Result.ok(managerService.login(username, password));
     }
 
     @GetMapping("/info")

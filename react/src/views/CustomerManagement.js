@@ -170,10 +170,12 @@ export default function CustomerManagement(props) {
 
   const AreaSelector = () => {
     return (
-      <Select style={{ width: 90 }}>
-        <MenuItem>华中</MenuItem>
-        <MenuItem>华北</MenuItem>
-      </Select>
+      <TextField select variant="outlined" size="small" value={0} style={{ width: 90, marginTop: 10 }} SelectProps={{
+        native: true
+      }}>
+        <option value={0}>华中</option>
+        <option value={1}>华北</option>
+      </TextField>
     )
   }
   return (
@@ -224,7 +226,7 @@ export default function CustomerManagement(props) {
             height: "35px",
             // width: "200px",
           },
-          // selection: true,
+          selection: true,
           actionsColumnIndex: columns.length,
           rowStyle: {
             backgroundColor: "#eee"

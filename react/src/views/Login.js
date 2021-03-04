@@ -1,7 +1,7 @@
 import { Button, makeStyles, TextField, Snackbar, withStyles, FormHelperText } from "@material-ui/core";
 import MuiAlert from '@material-ui/lab/Alert';
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, hashHistory } from "react-router-dom";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
@@ -100,18 +100,25 @@ export default function Login(props) {
             if (resp.headers.get("Content-Type") === "application/json") {
                 return resp.json();
             } else {
+                console.log(resp);
                 console.log("Oops, we haven't get JSON");
             }
         }).then(data => {
-            console.log(data);
-            setSnackbarOpen(true);
-            setToastMessage(data["data"]);
-            setTimeout(() => {
-                props.history.push("/customer/home");
-            }, 1500);
-
+            if (data["code"] === 200) {
+                console.log(data);
+                setSnackbarOpen(true);
+                setToastMessage("登入成功");
+                setTimeout(() => {
+                    props.history.push("/customer/home", data["data"]);
+                }, 1500);
+            } else {
+                setSnackbarOpen(true);
+                setToastMessage("登入失败");
+            }
         }).catch(error => {
-            props.history.push("/customer/home")
+            // props.history.push("/customer/home");
+            setSnackbarOpen(true);
+            setToastMessage(error)
             console.log("Error: " + error);
         })
     }
@@ -163,7 +170,7 @@ export default function Login(props) {
                             labelId="demo-customized-select-label"
                             id="demo-customized-select"
                             value={type}
-                            variant=""
+                            // variant=""
                             onChange={handleChange}
                             input={<BootstrapInput />}
                         >
