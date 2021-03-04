@@ -25,10 +25,7 @@ const routes = [
     sidebar: "联系我们",
     main: ContactUs
   },
-  {
-    path: "/customer/detail",
-    main: ManagerDetail
-  }
+
 ]
 const useStyles = makeStyles(styles);
 
@@ -73,6 +70,11 @@ function App() {
                 children={<route.main />}
               />
             ))}
+            <Route
+              key={10}
+              path="/customer/details"
+              exact={true}
+              children={ManagerDetail} />
           </Switch>
         </div>
 

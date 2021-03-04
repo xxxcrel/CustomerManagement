@@ -4,6 +4,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { FormatTextdirectionLToRSharp } from "@material-ui/icons";
 import { API_URL } from "../assets/jss/components/constants";
+import { Link } from "react-router-dom";
 const tileData = [
     {
         img: "/assets/img/default_avatar.jpeg",
@@ -85,7 +86,9 @@ export default function AllManger(props) {
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {east.map((tile) => (
                             <GridListTile key={tile.avataUrl}>
-                                <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                <Link to={{ pathname: "/manager/details", state: tile }}>
+                                    <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                </Link>
                                 <h5>{tile.username}</h5>
                             </GridListTile>
                         ))
@@ -99,7 +102,9 @@ export default function AllManger(props) {
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {west.map((tile) => (
                             <GridListTile key={tile.avatarUrl}>
-                                <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                <Link to={{ pathname: "/manager/details", state: tile }}>
+                                    <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                </Link>
                                 <h5>{tile.username}</h5>
                             </GridListTile>
                         ))}
@@ -108,25 +113,29 @@ export default function AllManger(props) {
             </div>
             <div className={classes.lineWrapper}>
                 <Card className={classes.cardWrapper}>
-
                     <h3 style={{ alignSelf: "center" }}>华西地区管理员</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {south.map((tile) => (
                             <GridListTile key={tile.avatarUrl}>
-                                <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                <Link to={{ pathname: "/manager/details", state: tile }}>
+                                    <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                </Link>
                                 <h5>{tile.username}</h5>
                             </GridListTile>
                         ))}
-                    </GridList>               </Card>
+                    </GridList>
+                </Card>
+
                 <Card className={classes.cardWrapper}>
                     <h3 style={{ alignSelf: "center" }}>华东地区管理员</h3>
-
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {north.map((tile) => (
                             <GridListTile key={tile.avatarUrl} >
-                                <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                <Link to={{ pathname: "/manager/details/", state: tile }}>
+                                    <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
+                                </Link>
                                 <h5>{tile.username}</h5>
                             </GridListTile>
                         ))}

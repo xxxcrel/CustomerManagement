@@ -52,9 +52,14 @@ export default function EmpoloyeemManagement(props) {
                             key={index}
                             path={route.path}
                             exact={route.exact}
-                            children={<route.main />}
+                            component={route.main}
                         />
                     ))}
+                    <Route
+                        key={3}
+                        path="/manager/details"
+                        exact={true}
+                        component={AuditManager} />
                 </Switch>
             </div>
         </div>
