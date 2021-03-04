@@ -10,17 +10,18 @@ import EmpoloyeemManagement from './views/EmployeeManagement';
 
 const hist = createBrowserHistory();
 ReactDOM.render(
-  <React.StrictMode>
-    <Router history={hist}>
-      <Switch>
-        <Route path="/customer" component={App} />
-        <Route path="/login" component={Login} />
-        {/* <Route path="/admin-login" component={AdminLogin} /> */}
-        <Route path="/manager" component={EmpoloyeemManagement} />
-        <Redirect from="/" to="/login" />
-      </Switch>
-    </Router>
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <Router history={hist}>
+    <Switch>
+      <Route path="/customer" component={App} />
+      <Route path="/login" component={Login} />
+      {/* <Route path="/admin-login" component={AdminLogin} /> */}
+      <Route path="/manager" component={EmpoloyeemManagement} />
+      <Redirect from="/" to="/login" />
+    </Switch>
+  </Router>
+  // </React.StrictMode>,
+  ,
   document.getElementById('root')
 );
 

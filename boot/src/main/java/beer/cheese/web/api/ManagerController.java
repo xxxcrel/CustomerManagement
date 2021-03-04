@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import beer.cheese.entity.Area;
 import beer.cheese.entity.Manager;
+import beer.cheese.repository.AreaRepository;
 import beer.cheese.repository.ManagerRepository;
 import beer.cheese.service.ManagerService;
 import beer.cheese.view.Result;
@@ -29,6 +31,9 @@ public class ManagerController {
     @Autowired
     private ManagerRepository managerRepository;
 
+    @Autowired
+    private AreaRepository areaRepository;
+
     @PostMapping(value = "/login", produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
     public Result<String> login(@RequestParam("username") String username,
@@ -43,5 +48,19 @@ public class ManagerController {
     @GetMapping("/info")
     public Result<Manager> getDetails(@RequestParam("jobNum") String jobNum){
         return Result.ok(managerRepository.findByJobNum(jobNum).get());
+    }
+
+    @GetMapping("/all")
+    public Result getAllManager(){
+        return Result.ok(managerRepository.findAll());
+    }
+
+    @GetMapping("/findByArea")
+    public Result getManagerByArea(@RequestParam("area") String area){
+        logger.info(area);
+        Area area1 = areaRepository.findByName(area);
+        logger.info("hello" + area1.getName() + "nothing");
+        logger.info("hello" + area1.getManagers());
+        return Result.ok(areaRepository.findByName(area).getManagers());
     }
 }

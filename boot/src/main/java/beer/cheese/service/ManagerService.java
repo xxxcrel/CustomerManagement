@@ -3,10 +3,12 @@ package beer.cheese.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import beer.cheese.entity.Manager;
 import beer.cheese.repository.ManagerRepository;
 import beer.cheese.repository.CustomerRepository;
+import beer.cheese.view.Result;
 
 @Service
 public class ManagerService {
@@ -38,7 +40,6 @@ public class ManagerService {
         manager.setPermission(permission);
         managerRepository.saveAndFlush(manager);
     }
-
 
 
 }

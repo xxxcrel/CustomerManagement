@@ -42,6 +42,7 @@ function App() {
         <Sidebar
           title="客户管理中心"
           routes={routes}
+          color="#5FA3E7"
         />
       </div>
 

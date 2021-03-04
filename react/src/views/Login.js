@@ -85,7 +85,7 @@ export default function Login(props) {
         if (type === 1) {
             if (username === "admin" && password === "admin") {
                 setTimeout(() => {
-                    props.history.push("/manager")
+                    props.history.push("/manager/all")
                 }, 1500);
                 return;
             }

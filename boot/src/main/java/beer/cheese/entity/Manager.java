@@ -17,11 +17,13 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_manager")
@@ -66,7 +68,8 @@ public class Manager {
 
     @ManyToMany
     @JoinTable(name = "tbl_manager_area")
-    private Set<Area> manageArea = new HashSet<>();
+    @JsonIgnore
+    private Set<Area> areas = new HashSet<>();
 
     private int permission;
 
@@ -76,6 +79,11 @@ public class Manager {
      */
     @OneToOne
     @JoinColumn(name = "state_id")
+    @JsonIgnore
     private State state;
 
+    @Override
+    public String toString() {
+       return "name" + username;
+    }
 }
