@@ -9,6 +9,6 @@ import beer.cheese.entity.Area;
 @Repository
 public interface AreaRepository extends JpaRepository<Area, Long> {
 
-    @EntityGraph(attributePaths = {"managers"})
+    @EntityGraph(attributePaths = {"managers", "managers.state"})
     Area findByName(String name);
 }

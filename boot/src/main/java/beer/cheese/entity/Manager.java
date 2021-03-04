@@ -79,7 +79,7 @@ public class Manager {
      */
     @OneToOne
     @JoinColumn(name = "state_id")
-    @JsonIgnore
+//    @JsonIgnore
     private State state;
 
     @Override
