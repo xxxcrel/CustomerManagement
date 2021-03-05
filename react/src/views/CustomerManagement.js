@@ -16,6 +16,12 @@ import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, Cir
 import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp } from '@material-ui/icons';
 import { use } from 'echarts';
 import { API_URL } from '../assets/jss/components/constants';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
 const tableIcons = {
@@ -59,7 +65,11 @@ const columns = [
     // type: 'numeric',
     width: 10,
   },
-
+  {
+    field: "state.name",
+    title: "状态",
+    width: 20
+  }
 ];
 
 const localization = {
@@ -111,6 +121,7 @@ export default function CustomerManagement(props) {
   const [idCard, setIdCard] = React.useState("");
   const [disable, setDisable] = React.useState(true);
 
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2021-02-02'));
   React.useEffect(() => {
     console.log("effect start");
     // setLoaded(false);
@@ -135,6 +146,10 @@ export default function CustomerManagement(props) {
     return () => { console.log("cleanup") }
   })
 
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
   const handleAddOpen = () => {
     setAdd(true);
   };
@@ -238,26 +253,71 @@ export default function CustomerManagement(props) {
 
             <div style={{ display: "flex", flexDirection: "row" }}>
               <h3 style={{ alignSelf: "center", textAlign: "center" }}>客户详细信息</h3>
-              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "red", height: "30px", }} onClick={e => { setDisable(!disable) }}>编辑</Button></div>
+              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "#50EBEB", height: "30px", }} onClick={e => { setDisable(!disable) }}>编辑</Button></div>
             </div>
-            <div style={{ width: "100%", height: 360, display: "flex", flexDirection: "row" }}>
+            <div style={{ width: "100%", height: 360, display: "flex", flexDirection: "row", justifyContent: "center", marginTop: 20 }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <TextField disabled={disable} label="地区" style={{ width: 280, height: 50 }} value={rowData.area.name} > </TextField>
-                <TextField disabled={disable} label="姓名" style={{ width: 280, height: 50 }} value={rowData.username}> </TextField>
-                <TextField disabled={disable} label="电话" style={{ width: 280, height: 50 }} value={rowData.tel}> </TextField>
-                <TextField disabled={disable} label="性别" style={{ width: 280, height: 50 }} value={rowData.gender}> </TextField>
-                <TextField disabled={disable} label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
-                <TextField disabled={disable} label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField>
+                <TextField disabled={disable} label="地区" style={{ width: 280, height: 50 }} value={rowData.area.name} variant="outlined" size="small"> </TextField>
+                <TextField disabled={disable} label="姓名" style={{ width: 280, height: 50 }} value={rowData.username} variant="outlined" size="small"> </TextField>
+                <TextField disabled={disable} label="电话" style={{ width: 280, height: 50 }} value={rowData.tel} variant="outlined" size="small"> </TextField>
+                <TextField disabled={disable} label="性别" style={{ width: 280, height: 50 }} value={rowData.gender} variant="outlined" size="small"> </TextField>
+                <TextField disabled={disable} label="年龄" style={{ width: 280, height: 50 }} value={rowData.age} variant="outlined" size="small"> </TextField>
+                <TextField disabled={disable} label="地址" style={{ width: 280, height: 50 }} value={rowData.address} variant="outlined" size="small"> </TextField>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", marginLeft: 100 }}>
-                <TextField disabled={disable} label="客户状态" style={{ width: 280, height: 50 }} value={rowData.type.typeName} > </TextField>
-                <TextField disabled={disable} label="客户类型" style={{ width: 280, height: 50 }} value={rowData.state.name}> </TextField>
-                <TextField disabled={disable} label="签约日期" style={{ width: 280, height: 50 }} value={rowData.signDate}> </TextField>
-                <TextField disabled={disable} label="解约日期" style={{ width: 280, height: 50 }} value={rowData.termintedDate}> </TextField>
+              <div style={{ display: "flex", flexDirection: "column", marginLeft: 80 }}>
+                <TextField disabled={disable} label="客户类型" style={{ width: 280, height: 50 }} value={rowData.type.typeName} variant="outlined" size="small" > </TextField>
+
+                <TextField disabled={true} label="签约日期" style={{ width: 280, height: 50 }} value={rowData.signDate} variant="outlined" size="small"> </TextField>
+                {/* <TextField disabled={disable} label="解约日期" style={{ width: 280, height: 50 }} value={rowData.termintedDate}> </TextField> */}
                 {/* <TextField label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
                   <TextField label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField> */}
 
+                <label>解约日期:</label>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disabled={disable}
+                    disableToolbar
+                    // variant="inline"
+                    format="yyyy/MM/dd"
+                    margin="normal"
+                    id="date-picker-inline"
+                    // label="解约日期"
+                    value={selectedDate}
+
+                    style={{
+                      border: "solid",
+                      borderWidth: "1px",
+                      borderColor: "#CDCACA",
+                      textDecoration: "none",
+                      borderRadius: "5px",
+                      width: 267,
+                      height: 40,
+                      textAlign: "center",
+                      paddingLeft: 10,
+                      // alignItems: "center",
+                      justifyContent: "center",
+                      marginBottom: 10
+
+                    }}
+                    InputProps={{
+                      disableUnderline: true,
+
+                    }}
+                    // variant="outlined"
+                    onChange={handleDateChange}
+                  // KeyboardButtonProps={{
+                  //     'aria-label': 'change date',
+                  // }}
+                  />
+
+                </MuiPickersUtilsProvider>
+                <TextField disabled={disable} label="客户状态" style={{ width: 280, height: 50 }} select value={rowData.state.name} variant="outlined" size="small" SelectProps={{ native: true }}>
+                  <option value="待签约">待签约</option>
+                  <option value="已签约">已签约</option>
+                  <option value="解约中">解约中</option>
+                  <option value="已解约">已解约</option>
+                </TextField>
               </div>
             </div>
           </div>
