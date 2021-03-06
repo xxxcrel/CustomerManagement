@@ -58,6 +58,7 @@ export default function Login(props) {
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordHelperText, setPasswordHelperText] = React.useState("");
     const [type, setType] = React.useState(0);
+    const [loginState, setLoginState] = React.useState("success");
     const handleChange = (event) => {
         setType(event.target.value);
     };
@@ -107,12 +108,14 @@ export default function Login(props) {
             if (data["code"] === 200) {
                 console.log(data);
                 setSnackbarOpen(true);
+                setLoginState("success");
                 setToastMessage("登入成功");
                 setTimeout(() => {
                     props.history.push("/customer/home", data["data"]);
                 }, 1500);
             } else {
                 setSnackbarOpen(true);
+                setLoginState("error");
                 setToastMessage("登入失败");
             }
         }).catch(error => {
@@ -190,7 +193,7 @@ export default function Login(props) {
                     <Button className={classes.button} stylle={{ backgroundColor: "red", color: "red" }}>超级管理员登入</Button>
                 </Link> */}
                 <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
-                    <Alert severity="success">
+                    <Alert severity={loginState}>
                         {toastMessage}
                     </Alert>
                 </Snackbar>

@@ -5,27 +5,37 @@ import ArrowDownward from '@material-ui/icons/ArrowDownward';
 import Check from '@material-ui/icons/Check';
 import ChevronRight from '@material-ui/icons/ChevronRight';
 import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
+import Delete from '@material-ui/icons/Delete';
 import Edit from '@material-ui/icons/Edit';
 import FilterList from '@material-ui/icons/FilterList';
 import Remove from '@material-ui/icons/Remove';
 import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
-import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment, Select } from '@material-ui/core';
-import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp } from '@material-ui/icons';
+import MuiAlert from '@material-ui/lab/Alert';
+import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment, Select, Snackbar } from '@material-ui/core';
+import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp, CloudDownload } from '@material-ui/icons';
 import { use } from 'echarts';
 import { API_URL } from '../assets/jss/components/constants';
+import DateFnsUtils from '@date-io/date-fns';
+import {
+  MuiPickersUtilsProvider,
+  KeyboardTimePicker,
+  KeyboardDatePicker,
+} from '@material-ui/pickers'
 // import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddCircleRounded {...props} ref={ref} style={{ color: "#298CEE" }} />),
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} style={{ color: "dodgerblue" }} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} style={{ color: "lightgray" }} />),
-  Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} style={{ color: "red" }} />),
+  Delete: forwardRef((props, ref) => <Delete {...props} ref={ref} style={{ color: "red" }} />),
   DetailPanel: forwardRef((props, ref) => <ChevronRight {...props} ref={ref} />),
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} style={{ color: "blue" }} />),
-  Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
+  Export: forwardRef((props, ref) => <CloudDownload{...props} ref={ref} style={{ color: "#50EBEB" }} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPageRounded {...props} ref={ref} />),
   LastPage: forwardRef((props, ref) => <LastPageRounded {...props} ref={ref} />),
@@ -59,7 +69,11 @@ const columns = [
     // type: 'numeric',
     width: 10,
   },
-
+  {
+    field: 'state.name',
+    title: '状态',
+    width: 20
+  }
 ];
 
 const localization = {
@@ -83,6 +97,9 @@ const localization = {
     labelRowsSelect: "行"
   },
   toolbar: {
+    nRowsSelected: n => `已选择${n}行`,
+    exportCSVName: "导出为CSV",
+    exportPDFName: "导出为PDF",
     searchTooltip: "精准查询",
     searchPlaceholder: "请输入查询条件"
   }
@@ -110,6 +127,17 @@ export default function CustomerManagement(props) {
   const [address, setAddress] = React.useState("");
   const [idCard, setIdCard] = React.useState("");
   const [disable, setDisable] = React.useState(true);
+  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [toastMessage, setToastMessage] = React.useState("");
+  const [loginState, setLoginState] = React.useState("success");
+  const [selectedDate, setSelectedDate] = React.useState(new Date('2021-03-01T21:11:54'));
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+  const onClose = (event, reason) => {
+    setSnackbarOpen(false);
+  }
 
   React.useEffect(() => {
     console.log("effect start");
@@ -153,19 +181,23 @@ export default function CustomerManagement(props) {
       age: `${age}`
     }
     console.log(JSON.stringify(userData));
+    setSnackbarOpen(true);
+    setToastMessage("添加失败,网络断开连接");
+    setLoginState("error");
+    setTimeout(1500);
     // 
-    fetch(`${API_URL}/api/user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(userData)
-    }).then(resp => resp.json())
-      .then(json => {
-        console.log(json["data"]);
-      }).catch(error => {
-        console.log("Error: " + error);
-      });
+    // fetch(`${API_URL}/api/user`, {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify(userData)
+    // }).then(resp => resp.json())
+    //   .then(json => {
+    //     console.log(json["data"]);
+    //   }).catch(error => {
+    //     console.log("Error: " + error);
+    //   });
   }
 
   const AreaSelector = () => {
@@ -215,6 +247,7 @@ export default function CustomerManagement(props) {
         }
         localization={localization}
         options={{
+          exportButton: true,
           pageSize: 10,
           columnResizable: true,
           // showTitle: false,
@@ -226,6 +259,7 @@ export default function CustomerManagement(props) {
             height: "35px",
             // width: "200px",
           },
+          exportFileName: "所有客户数据",
           selection: true,
           actionsColumnIndex: columns.length,
           rowStyle: {
@@ -238,26 +272,60 @@ export default function CustomerManagement(props) {
 
             <div style={{ display: "flex", flexDirection: "row" }}>
               <h3 style={{ alignSelf: "center", textAlign: "center" }}>客户详细信息</h3>
-              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "red", height: "30px", }} onClick={e => { setDisable(!disable) }}>编辑</Button></div>
+              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "#50EBEB", height: "30px", }} onClick={e => { setDisable(!disable) }}>编辑</Button></div>
             </div>
-            <div style={{ width: "100%", height: 360, display: "flex", flexDirection: "row" }}>
+            <div style={{ width: "100%", height: 360, display: "flex", flexDirection: "row", justifyContent: "center" }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <TextField disabled={disable} label="地区" style={{ width: 280, height: 50 }} value={rowData.area.name} > </TextField>
-                <TextField disabled={disable} label="姓名" style={{ width: 280, height: 50 }} value={rowData.username}> </TextField>
-                <TextField disabled={disable} label="电话" style={{ width: 280, height: 50 }} value={rowData.tel}> </TextField>
-                <TextField disabled={disable} label="性别" style={{ width: 280, height: 50 }} value={rowData.gender}> </TextField>
-                <TextField disabled={disable} label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
-                <TextField disabled={disable} label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField>
+                <TextField variant="outlined" size="small" disabled label="地区" style={{ width: 280, height: 50 }} value={rowData.area.name} > </TextField>
+                <TextField variant="outlined" size="small" disabled label="姓名" style={{ width: 280, height: 50 }} value={rowData.username}> </TextField>
+                <TextField variant="outlined" size="small" disabled={disable} label="电话" style={{ width: 280, height: 50 }} value={rowData.tel}> </TextField>
+                <TextField variant="outlined" size="small" disabled label="性别" style={{ width: 280, height: 50 }} value={rowData.gender}> </TextField>
+                <TextField variant="outlined" size="small" disabled label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
+                <TextField variant="outlined" size="small" disabled={disable} label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField>
               </div>
 
-              <div style={{ display: "flex", flexDirection: "column", marginLeft: 100 }}>
-                <TextField disabled={disable} label="客户状态" style={{ width: 280, height: 50 }} value={rowData.type.typeName} > </TextField>
-                <TextField disabled={disable} label="客户类型" style={{ width: 280, height: 50 }} value={rowData.state.name}> </TextField>
-                <TextField disabled={disable} label="签约日期" style={{ width: 280, height: 50 }} value={rowData.signDate}> </TextField>
-                <TextField disabled={disable} label="解约日期" style={{ width: 280, height: 50 }} value={rowData.termintedDate}> </TextField>
-                {/* <TextField label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
-                  <TextField label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField> */}
+              <div style={{ display: "flex", flexDirection: "column", marginLeft: 80 }}>
+                <TextField variant="outlined" size="small" disabled label="客户类型" style={{ width: 280, height: 50 }} value={rowData.type.typeDesc}> </TextField>
+                <TextField variant="outlined" size="small" disabled label="签约日期" style={{ width: 280, height: 50 }} value={rowData.signDate}> </TextField>
+                <label>解约日期:</label>
+                <MuiPickersUtilsProvider disabled={disable} utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    disableToolbar
+                    // variant="inline"
+                    format="yyyy/MM/dd"
+                    margin="normal"
+                    id="date-picker-inline"
+                    // label="Date picker inline"
+                    value={selectedDate}
 
+                    style={{
+                      border: "solid",
+                      borderWidth: "1px",
+                      textDecoration: "none",
+                      borderRadius: "5px",
+                      width: 268,
+                      height: 40,
+                      paddingLeft: 10,
+                      borderColor: "#C2C2B7",
+                      textAlign: "center",
+                      // alignItems: "center",
+                      justifyContent: "center"
+
+                    }}
+                    InputProps={{
+                      disableUnderline: true,
+
+                    }}
+                    onChange={handleDateChange}
+                  />
+
+                </MuiPickersUtilsProvider>
+                <TextField variant="outlined" size="small" select disabled={disable} label="客户状态" style={{ marginTop: 10, width: 280, height: 50 }} value={rowData.state.name} SelectProps={{ native: true }} >
+                  <option value="待签约">待签约</option>
+                  <option value="已签约">已签约</option>
+                  <option value="解约中">解约中</option>
+                  <option value="已解约">已解约</option>
+                </TextField>
               </div>
             </div>
           </div>
@@ -306,6 +374,12 @@ export default function CustomerManagement(props) {
 
         </div>
       </Dialog>
+      <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
+        <Alert severity={loginState}>
+          {toastMessage}
+        </Alert>
+      </Snackbar>
+
     </div>
 
   );

@@ -9,14 +9,18 @@ export default function ModifyPassword(props) {
 
     const [toastMessage, setToastMessage] = React.useState("");
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [loginState, setLoginState] = React.useState("success");
 
     const onClose = (event, reason) => {
         setSnackbarOpen(false);
     }
 
     const onConfirm = e => {
+        // setSnackbarOpen(true);
+        // setToastMessage("修改成功");
         setSnackbarOpen(true);
-        setToastMessage("修改成功");
+        setToastMessage("修改失败,与最近一次密码相似");
+        setLoginState("info");
     }
     return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", height: "400px" }}>
@@ -28,14 +32,14 @@ export default function ModifyPassword(props) {
                 </Toolbar>
             </AppBar>
             <Typography>修改密码</Typography>
-            <TextField variant="outlined" size="small" style={{ marginTop: 20, width: 300 }} label="新密码" />
-            <TextField variant="outlined" size="small" style={{ marginTop: 20, width: 300 }} label="确认密码" />
+            <TextField variant="outlined" size="small" type="password" style={{ marginTop: 20, width: 300 }} label="新密码" />
+            <TextField variant="outlined" size="small" type="password" style={{ marginTop: 20, width: 300 }} label="确认密码" />
             <div style={{ marginTop: 20 }}>
                 <Button onClick={e => { props.history.goBack() }} style={{ marginRight: 50, backgroundColor: "#50EBEB", borderRadius: 20, width: 100 }}>取消</Button>
                 <Button onClick={onConfirm} style={{ marginLeft: 50, backgroundColor: "red", borderRadius: 20, width: 100 }}>确认</Button>
             </div>
             <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
-                <Alert severity="success">
+                <Alert severity={loginState}>
                     {toastMessage}
                 </Alert>
             </Snackbar>

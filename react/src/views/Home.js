@@ -123,7 +123,7 @@ export default function Home(props) {
         visualMap: {
             show: false,
             min: 1,
-            max: 20,
+            max: 10,
             inRange: {
                 colorLightness: [0, 1]
             }
@@ -164,7 +164,7 @@ export default function Home(props) {
         visualMap: {
             show: false,
             min: 10,
-            max: 100,
+            max: 10,
             inRange: {
                 colorLightness: [0, 1]
             }

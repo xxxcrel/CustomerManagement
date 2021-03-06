@@ -58,8 +58,6 @@ public class ManagerController {
     public Result getManagerByArea(@RequestParam("area") String area){
         logger.info(area);
         Area area1 = areaRepository.findByName(area);
-        logger.info("hello" + area1.getName() + "nothing");
-        logger.info("hello" + area1.getManagers());
         return Result.ok(areaRepository.findByName(area).getManagers());
     }
 }

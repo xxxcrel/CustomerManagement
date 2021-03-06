@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -34,6 +35,11 @@ public class InitData {
     StateRepository stateRepository;
 
     String[] names = {"华东", "华西", "华南", "华北"};
+    String[] addresses = {"上饶", "深圳", "杭州", "北京", "厦门", "上海", "南昌"};
+    String[] gender = {"男", "女"};
+    String[] states = {"待签约", "已签约", "解约中", "已解约",
+            "实习", "在职", "请假中", "调休中", "离职"};
+    Random random = new Random();
     @PostConstruct
     public void init() {
         initState();
@@ -44,8 +50,6 @@ public class InitData {
     }
 
     public void initState(){
-        String[] states = {"待签约", "已签约", "解约中", "已解约",
-                "实习", "在职", "请假中", "调休中", "离职"};
         List<State> statesList  = Arrays.stream(states)
                                     .map(state -> {
                                         State stat = new State();
@@ -66,9 +70,9 @@ public class InitData {
 
     public void initType() {
         HashMap<String, String> types = new HashMap<>();
-        types.put("normal", "普通客户");
-        types.put("vip", "重要客户");
-        types.put("svip", "非常重要客户");
+        types.put("NORMAL", "普通客户");
+        types.put("VIP", "重要客户");
+        types.put("SVIP", "非常重要客户");
         List<Type> typeList = types.entrySet()
                 .stream()
                 .map(entry -> {
@@ -116,17 +120,18 @@ public class InitData {
     }
 
     private Customer buildCustomer(int stepNum) {
+
         Customer customer = new Customer();
         customer.setUsername(stepNum + "号客户");
         customer.setAge(20L + stepNum);
-        customer.setGender(stepNum % 2 == 0 ? "男" : "女");
+        customer.setGender(gender[random.nextInt(gender.length)]);
         customer.setSignDate(LocalDateTime.now().plusDays(stepNum));
         Long tel = 13023311923L + stepNum;
         customer.setTel(tel.toString());
-        Type type = typeRepository.findByTypeName("normal");
+        Type type = typeRepository.findByTypeName("NORMAL");
         customer.setType(type);
         customer.setState(stateRepository.findByName("已签约"));
-        customer.setAddress("江西");
+        customer.setAddress(addresses[random.nextInt(addresses.length)]);
         customer.setArea(areaRepository.findByName(names[stepNum % 4]));
         return customer;
     }

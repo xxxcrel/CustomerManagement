@@ -30,7 +30,8 @@ public class ManagerService {
         Assert.notNull(jobNum, "工号不能为空");
         Assert.notNull(password, "密码不能为空");
 
-        Manager manager = managerRepository.findByJobNum(jobNum).orElseThrow(() -> new RuntimeException("can't find jobNum: " + jobNum));
+        Manager manager = managerRepository.findByJobNum(jobNum)
+                .orElseThrow(() -> new RuntimeException("can't find jobNum: " + jobNum));
         String truePasswd = manager.getPassword();
         if (truePasswd == null || truePasswd.isEmpty() || password.isEmpty() || !truePasswd.equals(password)) {
             throw new BaseException(ResultEnum.ERROR, "密码错误");
