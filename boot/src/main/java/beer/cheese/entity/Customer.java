@@ -3,6 +3,7 @@ package beer.cheese.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,8 +32,12 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String companyName;
+
     @Column(name = "username", length = 16)
     private String username;
+
+    private String password;
 
     @Column(name = "age")
     private Long age;
@@ -59,23 +65,13 @@ public class Customer {
     @OneToOne
     private Type type;
 
-    /**
-     * 客户状态
-     * 1：待签约，2：已签约，3：解约中，4：待解约
-     */
-    @OneToOne
-    @JoinColumn(name = "state_id")
-    private State state;
-
-    /**
-     * 签约日期
-     */
-    @JsonFormat(pattern = "yyyy/MM/dd")
-    private LocalDateTime signDate;
-
-    /**
-     * 解约日期
-     */
-    @JsonFormat(pattern = "yyyy/MM/dd")
-    private LocalDateTime terminatedDate;
+    public Customer(String companyName, String username, String password, Long age, String gender, String tel, String address) {
+        this.companyName = companyName;
+        this.username = username;
+        this.password = password;
+        this.age = age;
+        this.gender = gender;
+        this.tel = tel;
+        this.address = address;
+    }
 }

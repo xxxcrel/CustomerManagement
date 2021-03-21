@@ -3,19 +3,20 @@ import { Link, Switch, Route } from 'react-router-dom';
 import { ArrowRightRounded } from "@material-ui/icons";
 import AllManager from "./AllManager";
 import AddManger from "./AddManager";
-import AuditManager from "./AuditManager";
-import Sidebar from "../components/SideBar";
+import AuditManager from "./AuditEmployee";
+import Sidebar from "../../components/SideBar";
+
 
 const routes = [
     {
-        path: "/manager/all",
+        path: "/employee/all",
         exact: true,
-        sidebar: "在职管理员",
+        sidebar: "在职员工",
         main: AllManager
     },
     {
-        path: "/manager/add",
-        sidebar: "添加管理员",
+        path: "/employee/add",
+        sidebar: "添加员工",
         main: AddManger
     },
     // {
@@ -24,15 +25,14 @@ const routes = [
     //     main: AuditManager
     // }
 ]
-export default function EmpoloyeemManagement(props) {
+export default function EmployeeHome(props) {
 
     const classes = useStyles();
-
 
     return (
         <div className={classes.wrapper}>
             <div className={classes.sidebarWrapper}>
-                <Sidebar routes={routes} title="管理员审计中心" color="balck" />
+                <Sidebar routes={routes} title="员工审计中心" color="balck" />
 
                 {/* <h2> hello</h2> */}
                 {/* <Link to="/login" style={{ textDecoration: "none", width: "auto" }}> */}
@@ -57,7 +57,7 @@ export default function EmpoloyeemManagement(props) {
                     ))}
                     <Route
                         key={3}
-                        path="/manager/details"
+                        path="/employee/details"
                         exact={true}
                         component={AuditManager} />
                 </Switch>

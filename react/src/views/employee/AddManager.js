@@ -1,4 +1,4 @@
-import { Avatar, makeStyles, MenuItem, TextField } from "@material-ui/core";
+import { Avatar, Button, makeStyles, MenuItem, TextField } from "@material-ui/core";
 import { AddAPhoto } from "@material-ui/icons";
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -80,6 +80,7 @@ export default function AddManager(props) {
                 <MenuItem value={1}>正式员工</MenuItem>
                 <MenuItem value={2}>离职</MenuItem>
             </TextField>
+            <Button className={classes.addButton}>添加</Button>
             {/* <b className={classes.labelWrapper} >管理区域</b>
             <TextField className={classes.inputWrapper} size="small" variant="outlined" /> */}
         </div>
@@ -112,5 +113,10 @@ const useStyles = makeStyles(theme => ({
         marginBottom: 8,
         alignSelf: "left",
         backgroundColor: ""
+    },
+    addButton: {
+        width: 460,
+        marginTop: 20,
+        backgroundColor: "#50EBEB"
     }
 }));

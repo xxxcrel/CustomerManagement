@@ -31,7 +31,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Manager {
+public class Employee {
 
     @Id
     @GeneratedValue

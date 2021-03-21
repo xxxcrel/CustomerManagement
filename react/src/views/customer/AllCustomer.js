@@ -16,14 +16,12 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { Card, Dialog, DialogActions, Button, Avatar, IconButton, TextField, CircularProgress, makeStyles, MenuItem, InputAdornment, Select, Snackbar } from '@material-ui/core';
 import { PageviewRounded, FolderRounded, AddRounded, AddCircleRounded, ArrowRightRounded, ArrowLeftRounded, FirstPageRounded, LastPageRounded, ReplySharp, CloudDownload } from '@material-ui/icons';
 import { use } from 'echarts';
-import { API_URL } from '../assets/jss/components/constants';
+import { API_URL } from '../../constants/Constant';
 import DateFnsUtils from '@date-io/date-fns';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
   KeyboardDatePicker,
 } from '@material-ui/pickers'
-// import defaultAvatar from "../assets/img/default_avatar.jpeg"
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -51,12 +49,17 @@ const tableIcons = {
 
 const columns = [
   // { field: 'id', title: 'ID', width: 10 },
+  // 
   {
-    field: 'area.name',
-    title: '地区',
-    width: 20
+    field: 'companyName',
+    title: '公司'
   },
-  { field: 'username', title: '姓名', width: 10 },
+  // {
+  //   field: 'area.name',
+  //   title: '地区',
+  //   width: 10
+  // },
+  { field: 'username', title: '代表人', width: 10 },
   {
     field: 'tel',
     title: '电话',
@@ -69,11 +72,6 @@ const columns = [
     // type: 'numeric',
     width: 10,
   },
-  {
-    field: 'state.name',
-    title: '状态',
-    width: 20
-  }
 ];
 
 const localization = {
@@ -88,12 +86,9 @@ const localization = {
   },
   pagination: {
     firstTooltip: "首页",
-    // firstAriaLabel: string;
     previousTooltip: "上一页",
-    // previousAriaLabel?: string;
     nextTooltip: "下一页",
     lastTooltip: "末页",
-    // lastAriaLabel?: string;
     labelRowsSelect: "行"
   },
   toolbar: {
@@ -114,18 +109,11 @@ const genders = [
     label: "女"
   },
 ];
-export default function CustomerManagement(props) {
+export default function AllCustomer(props) {
   let rows;
   const classes = useStyles();
-  const [add, setAdd] = React.useState(false);
   const [data, setData] = React.useState(rows);
   const [loaded, setLoaded] = React.useState(false);
-  const [gender, setGender] = React.useState("");
-  const [username, setUsername] = React.useState("");
-  const [age, setAge] = React.useState("");
-  const [tel, setTel] = React.useState("");
-  const [address, setAddress] = React.useState("");
-  const [idCard, setIdCard] = React.useState("");
   const [disable, setDisable] = React.useState(true);
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [toastMessage, setToastMessage] = React.useState("");
@@ -144,7 +132,7 @@ export default function CustomerManagement(props) {
     // setLoaded(false);
     if (!loaded) {
       setTimeout(() => {
-        fetch(`${API_URL}/user/all`)
+        fetch(`${API_URL}/customer/all`)
           .then(resp => {
             return resp.json();
           }).then(data => {
@@ -163,42 +151,6 @@ export default function CustomerManagement(props) {
     return () => { console.log("cleanup") }
   })
 
-  const handleAddOpen = () => {
-    setAdd(true);
-  };
-  const handleAddClose = () => {
-    setAdd(false);
-  };
-
-  const onAddCustomer = () => {
-    console.log(username + age + tel + address + idCard + gender);
-    var userData = {
-      username: `${username}`,
-      tel: `${tel}`,
-      address: `${address}`,
-      gender: `${gender}`,
-      idCard: `${idCard}`,
-      age: `${age}`
-    }
-    console.log(JSON.stringify(userData));
-    setSnackbarOpen(true);
-    setToastMessage("添加失败,网络断开连接");
-    setLoginState("error");
-    setTimeout(1500);
-    // 
-    // fetch(`${API_URL}/api/user`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify(userData)
-    // }).then(resp => resp.json())
-    //   .then(json => {
-    //     console.log(json["data"]);
-    //   }).catch(error => {
-    //     console.log("Error: " + error);
-    //   });
-  }
 
   const AreaSelector = () => {
     return (
@@ -220,18 +172,6 @@ export default function CustomerManagement(props) {
         columns={columns}
         data={data}
         editable={{
-          // onRowUpdate: (newData, oldData) =>
-          //   new Promise((resolve, reject) => {
-          //     setTimeout(() => {
-          //       const dataUpdate = [...data];
-          //       const index = oldData.tableData.id;
-          //       dataUpdate[index] = newData;
-          //       setData([...dataUpdate]);
-
-          //       resolve();
-          //     }, 1000)
-          //   }),
-
           onRowDelete: oldData =>
             new Promise((resolve, reject) => {
               setTimeout(() => {
@@ -251,7 +191,8 @@ export default function CustomerManagement(props) {
           pageSize: 10,
           columnResizable: true,
           // showTitle: false,
-          draggable: true,
+          // draggable: true,
+          overflowY: "scroll",
           paginationType: "stepped",
           searchFieldVariant: "outlined",
           searchFieldStyle: {
@@ -286,61 +227,11 @@ export default function CustomerManagement(props) {
 
               <div style={{ display: "flex", flexDirection: "column", marginLeft: 80 }}>
                 <TextField variant="outlined" size="small" disabled label="客户类型" style={{ width: 280, height: 50 }} value={rowData.type.typeDesc}> </TextField>
-                <TextField variant="outlined" size="small" disabled label="签约日期" style={{ width: 280, height: 50 }} value={rowData.signDate}> </TextField>
-                <label>解约日期:</label>
-                <MuiPickersUtilsProvider disabled={disable} utils={DateFnsUtils}>
-                  <KeyboardDatePicker
-                    disableToolbar
-                    // variant="inline"
-                    format="yyyy/MM/dd"
-                    margin="normal"
-                    id="date-picker-inline"
-                    // label="Date picker inline"
-                    value={selectedDate}
-
-                    style={{
-                      border: "solid",
-                      borderWidth: "1px",
-                      textDecoration: "none",
-                      borderRadius: "5px",
-                      width: 268,
-                      height: 40,
-                      paddingLeft: 10,
-                      borderColor: "#C2C2B7",
-                      textAlign: "center",
-                      // alignItems: "center",
-                      justifyContent: "center"
-
-                    }}
-                    InputProps={{
-                      disableUnderline: true,
-
-                    }}
-                    onChange={handleDateChange}
-                  />
-
-                </MuiPickersUtilsProvider>
-                <TextField variant="outlined" size="small" select disabled={disable} label="客户状态" style={{ marginTop: 10, width: 280, height: 50 }} value={rowData.state.name} SelectProps={{ native: true }} >
-                  <option value="待签约">待签约</option>
-                  <option value="已签约">已签约</option>
-                  <option value="解约中">解约中</option>
-                  <option value="已解约">已解约</option>
-                </TextField>
               </div>
             </div>
           </div>
         )}
 
-        actions={[
-          {
-            icon: tableIcons.Add,
-            position: "toolbar",
-            onClick: (event, rowData) => {
-              handleAddOpen(true);
-            }
-          },
-        ]
-        }
       />
 
       {!loaded &&
@@ -349,31 +240,6 @@ export default function CustomerManagement(props) {
         </div>
       }
 
-      <Dialog onClose={handleAddClose} open={add} >
-
-        <div className={classes.dialogWrapper}>
-          <h4>添加客户</h4>
-          <TextField label="姓名" className={classes.inputWrapper} value={username} onChange={e => setUsername(e.target.value)} variant="outlined" size="small" />
-          <TextField label="性别" select value={gender} onChange={event => { setGender(event.target.value) }} className={classes.inputWrapper} variant="outlined" size="small" >
-            {genders.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField label="电话" value={tel} onChange={e => setTel(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" InputProps={{ startAdornment: <InputAdornment>+86 ： </InputAdornment> }} />
-          <TextField label="身份证" value={idCard} onChange={e => setIdCard(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" />
-          <TextField label="年龄" value={age} onChange={e => setAge(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" />
-          <TextField label="住址" value={address} onChange={e => setAddress(e.target.value)} className={classes.inputWrapper} variant="outlined" size="small" />
-          {/* <TextField className={classes.inputWrapper} variant="outlined" size="small" /> */}
-          <DialogActions onClick={handleAddClose}>
-            <Button className={classes.addButton} onClick={onAddCustomer}>
-              添加
-            </Button>
-          </DialogActions>
-
-        </div>
-      </Dialog>
       <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
         <Alert severity={loginState}>
           {toastMessage}
@@ -399,16 +265,6 @@ const useStyles = makeStyles(theme => ({
     // padding: "1px",
     backgroundColor: "white",
 
-  },
-  dialogWrapper: {
-    width: 360,
-    // borderRadius: "30px",
-    height: 420,
-    // backgroundColor: "yellow",
-    display: "flex",
-    alignItems: "center",
-    flexDirection: "column",
-    // padding: "20px 10px"
   },
   inputWrapper: {
     width: 280,

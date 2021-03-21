@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import beer.cheese.entity.Manager;
+import beer.cheese.entity.Employee;
 
 @Repository
-public interface ManagerRepository extends JpaRepository<Manager, Long> {
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-    Optional<Manager> findByJobNum(String jobNum);
+    Optional<Employee> findByJobNum(String jobNum);
 }

@@ -1,7 +1,7 @@
 import { Card, makeStyles } from '@material-ui/core';
 import * as echarts from 'echarts';
 import React from 'react';
-import { API_URL } from '../assets/jss/components/constants';
+import { API_URL } from '../../constants/Constant';
 
 export default function Home(props) {
     var statisMonthChart, ageChart, customerPorprotionChart, genderChart;

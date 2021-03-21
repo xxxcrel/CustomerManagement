@@ -13,6 +13,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+    date-format: yyyy/MM/dd
   main:
     banner-mode: off
   profiles:

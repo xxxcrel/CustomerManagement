@@ -24,10 +24,10 @@ export default function ModifyPassword(props) {
     }
     return (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", height: "400px" }}>
-            <AppBar style={{ boxShadow: "none", backgroundColor: "white" }}>
+            <AppBar style={{ backgroundColor: "#9DF5F5" }}>
                 <Toolbar>
                     <IconButton onClick={e => { props.history.goBack() }}>
-                        <KeyboardArrowLeftRounded style={{ color: "black" }} />
+                        <KeyboardArrowLeftRounded style={{ color: "black", alignSelf: "center" }} />
                     </IconButton>
                 </Toolbar>
             </AppBar>

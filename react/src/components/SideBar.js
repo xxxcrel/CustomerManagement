@@ -1,4 +1,4 @@
-import { List, ListItem, makeStyles, ListItemText, Drawer } from "@material-ui/core";
+import { List, ListItem, makeStyles, ListItemText, Drawer, Divider } from "@material-ui/core";
 import React from "react";
 import PropTypes from "prop-types"
 import bgImage from "../assets/img/sidebar-2.jpg";
@@ -43,7 +43,7 @@ const useSytles = makeStyles(theme => ({
       height: "1px",
       right: "15px",
       width: "calc(100% - 30px)",
-      backgroundColor: "rgba(" + hexToRgb(grayColor[6]) + ", 0.3)"
+      backgroundColor: "rgba(" + hexToRgb(blackColor) + ", 0.3)"
     }
   },
   item: {
@@ -112,6 +112,7 @@ export default function Sidebar(props) {
       <div className={classes.logo}>
         <h3 style={{ color: whiteColor }}>{props.title}</h3>
       </div>
+      {/* <Divider /> */}
       <div className={classes.sidebarWrapper}>
         <List className={classes.list}>
           {

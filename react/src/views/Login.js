@@ -1,51 +1,12 @@
 import { Button, makeStyles, TextField, Snackbar, withStyles, FormHelperText } from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
 import React from "react";
 import { Link, hashHistory } from "react-router-dom";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import InputBase from '@material-ui/core/InputBase';
-import { API_URL } from "../assets/jss/components/constants";
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-const BootstrapInput = withStyles((theme) => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 14,
-        padding: '10px 26px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-        // Use the system font instead of the default Roboto font.
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-}))(InputBase);
+import Alert from "../components/Alert";
+import { API_URL, BootstrapInput } from "../constants/Constant";
 
 export default function Login(props) {
     const classes = useStyles();
@@ -83,47 +44,76 @@ export default function Login(props) {
             setPasswordHelperText("密码不能为空或小于5位");
             return;
         }
-        if (type === 1) {
-            if (username === "admin" && password === "admin") {
-                setTimeout(() => {
-                    props.history.push("/manager/all")
-                }, 1500);
-                return;
-            }
+
+        switch (type) {
+            case 0:
+                fetch(`${API_URL}/customer/login`, {
+                    method: "POST",
+                    body: loginForm
+                })
+                    .then(resp => resp.json())
+                    .then(json => {
+                        if (json["code"] === 200) {
+                            console.log(json);
+                            setSnackbarOpen(true);
+                            setLoginState("success");
+                            setToastMessage("登入成功");
+                            setTimeout(() => {
+                                props.history.push("/feedback/home", json["data"]);
+                            }, 1500);
+                        } else {
+                            setSnackbarOpen(true);
+                            setLoginState("error");
+                            setToastMessage("登入失败");
+                        }
+                    })
+                break;
+            case 1:
+                fetch(`${API_URL}/employee/login`, {
+                    method: "POST",
+                    body: loginForm
+                }).then(resp => {
+                    if (resp.headers.get("Content-Type") === "application/json") {
+                        return resp.json();
+                    } else {
+                        console.log(resp);
+                        console.log("Oops, we haven't get JSON");
+                    }
+                }).then(data => {
+                    if (data["code"] === 200) {
+                        console.log(data);
+                        setSnackbarOpen(true);
+                        setLoginState("success");
+                        setToastMessage("登入成功");
+                        setTimeout(() => {
+                            props.history.push("/customer/statistics", data["data"]);
+                        }, 1500);
+                    } else {
+                        setSnackbarOpen(true);
+                        setLoginState("error");
+                        setToastMessage("登入失败");
+                    }
+                }).catch(error => {
+                    // props.history.push("/customer/home");
+                    setSnackbarOpen(true);
+                    setToastMessage(error)
+                    // console.log("Error: " + error);
+                })
+                break;
+            case 2:
+                if (type === 2) {
+                    if (username === "admin" && password === "admin") {
+                        setTimeout(() => {
+                            props.history.push("/employee/all")
+                        }, 1500);
+                        return;
+                    }
+                }
+                break;
+            default:
+                break;
         }
-        fetch(`${API_URL}/manager/login`, {
-            method: "POST",
-            // 如果前端设置了no-cors, 则无论成功与否都不会返回数据,所以采用后端解决cors问题, 
-            // 见https://stackoverflow.com/questions/40182785/why-fetch-return-a-response-with-status-0
-            // mode: "no-cors",
-            body: loginForm
-        }).then(resp => {
-            if (resp.headers.get("Content-Type") === "application/json") {
-                return resp.json();
-            } else {
-                console.log(resp);
-                console.log("Oops, we haven't get JSON");
-            }
-        }).then(data => {
-            if (data["code"] === 200) {
-                console.log(data);
-                setSnackbarOpen(true);
-                setLoginState("success");
-                setToastMessage("登入成功");
-                setTimeout(() => {
-                    props.history.push("/customer/home", data["data"]);
-                }, 1500);
-            } else {
-                setSnackbarOpen(true);
-                setLoginState("error");
-                setToastMessage("登入失败");
-            }
-        }).catch(error => {
-            // props.history.push("/customer/home");
-            setSnackbarOpen(true);
-            setToastMessage(error)
-            console.log("Error: " + error);
-        })
+
     }
     const onUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -141,7 +131,7 @@ export default function Login(props) {
     return (
         <div className={classes.wrapper}>
             <div className={classes.loginPanel}>
-                <h4 className={classes.header}>管理员登入</h4>
+                <h4 className={classes.header}>登入</h4>
                 <form className={classes.inputWrapper}>
                     <TextField
                         error={usernameError}
@@ -178,9 +168,12 @@ export default function Login(props) {
                             input={<BootstrapInput />}
                         >
                             <MenuItem value={0}>
-                                管理员
+                                客户
                             </MenuItem>
-                            <MenuItem value={1}>系统管理员</MenuItem>
+                            <MenuItem value={1}>
+                                员工
+                            </MenuItem>
+                            <MenuItem value={2}>系统管理员</MenuItem>
 
                         </Select>
                     </FormControl>
