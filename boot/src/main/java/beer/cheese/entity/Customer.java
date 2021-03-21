@@ -55,8 +55,7 @@ public class Customer {
      * 客户属于哪片区域
      * 1：华东，2：华北，3：华中，4：华南
      */
-    @OneToOne
-    private Area area;
+    private String area;
 
     /**
      * 客户类型
@@ -65,8 +64,9 @@ public class Customer {
     @OneToOne
     private Type type;
 
-    public Customer(String companyName, String username, String password, Long age, String gender, String tel, String address) {
+    public Customer(String companyName, String area, String username, String password, Long age, String gender, String tel, String address) {
         this.companyName = companyName;
+        this.area = area;
         this.username = username;
         this.password = password;
         this.age = age;

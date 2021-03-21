@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import beer.cheese.entity.Area;
 import beer.cheese.entity.Employee;
-import beer.cheese.repository.AreaRepository;
 import beer.cheese.repository.EmployeeRepository;
 import beer.cheese.service.EmployeeService;
 import beer.cheese.view.Result;
@@ -31,8 +29,6 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private AreaRepository areaRepository;
 
     @PostMapping(value = "/login", produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
@@ -57,7 +53,10 @@ public class EmployeeController {
     @GetMapping("/findByArea")
     public Result getManagerByArea(@RequestParam("area") String area){
         logger.info(area);
-        Area area1 = areaRepository.findByName(area);
-        return Result.ok(areaRepository.findByName(area).getEmployees());
+        return Result.ok(employeeRepository.findAllByArea(area));
+    }
+    @GetMapping("/findAll")
+    public Result getAllEmployee(){
+        return Result.ok("ok");
     }
 }

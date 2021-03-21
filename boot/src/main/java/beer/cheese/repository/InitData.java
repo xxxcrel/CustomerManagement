@@ -11,10 +11,8 @@ import java.util.stream.IntStream;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 
-import beer.cheese.entity.Area;
 import beer.cheese.entity.Customer;
 import beer.cheese.entity.Employee;
 import beer.cheese.entity.Order;
@@ -26,8 +24,6 @@ import beer.cheese.entity.Type;
 @Component
 public class InitData {
 
-    @Autowired
-    AreaRepository areaRepository;
     @Autowired
     EmployeeRepository employeeRepository;
     @Autowired
@@ -43,7 +39,7 @@ public class InitData {
     @Autowired
     ProductCommentRepository commentRepository;
 
-    String[] names = {"华东", "华西", "华南", "华北"};
+    static String[] areas = {"华东", "华西", "华南", "华北"};
     String[] addresses = {"上饶", "深圳", "杭州", "北京", "厦门", "上海", "南昌"};
     String[] gender = {"男", "女"};
     String[] states = {"实习", "在职", "请假中", "调休中", "离职"};
@@ -107,6 +103,7 @@ public class InitData {
         customers = new Customer[6];
         customers[0] = new Customer(
                 "北京网讯有限公司",
+                areas[0],
                 "王中磊",
                 "A123456",
                 32L,
@@ -115,6 +112,7 @@ public class InitData {
                 "北京市海淀区上地十街");
         customers[1] = new Customer(
                 "广州亚德有限公司",
+                areas[2],
                 "刘全",
                 "A123456",
                 36L,
@@ -123,6 +121,7 @@ public class InitData {
                 "广州市天河区岑村松岗大街");
         customers[2] = new Customer(
                 "杭州烈米网络有限公司",
+                areas[2],
                 "韩坤",
                 "A123456",
                 28L,
@@ -131,6 +130,7 @@ public class InitData {
                 "杭州市江干去新加坡科技园");
         customers[3] = new Customer(
                 "海康视有限公司",
+                areas[3],
                 "夏浩飞",
                 "A123456",
                 22L,
@@ -139,6 +139,7 @@ public class InitData {
                 "杭州市滨江区阡陌路");
         customers[4] = new Customer(
                 "夏门寻梦有限公司",
+                areas[1],
                 "罗学军",
                 "A123456",
                 32L,
@@ -147,6 +148,7 @@ public class InitData {
                 "厦门市石狮南京西路");
         customers[5] = new Customer(
                 "南昌视界有限公司",
+                areas[1],
                 "华之远",
                 "A123456",
                 44L,
@@ -162,7 +164,6 @@ public class InitData {
     public void init() {
         initState();
         initType();
-        initArea();
         initProduct();
         initEmployee();
         initCustomer();
@@ -292,15 +293,6 @@ public class InitData {
         stateRepository.saveAll(statesList);
     }
 
-    public void initArea() {
-        List<Area> areaList = Arrays.stream(names).map(name -> {
-            Area area = new Area();
-            area.setName(name);
-            return area;
-        }).collect(Collectors.toList());
-        areaRepository.saveAll(areaList);
-    }
-
     public void initType() {
         HashMap<String, String> types = new HashMap<>();
         types.put("PERSONAL", "个人的");
@@ -350,8 +342,7 @@ public class InitData {
         employee.setGender(stepNum % 2 == 0 ? "男" : "女");
         employee.setState(stateRepository.findByName("实习"));
         employee.setPermission(0x01 << 1);
-        Area area = areaRepository.findByName(names[stepNum % 4]);
-        employee.getAreas().add(area);
+        employee.setArea(areas[random.nextInt(4)]);
         return employee;
     }
 
@@ -366,7 +357,6 @@ public class InitData {
     private Customer buildCustomer(int stepNum) {
         Type type = typeRepository.findByTypeName("INDIVIDUAL");
         customers[stepNum].setType(type);
-        customers[stepNum].setArea(areaRepository.findByName(names[stepNum % 4]));
         return customers[stepNum];
     }
 }

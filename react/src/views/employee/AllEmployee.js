@@ -7,7 +7,7 @@ import { API_URL } from '../../constants/Constant';
 import { Link } from "react-router-dom";
 
 
-export default function AllManger(props) {
+export default function AllEmployee(props) {
 
     const classes = useStyles();
     const [north, setNorth] = React.useState([]);
@@ -21,7 +21,7 @@ export default function AllManger(props) {
         if (east == null || east.length === 0) {
 
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[0]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[0]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -30,7 +30,7 @@ export default function AllManger(props) {
         }
         if (west == null | west.length === 0) {
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[1]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[1]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -39,7 +39,7 @@ export default function AllManger(props) {
         }
         if (south == null | south.length === 0) {
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[2]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[2]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -48,7 +48,7 @@ export default function AllManger(props) {
         }
         if (north == null | north.length === 0) {
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[3]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[3]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);

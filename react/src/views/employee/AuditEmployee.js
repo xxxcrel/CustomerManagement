@@ -196,25 +196,15 @@ export default function AuditManager(props) {
                         <TextField variant="outlined" size="small" value={info.tel}></TextField>
 
                     </div>
+                    <div className={classes.inputWrapper}>
+                        <label>管理地区:</label>
+                        <TextField variant="outlined" size="small" value={info.area}></TextField>
+
+                    </div>
+
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <div>
-
-                        <FormControl className={classes.margin}>
-                            <InputLabel htmlFor="demo-customized-select-native">地区</InputLabel>
-                            <NativeSelect
-                                id="demo-customized-select-native"
-                                value={area}
-                                onChange={handleAreaChange}
-                                input={<BootstrapInput />}
-                            >
-                                {/* <option aria-label="None" value="" /> */}
-                                <option value={10}>华东</option>
-                                <option value={20}>华西</option>
-                                <option value={30}>华南</option>
-                                <option value={40}>华北</option>
-                            </NativeSelect>
-                        </FormControl>
                         <FormControl className={classes.margin}>
                             <InputLabel htmlFor="demo-customized-select-native">权限</InputLabel>
                             <NativeSelect

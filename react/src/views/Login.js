@@ -173,7 +173,7 @@ export default function Login(props) {
                             <MenuItem value={1}>
                                 员工
                             </MenuItem>
-                            <MenuItem value={2}>系统管理员</MenuItem>
+                            <MenuItem value={2}>管理员</MenuItem>
 
                         </Select>
                     </FormControl>

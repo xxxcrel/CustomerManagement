@@ -1,8 +1,8 @@
 import { Button, makeStyles } from "@material-ui/core";
 import { Link, Switch, Route } from 'react-router-dom';
 import { ArrowRightRounded } from "@material-ui/icons";
-import AllManager from "./AllManager";
-import AddManger from "./AddManager";
+import AllEmployee from "./AllEmployee";
+import AddEmployee from "./AddEmployee";
 import AuditManager from "./AuditEmployee";
 import Sidebar from "../../components/SideBar";
 
@@ -12,12 +12,12 @@ const routes = [
         path: "/employee/all",
         exact: true,
         sidebar: "在职员工",
-        main: AllManager
+        main: AllEmployee
     },
     {
         path: "/employee/add",
         sidebar: "添加员工",
-        main: AddManger
+        main: AddEmployee
     },
     // {
     //     path: "/manager/audit",

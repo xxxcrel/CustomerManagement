@@ -64,10 +64,7 @@ public class Employee {
 
     private String tel;
 
-    @ManyToMany
-    @JoinTable(name = "tbl_manager_area")
-    @JsonIgnore
-    private Set<Area> areas = new HashSet<>();
+    private String area;
 
     private int permission;
 

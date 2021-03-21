@@ -18,11 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import beer.cheese.entity.Area;
 import beer.cheese.entity.Customer;
 import beer.cheese.entity.Order;
 import beer.cheese.entity.Type;
-import beer.cheese.repository.AreaRepository;
 import beer.cheese.repository.TypeRepository;
 import beer.cheese.web.request.CustomerDTO;
 import beer.cheese.repository.CustomerRepository;
@@ -49,8 +47,6 @@ public class CustomerController {
     @Autowired
     private TypeRepository typeRepository;
 
-    @Autowired
-    private AreaRepository areaRepository;
 
     @PostMapping("/login")
     public Result<Customer> login(@RequestParam String username, @RequestParam String password){
@@ -83,10 +79,8 @@ public class CustomerController {
         }
         Customer customer = new Customer();
         Type type = typeRepository.findByTypeName(customerDTO.getType());
-        Area area = areaRepository.findByName(customerDTO.getArea());
-        BeanUtils.copyProperties(customerDTO, customer, "area", "type");
+        BeanUtils.copyProperties(customerDTO, customer, "type");
         customer.setType(type);
-        customer.setArea(area);
         customerRepository.save(customer);
         return Result.ok("添加" + customerDTO.getCompanyName() + "成功!!!");
     }

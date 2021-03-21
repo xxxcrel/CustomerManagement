@@ -8,7 +8,7 @@ import {
 } from '@material-ui/pickers';
 import React from 'react';
 
-export default function AddManager(props) {
+export default function AddEmployee(props) {
     const onLogout = e => {
         props.history.push("/login");
     }
