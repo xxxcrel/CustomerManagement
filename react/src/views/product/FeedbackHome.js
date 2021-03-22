@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, Accordion, Avatar, Typography, makeStyles, IconButton, Button, Grid, Dialog, DialogContent, DialogActions, AppBar, Toolbar, Divider, TextField } from "@material-ui/core";
+import { List, Accordion, Avatar, Typography, makeStyles, IconButton, Button, Grid, Dialog, DialogContent, DialogActions, AppBar, Toolbar, Divider, TextField, Snackbar, Fade } from "@material-ui/core";
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import AccordionSummary from '@material-ui/core/AccordionSummary'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -9,8 +9,9 @@ import { Redirect, Route } from 'react-router';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import { withStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
-import { ArrowLeftRounded, BackspaceRounded, KeyboardArrowLeftRounded } from '@material-ui/icons';
+import { ArrowLeftRounded, BackspaceRounded, CloseRounded, KeyboardArrowLeftRounded } from '@material-ui/icons';
 import Rating from '@material-ui/lab/Rating';
+import Alert from '@material-ui/lab/Alert';
 
 const styles = (theme) => ({
     root: {
@@ -43,20 +44,19 @@ export default function FeedbackHome(props) {
     const customer = props.location.state;
     const classes = useStyles();
     const [orders, setOrders] = React.useState([]);
-    const [expanded, setExpanded] = React.useState(false);
     const [showDetails, setShowDetails] = React.useState(false);
-    const [currentProduct, setCurrentProduct] = React.useState(null);
     const [currentOrder, setCurrentOrder] = React.useState(null);
+    const [review, setReview] = React.useState("");
+    const [reviewError, setReviewError] = React.useState(false);
+    const [rating, setRating] = React.useState(0);
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [alertState, setAlertState] = React.useState("success");
+    const [toastMessage, setToastMessage] = React.useState("");
+    const [dialog, openDialog] = React.useState(false);
 
-    const handleOpen = () => {
-        setShowDetails(true);
-    }
-
-    const handleClose = () => {
-        setShowDetails(false);
-    }
-
+    // console.log("hhhhhhh")
     React.useEffect(() => {
+        // console.log("hel")
         if (orders == null || orders.length === 0) {
             console.log(customer.customerId);
             fetch(`${API_URL}/customer/order?customerId=${customer.id}`)
@@ -64,6 +64,7 @@ export default function FeedbackHome(props) {
                 .then(json => {
                     console.log(json);
                     setOrders(json["data"])
+                    setCurrentOrder(orders[0]);
                 })
         }
     })
@@ -75,7 +76,9 @@ export default function FeedbackHome(props) {
                         <Grid item xs={3}>
                             <IconButton style={{ width: 120, height: 120 }} onClick={e => {
                                 setCurrentOrder(order);
-                                setShowDetails(true);
+                                setReview("");
+                                setRating(0);
+                                openDialog(true);
                             }}>
                                 <Avatar style={{ width: 60, height: 60 }} src={order.product.icon} alter="fail" variant="square" />
                             </IconButton>
@@ -88,56 +91,46 @@ export default function FeedbackHome(props) {
             </Grid>
         );
     };
-    const ProductDetail = (props) => {
-        console.log(props);
-        console.log(currentOrder);
-        return (
-            <div style={{ height: "100%", borderRadius: 10 }}>
-                <AppBar position="relative" style={{ boxShadow: "none", backgroundColor: "inherit" }}>
-                    <Toolbar >
-                        <IconButton onClick={e => { setShowDetails(false) }}>
-                            <KeyboardArrowLeftRounded />
-                        </IconButton>
-                        <Typography style={{ flexGrow: "1", textAlign: "center" }}>
-                            <b style={{ color: "black" }}>{currentOrder.product.name}</b>
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-
-                <Divider />
-
-                <div style={{ height: "auto", display: "flex", flexDirection: "column", alignItems: "normal", margin: "10px 10px" }}>
-                    <div style={{ flex: 1, marginLeft: 10, marginTop: 10 }} >
-                        <Typography>
-                            产品到期时间: <b>{currentOrder.endTime}</b>
-                        </Typography>
-                        <br />
-                        <Typography>
-                            授权码: <b>{currentOrder.authorizationCode}</b>
-                        </Typography>
-
-                    </div>
-                    {/* <Divider orientation="vertical" flexItem style={{ height: "415px", marginRight: 10 }} /> */}
-                    <Divider style={{ marginTop: 20 }} />
-                    <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 20 }}>
-                        <TextField
-                            variant="outlined"
-                            placeholder="对产品进行评价"
-                            multiline={true}
-                            rows={6}
-                            style={{ width: "100%", }} />
-                        <Typography style={{ marginRight: 10 }}>
-                            给产品打个评分吧!
-                        </Typography>
-                        <Rating style={{ marginRight: 10, position: "relative", right: 0, marginBottom: 10 }} value={0} />
-                        <Button color="secondary" variant="outlined" style={{ marginRight: 10 }}>
-                            提交评价
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        )
+    const onSubmitComment = () => {
+        if (review === "") {
+            setReviewError(true);
+            return;
+        }
+        if (rating === 0) {
+            setSnackbarOpen(true);
+            setAlertState("warning");
+            setToastMessage("您还尚未评分");
+            return;
+        }
+        if (review !== "" && rating !== 0) {
+            fetch("/product/comment", {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify({
+                    productId: currentOrder.product.id,
+                    customerId: customer.id,
+                    rating: rating,
+                    review: review
+                })
+            }).
+                then(resp => resp.json())
+                .then(json => {
+                    console.log(json);
+                    setSnackbarOpen(true);
+                    setAlertState("success");
+                    setToastMessage(json["data"]);
+                })
+        }
     }
+    // const ProductDetail = (props) => {
+    //     console.log(props);
+    //     console.log(currentOrder);
+    //     return (
+
+    //     )
+    // }
 
     return (
         <div className={classes.wrapper}>
@@ -165,17 +158,69 @@ export default function FeedbackHome(props) {
                     您已购买的产品:
                 </Typography>
                 <div style={{ width: "100%", height: "100%", border: "1px solid", borderRadius: 10, borderColor: "grey" }}>
-                    {showDetails ? <ProductDetail /> : <AllProducts />}
+                    {/* {showDetails ? <ProductDetail key="product-details" /> : <AllProducts />} */}
+                    <AllProducts />
                 </div>
             </div>
-            <Dialog onClose={handleClose} open={false}>
-                <DialogTitle>
-                    产品详情
-                </DialogTitle>
+            <Dialog onClose={() => { openDialog(false) }} open={dialog} style={{ marin: "10px 10px" }}>
+                <MuiDialogTitle style={{ textAlign: "center" }}>
+                    <Typography>
+                        {/* {currentOrder.product.name} */}
+                        {dialog ? `${currentOrder.product.name}` : null}
+                    </Typography>
+                    <IconButton className={classes.closeButton} onClick={e => { openDialog(false) }}>
+                        <CloseIcon />
+                    </IconButton>
+                </MuiDialogTitle>
+                {/* <DialogActions>
+                    <CloseRounded />
+                </DialogActions> */}
+                <Divider />
                 <DialogContent>
+                    <div style={{ height: "100%", borderRadius: 10 }}>
+                        <div style={{ height: "auto", display: "flex", flexDirection: "column", alignItems: "normal" }}>
+                            <div style={{ flex: 1, marginLeft: 10, marginTop: 10 }} >
+                                <Typography>
+                                    产品到期时间: <b>{dialog ? `${currentOrder.endTime}` : null}</b>
+                                </Typography>
+                                <br />
+                                <Typography>
+                                    授权码: <b>{dialog ? `${currentOrder.authorizationCode}` : null}</b>
+                                </Typography>
 
+                            </div>
+                            {/* <Divider orientation="vertical" flexItem style={{ height: "415px", marginRight: 10 }} /> */}
+                            {/* <Divider style={{ marginTop: 20 }} /> */}
+                            <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "flex-end", marginTop: 20 }}>
+                                <TextField
+                                    key="comment-field"
+                                    error={reviewError}
+                                    value={review}
+                                    onChange={(e) => { setReview(e.target.value) }}
+                                    variant="outlined"
+                                    placeholder="对产品进行评价"
+                                    multiline={true}
+                                    rows={6}
+                                    // autoFocus    
+                                    style={{ width: "100%", }} />
+                                {/* <TextField value={review} onChange={(e) => { setReview(e.target.value) }} autoFocus /> */}
+                                <Typography style={{ marginRight: 10 }}>
+                                    给产品打个评分吧!
+                        </Typography>
+                                <Rating style={{ marginRight: 10, position: "relative", right: 0, marginBottom: 10 }} value={rating} onChange={e => { setRating(e.target.value) }} />
+                                <Button color="secondary" variant="outlined" style={{ marginRight: 10 }} onClick={onSubmitComment}>
+                                    提交评价
+                        </Button>
+                            </div>
+                        </div>
+                    </div >
                 </DialogContent>
             </Dialog>
+            <Snackbar open={snackbarOpen} onClose={e => { setSnackbarOpen(false) }}>
+                <Alert severity={alertState} >
+                    {toastMessage}
+                </Alert>
+            </Snackbar>
         </div >
     )
 }
@@ -210,6 +255,12 @@ const useStyles = makeStyles((theme) => ({
             boxShadow: "0px 2px 8px rgb(0 0 0 / 10%), 3px 10px 30px rgb(0 0 0 / 8%)",
         }
 
+    },
+    closeButton: {
+        position: 'absolute',
+        right: theme.spacing(1),
+        top: theme.spacing(1),
+        color: theme.palette.grey[500],
     },
     heading: {
         fontSize: theme.typography.pxToRem(15),

@@ -1,22 +1,14 @@
 package beer.cheese.web.api;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import beer.cheese.entity.AgeRangeDTO;
 import beer.cheese.repository.CustomerRepository;
 import beer.cheese.repository.OrderRepository;
 import beer.cheese.view.Result;
@@ -32,16 +24,20 @@ public class StatisticsController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @GetMapping("/sales")
+    public Result getProductSales(){
+        return Result.ok(orderRepository.groupByProduct());
+    }
+
     @GetMapping("/gender")
     public Result getFemaleStatistics() {
         return Result.ok(customerRepository.groupByGender());
-//        return Result.ok("hello");
     }
 
     @GetMapping("/location")
     public Result getLocationStatistics() {
         return Result.ok(
-                customerRepository.groupByAddress());
+                customerRepository.groupByArea());
     }
 
     @GetMapping("/purchasingPower")

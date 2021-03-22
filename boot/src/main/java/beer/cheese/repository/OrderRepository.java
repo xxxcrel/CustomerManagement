@@ -16,7 +16,7 @@ import beer.cheese.entity.SalesDTO;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-   @Query("select new beer.cheese.entity.SalesDTO(o.product.name, count(o.product)) from Order o group by o.product")
+   @Query("select new beer.cheese.entity.SalesDTO(o.product.name, count(o.product)) from Order o group by o.product order by count(o.product) desc")
    List<SalesDTO> groupByProduct();
 
    @Query("select new beer.cheese.entity.PurchasingPower(o.customer.companyName, count(o.customer)) from Order o group by o.customer order by count(o.customer) desc")

@@ -44,15 +44,16 @@ export default function Home(props) {
     });
 
 
+    const [sales, setSales] = React.useState([[]]);
+    var productNames = sales.map(item => item["productName"]);
+    var productSales = sales.map(item => item["sales"]);
 
     const [locationData, setLocationData] = React.useState("");
 
     const [genderData, setGenderData] = React.useState("");
 
     const [purchasingPower, setPurchasingPower] = React.useState([[]]);
-
     var companyNames = purchasingPower.map(item => item["username"]);
-
     var quantity = purchasingPower.map(item => item["quantity"]);
 
 
@@ -86,10 +87,38 @@ export default function Home(props) {
             data: monthValueList
         }
     });
+    const salesOption = () => ({
+        title: {
+            left: "center",
+            text: "产品销量",
+            textStyle: {
+                color: "black"
+            },
+            top: "2%"
+        },
+        xAxis: {
+            type: 'category',
+            data: productNames,
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: productSales,
+            max: 6,
+            min: 1,
+            type: 'bar',
+            showBackground: true,
+            backgroundStyle: {
+                color: 'rgba(180, 180, 180, 0.2)'
+            }
+        }]
+
+    })
     const purchasingPowerOption = () => ({
         title: {
             left: "center",
-            text: "购买产品数前5客户",
+            text: "购买量前5客户",
             textStyle: {
                 color: "black"
             },
@@ -113,9 +142,9 @@ export default function Home(props) {
             }
         }]
     })
-    const porprotionOption = () => ({
+    const locationOption = () => ({
         title: {
-            text: "地区统计",
+            text: "客户地区统计",
             left: "center",
             textStyle: {
                 color: "black"
@@ -126,7 +155,7 @@ export default function Home(props) {
         visualMap: {
             show: false,
             min: 1,
-            max: 10,
+            max: 20,
             inRange: {
                 colorLightness: [0, 1]
             }
@@ -141,13 +170,6 @@ export default function Home(props) {
                 itemStyle: {
                     borderRadius: 5
                 },
-                // data: [
-                //     { value: 365, name: '江西' },
-                //     { value: 274, name: '浙江' },
-                //     { value: 310, name: '四川' },
-                //     { value: 335, name: '上海' },
-                //     { value: 300, name: '广州' }
-                // ],
                 data: locationData,
                 roseType: 'angle',
             }
@@ -184,33 +206,39 @@ export default function Home(props) {
     });
 
     React.useEffect(() => {
+        fetch(`${API_URL}/api/statistics/sales`)
+            .then(resp => resp.json())
+            .then(json => {
+                // console.log(json);
+                if (sales == null || sales.length === 1) {
+                    setSales(json["data"]);
 
+                }
+            });
         fetch(`${API_URL}/api/statistics/purchasingPower`)
             .then(resp => resp.json())
             .then(json => {
                 if (purchasingPower == null || purchasingPower.length == 1) {
                     setPurchasingPower(json["data"]);
-                    console.log(json["data"]);
+                    // console.log(json["data"]);
                 }
             })
             .catch(error => {
                 console.log("Error: " + error);
             });
 
-        fetch(`${API_URL}/api/statistics/location`, {
-            method: "GET"
-        })
+        fetch(`${API_URL}/api/statistics/location`)
             .then(resp => resp.json())
             .then(json => {
+                console.log(json);
                 if (locationData == null || locationData.length == 0)
                     setLocationData(json["data"]);
             })
             .catch(error => {
                 console.log("Error: " + error);
             });
-        fetch(`${API_URL}/api/statistics/gender`, {
-            method: "GET"
-        })
+
+        fetch(`${API_URL}/api/statistics/gender`)
             .then(resp => resp.json())
             .then(json => {
                 if (genderData == null || genderData.length == 0)
@@ -221,10 +249,10 @@ export default function Home(props) {
             });
 
         statisMonthChart = echarts.init(document.getElementById('statisMonth'));
-        statisMonthChart.setOption(monthStatisOption());
+        statisMonthChart.setOption(salesOption());
 
         customerPorprotionChart = echarts.init(document.getElementById('customerPorprotion'));
-        customerPorprotionChart.setOption(porprotionOption());
+        customerPorprotionChart.setOption(locationOption());
 
         ageChart = echarts.init(document.getElementById("statisAge"));
         ageChart.setOption(purchasingPowerOption());
