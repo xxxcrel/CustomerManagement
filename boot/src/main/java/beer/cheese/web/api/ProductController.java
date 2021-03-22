@@ -22,6 +22,7 @@ import beer.cheese.repository.CustomerRepository;
 import beer.cheese.repository.ProductCommentRepository;
 import beer.cheese.repository.ProductRepository;
 import beer.cheese.repository.OrderRepository;
+import beer.cheese.service.CodeGenerator;
 import beer.cheese.view.Result;
 import beer.cheese.web.request.CommentRequest;
 import beer.cheese.web.request.PurchaseRequest;
@@ -80,6 +81,9 @@ public class ProductController {
         comment.setReview(commentRequest.getReview());
         comment.setReviewDate(new Date());
         commentRepository.save(comment);
+        Order order = orderRepository.findByCustomerAndProduct(customer, product);
+        order.setCommented(true);
+        orderRepository.saveAndFlush(order);
         return Result.ok("评论成功");
     }
 
@@ -102,6 +106,7 @@ public class ProductController {
         order.setStartTime(purchaseRequest.getStartTime());
         order.setEndTime(purchaseRequest.getEndTime());
         order.setFinalPrice(purchaseRequest.getFinalPrice());
+        order.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         orderRepository.save(order);
         return Result.ok("购买成功");
     }

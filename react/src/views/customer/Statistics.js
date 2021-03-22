@@ -49,11 +49,12 @@ export default function Home(props) {
 
     const [genderData, setGenderData] = React.useState("");
 
-    const [ageRangeData, setAgeRangeData] = React.useState([[]]);
+    const [purchasingPower, setPurchasingPower] = React.useState([[]]);
 
-    var ageRangeNames = ageRangeData.map(item => item[0]);
+    var companyNames = purchasingPower.map(item => item["username"]);
 
-    var ageRangeCount = ageRangeData.map(item => item[1]);
+    var quantity = purchasingPower.map(item => item["quantity"]);
+
 
     const monthStatisOption = () => ({
         visualMap: {
@@ -85,10 +86,10 @@ export default function Home(props) {
             data: monthValueList
         }
     });
-    const ageOption = () => ({
+    const purchasingPowerOption = () => ({
         title: {
             left: "center",
-            text: "年龄分布",
+            text: "购买产品数前5客户",
             textStyle: {
                 color: "black"
             },
@@ -96,13 +97,15 @@ export default function Home(props) {
         },
         xAxis: {
             type: 'category',
-            data: ageRangeNames,
+            data: companyNames,
         },
         yAxis: {
             type: 'value'
         },
         series: [{
-            data: ageRangeCount,
+            data: quantity,
+            max: 6,
+            min: 1,
             type: 'bar',
             showBackground: true,
             backgroundStyle: {
@@ -182,16 +185,11 @@ export default function Home(props) {
 
     React.useEffect(() => {
 
-        fetch(`${API_URL}/api/statistics/age`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(ageRangeArray)
-        }).then(resp => resp.json())
+        fetch(`${API_URL}/api/statistics/purchasingPower`)
+            .then(resp => resp.json())
             .then(json => {
-                if (ageRangeData == null || ageRangeData.length == 1) {
-                    setAgeRangeData(json["data"]);
+                if (purchasingPower == null || purchasingPower.length == 1) {
+                    setPurchasingPower(json["data"]);
                     console.log(json["data"]);
                 }
             })
@@ -229,7 +227,7 @@ export default function Home(props) {
         customerPorprotionChart.setOption(porprotionOption());
 
         ageChart = echarts.init(document.getElementById("statisAge"));
-        ageChart.setOption(ageOption());
+        ageChart.setOption(purchasingPowerOption());
 
         genderChart = echarts.init(document.getElementById("gender"));
         genderChart.setOption(genderOption());

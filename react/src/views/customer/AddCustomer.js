@@ -1,4 +1,4 @@
-import { Button, InputAdornment, makeStyles, MenuItem, Snackbar, TextField } from "@material-ui/core";
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, InputAdornment, makeStyles, MenuItem, Snackbar, TextField } from "@material-ui/core";
 import React from 'react';
 import Alert from "../../components/Alert";
 import { API_URL } from "../../constants/Constant";
@@ -15,9 +15,13 @@ export default function AddCustomer(props) {
     const [age, setAge] = React.useState("");
     const [tel, setTel] = React.useState("");
     const [address, setAddress] = React.useState("");
-    const [type, setType] = React.useState("PERSONAL");
+    const [type, setType] = React.useState("INDIVIDUAL");
     const [area, setArea] = React.useState("华东");
+    const [open, setOpen] = React.useState(false);
 
+    const handleClose = () => {
+        setOpen(false);
+    }
     const genders = [
         {
             value: "男",
@@ -91,18 +95,20 @@ export default function AddCustomer(props) {
                         setSnackbarOpen(true);
                         setAddState("success");
                         setToastMessage(json["data"]);
+                        setOpen(false);
                     } else {
                         setSnackbarOpen(true);
                         setAddState("info");
                         setToastMessage(json["data"]);
+                        setOpen(false);
                     }
                 })
         }
     }
-    const onClose = () => {
+
+    const onSnackbarClose = () => {
         setSnackbarOpen(false);
     }
-
     return (
         <div className={classes.wrapper}>
             <h4>添加客户</h4>
@@ -133,8 +139,26 @@ export default function AddCustomer(props) {
                     </MenuItem>
                 ))}
             </TextField>
-            <Button className={classes.addButton} onClick={onAddCustomer}> 添加</Button>
-            <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
+            <Button className={classes.addButton} onClick={e => { setOpen(true) }}> 添加</Button>
+            <Dialog onClose={handleClose} open={open}>
+                <DialogTitle>
+                    提示
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        <b>确认添加客户: </b><b style={{ color: "red" }}>{companyName}</b>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="primary" variant="outlined" onClick={e => { setOpen(false) }} size="small">
+                        取消
+                    </Button>
+                    <Button color="secondary" variant="outlined" onClick={onAddCustomer} size="small">
+                        确认
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onSnackbarClose}>
                 <Alert severity={addState}>
                     {toastMessage}
                 </Alert>

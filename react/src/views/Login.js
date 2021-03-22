@@ -132,13 +132,12 @@ export default function Login(props) {
                 })
                 break;
             case "admin":
-                if (type === 2) {
-                    if (username === "admin" && password === "admin") {
-                        setTimeout(() => {
-                            props.history.push("/employee/all")
-                        }, 1500);
-                        return;
-                    }
+                console.log("admin");
+                if (username === "admin" && password === "admin") {
+                    setTimeout(() => {
+                        props.history.push("/employee/all")
+                    }, 1500);
+                    return;
                 }
                 break;
             default:

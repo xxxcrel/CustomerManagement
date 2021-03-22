@@ -20,6 +20,7 @@ import beer.cheese.entity.Product;
 import beer.cheese.entity.ProductComment;
 import beer.cheese.entity.State;
 import beer.cheese.entity.Type;
+import beer.cheese.service.CodeGenerator;
 
 @Component
 public class InitData {
@@ -179,6 +180,7 @@ public class InitData {
         order.setStartTime(new Date());
         order.setEndTime(new Date());
         order.setFinalPrice(800);
+        order.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         ProductComment comment = new ProductComment();
         comment.setProduct(one);
         comment.setCustomer(wang);
@@ -196,6 +198,7 @@ public class InitData {
         order2.setEndTime(new Date());
         order2.setFinalPrice(800);
         order2.setCommented(true);
+        order2.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         ProductComment comment2 = new ProductComment();
         comment2.setProduct(two);
         comment2.setCustomer(liu);
@@ -213,6 +216,7 @@ public class InitData {
         order3.setEndTime(new Date());
         order3.setFinalPrice(800);
         order3.setCommented(true);
+        order3.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         ProductComment comment3 = new ProductComment();
         comment3.setProduct(three);
         comment3.setCustomer(han);
@@ -229,6 +233,7 @@ public class InitData {
         order4.setEndTime(new Date());
         order4.setFinalPrice(800);
         order4.setCommented(true);
+        order4.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         ProductComment comment4 = new ProductComment();
         comment4.setProduct(four);
         comment4.setCustomer(xia);
@@ -245,6 +250,7 @@ public class InitData {
         order5.setEndTime(new Date());
         order5.setFinalPrice(800);
         order5.setCommented(true);
+        order5.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         ProductComment comment5 = new ProductComment();
         comment5.setProduct(five);
         comment5.setCustomer(luo);
@@ -261,6 +267,7 @@ public class InitData {
         order6.setEndTime(new Date());
         order6.setFinalPrice(800);
         order6.setCommented(true);
+        order6.setAuthorizationCode(CodeGenerator.generateAuthorizationCode());
         ProductComment comment6 = new ProductComment();
         comment6.setProduct(six);
         comment6.setCustomer(hua);

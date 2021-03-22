@@ -29,7 +29,7 @@ const routes = [
   },
   {
     path: "/customer/porduct",
-    sidebar: "公司产品",
+    sidebar: "产品列表",
     main: AllProduct
   },
   {
@@ -59,7 +59,7 @@ export default function CustomerHome(props) {
 
       <div className={classes.sidebar}>
         <Sidebar
-          title="Cheese 科技有限公司"
+          title="Cheese科技有限公司"
           routes={routes}
           color="#5FA3E7"
         />

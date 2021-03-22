@@ -21,7 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     Long countUsersByAgeBetween(Long before, Long after);
 
-    @Query("select new beer.cheese.entity.CountDTO(u.address, count(u.address)) from Customer u group by u.address")
+    @Query("select new beer.cheese.entity.CountDTO(u.area, count(u.area)) from Customer u group by u.area")
     List<CountDTO> groupByAddress();
 
     @Query("select new beer.cheese.entity.CountDTO(u.gender, count(u.gender)) from Customer u group by u.gender")

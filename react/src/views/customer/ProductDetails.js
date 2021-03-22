@@ -70,12 +70,7 @@ export default function ProductDetails(props) {
                 })
         }
         if (orders == null || orders.length === 0) {
-            fetch(`${API_URL}/product/${productId}/order`)
-                .then(resp => resp.json())
-                .then(json => {
-                    console.log(json);
-                    setOrders(json["data"]);
-                })
+            refreshOrder();
         }
         if (customers == null || customers.length === 0) {
             fetch(`${API_URL}/customer/all`)
@@ -89,6 +84,16 @@ export default function ProductDetails(props) {
                 });
         }
     })
+
+    const refreshOrder = () => {
+        fetch(`${API_URL}/product/${productId}/order`)
+            .then(resp => resp.json())
+            .then(json => {
+                console.log(json);
+                setOrders(json["data"]);
+            })
+
+    }
     const addOrder = () => {
         setDialogOpen(true);
     }
@@ -116,6 +121,7 @@ export default function ProductDetails(props) {
                         setToastMessage(json["data"]);
                         setAddState("success");
                         handleDialogClose();
+                        refreshOrder();
                     }
                 })
         }
