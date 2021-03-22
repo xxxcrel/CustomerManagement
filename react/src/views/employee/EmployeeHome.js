@@ -32,7 +32,7 @@ export default function EmployeeHome(props) {
     return (
         <div className={classes.wrapper}>
             <div className={classes.sidebarWrapper}>
-                <Sidebar routes={routes} title="员工审计中心" color="balck" />
+                <Sidebar routes={routes} title="员工管理中心" color="balck" />
 
                 {/* <h2> hello</h2> */}
                 {/* <Link to="/login" style={{ textDecoration: "none", width: "auto" }}> */}

@@ -71,7 +71,7 @@ export default function CustomerHome(props) {
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
             <Link to={{ pathname: "/customer/employeeDetails", state: info }}>
-              <Avatar src="www" alt="登入" />
+              <Avatar src={info.avatarUrl} alt="登入" />
             </Link>
             <Link to="/login" style={{ textDecoration: "none", marginLeft: 20 }}>
               <Button style={{ backgroundColor: "red", color: "white", width: 50, height: 30 }}>注销</Button>

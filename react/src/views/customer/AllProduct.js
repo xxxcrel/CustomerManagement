@@ -26,7 +26,7 @@ export default function AllProduct(props) {
     }
     return (
         <div className={classes.wraper}>
-            <Grid container spacing={10} className={classes.container} justify="space-around">
+            <Grid container spacing={4} className={classes.container} justify="space-around">
                 {
                     products.map((product) => (
                         <Grid item className={classes.item} xs={3} onClick={e => {
@@ -39,7 +39,6 @@ export default function AllProduct(props) {
                                 </Typography>
                                 <Rating disabled style={{ flex: 3 }} value={product.rating}></Rating>
                             </div>
-
                             <Divider />
                             <div style={{ height: 240 }}>
                                 <Typography style={{ fontSize: 15, color: "gray", marginTop: 7 }}>
@@ -48,10 +47,10 @@ export default function AllProduct(props) {
                             </div>
                             <Divider />
                             <div className={classes.itemBottom}>
-                                <Typography style={{ fontSize: 12, right: 0, flex: 4 }}>
+                                <Typography style={{ fontSize: 12, flex: "1" }}>
                                     上架日期:{product.launchTime}
                                 </Typography>
-                                <Typography style={{ fontSize: 12, flex: 1 }}>
+                                <Typography style={{ fontSize: 12, alignSelf: "right" }}>
                                     价格:￥<b style={{ color: "red" }}>{product.price}</b>/年
                                 </Typography>
 
@@ -68,17 +67,20 @@ export default function AllProduct(props) {
 const useStyles = makeStyles((theme) => ({
     wraper: {
         width: "100%",
-        height: "auto",
+        // height: "100%",
         position: "absolute",
         // backgroundColor: "red",
     },
     container: {
         width: "100%",
-        marginBottom: 20,
+        // height: "100%",
+        // marginBottom: 20,
     },
 
     item: {
         marginTop: 30,
+        marginBottom: 30,
+        height: 300,
         marginLeft: 35,
         boxShadow: "0px 2px 8px rgb(0 0 0 / 10%), 3px 10px 30px rgb(0 0 0 / 8%)",
         backgroundColor: "rgb(255, 255, 255)",
@@ -98,6 +100,8 @@ const useStyles = makeStyles((theme) => ({
     },
     itemBottom: {
         display: "flex",
+        // position: "relative",
+        // bottom: 0,
         flexDirection: "row"
     },
     pagination: {

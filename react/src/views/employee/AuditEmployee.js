@@ -222,8 +222,8 @@ export default function AuditManager(props) {
                                 <option value={50}>修改</option>
                             </NativeSelect>
                         </FormControl>
-                        <Button style={{ marginTop: 25, position: "fixed", right: 10, backgroundColor: "red", color: "white" }}>删除</Button>
-                        <Button onClick={e => { setSnackbarOpen(true); setToastMessage("添加权限:查看"); setLoginState("success"); }} style={{ marginTop: 25, position: "fixed", right: 80, backgroundColor: "#50EBEB" }}>修改</Button>
+                        <Button style={{ marginTop: 25, position: "fixed", right: 10, backgroundColor: "#50ebeb", color: "black" }}>修改</Button>
+                        {/* <Button onClick={e => { setSnackbarOpen(true); setToastMessage("添加权限:查看"); setLoginState("success"); }} style={{ marginTop: 25, position: "fixed", right: 80, backgroundColor: "#50EBEB" }}>修改</Button> */}
                     </div>
                 </TabPanel>
                 <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
