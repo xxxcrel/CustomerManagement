@@ -148,7 +148,11 @@ export default function FeedbackHome(props) {
                         <br />
                         代表人: {customer.username}
                     </Typography>
-                    <Button style={{ backgroundColor: "red", color: "white" }} onClick={e => {
+
+                    <Button variant="outlined" color="secondary" style={{ marginRight: 5 }}>
+                        修改密码
+                    </Button>
+                    <Button variant="outlined" color="primary" onClick={e => {
                         props.history.goBack();
                     }}>
                         退出
@@ -185,7 +189,7 @@ export default function FeedbackHome(props) {
                                 </Typography>
                                 <br />
                                 <Typography>
-                                    授权码: <b>{dialog ? `${currentOrder.authorizationCode}` : null}</b>
+                                    授权码: <b>{dialog ? `${currentOrder.authorizationCode}` : null}</b>
                                 </Typography>
 
                             </div>

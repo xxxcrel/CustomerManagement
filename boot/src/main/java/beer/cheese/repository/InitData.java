@@ -69,11 +69,11 @@ public class InitData {
                 5,
                 new Date(26, 2, 3));
         products[2] = new Product(3L,
-                "GHelper",
-                "这是一个浏览器插件，为开发者，跨境工作人员，和研究机构，以确保和加快互联网冲浪。",
-                "http://www.cheese.beer/img/Ghelper.png",
-                200,
-                156,
+                "Win10企业版",
+                "Windows 10 企业版可解决大型和中型组织的需求，为 IT 专业人员提供全面的设备与应用管理。",
+                "http://www.cheese.beer/img/Windows.png",
+                1200,
+                1088,
                 3,
                 new Date(23, 7, 12));
         products[3] = new Product(4L,
@@ -221,7 +221,7 @@ public class InitData {
         comment3.setProduct(three);
         comment3.setCustomer(han);
         comment3.setRating(4);
-        comment3.setReview("Ghelper用来访问国外高质量学习网站非常快速,从此知识没有围墙");
+        comment3.setReview("windows10企业版太好用了,公司生产力工具.");
         comment3.setReviewDate(new Date());
 
         Customer xia = customerRepository.findByUsername("夏浩飞");

@@ -111,7 +111,19 @@ export default function Home(props) {
             showBackground: true,
             backgroundStyle: {
                 color: 'rgba(180, 180, 180, 0.2)'
-            }
+            },
+            itemStyle: {
+                normal: {
+                    // 随机显示
+                    //color:function(d){return "#"+Math.floor(Math.random()*(256*256*256-1)).toString(16);}
+
+                    // 定制显示（按顺序）
+                    color: function (params) {
+                        var colorList = ['#C33531', '#EFE42A', '#64BD3D', '#EE9201', '#29AAE3', '#B74AE5', '#0AAF9F', '#E89589', '#16A085', '#4A235A', '#C39BD3 ', '#F9E79F', '#BA4A00', '#ECF0F1', '#616A6B', '#EAF2F8', '#4A235A', '#3498DB'];
+                        return colorList[params.dataIndex]
+                    }
+                },
+            },
         }]
 
     })
@@ -131,6 +143,12 @@ export default function Home(props) {
         yAxis: {
             type: 'value'
         },
+        // visualMap: {
+        //     inRange: {
+        //         color: ['#65B581', '#FFCE34', '#FD665F']
+        //     },
+        //     b
+        // },
         series: [{
             data: quantity,
             max: 6,
@@ -155,9 +173,12 @@ export default function Home(props) {
         visualMap: {
             show: false,
             min: 1,
-            max: 20,
+            max: 10,
             inRange: {
-                colorLightness: [0, 1]
+                colorLightness: [0, 2],
+                // inRange: {
+                //     color: ['#65B581', '#FFCE34', '#FD665F']
+                // }
             }
         },
         series: [

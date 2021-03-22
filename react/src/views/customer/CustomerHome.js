@@ -59,7 +59,7 @@ export default function CustomerHome(props) {
 
       <div className={classes.sidebar}>
         <Sidebar
-          title="Cheese科技有限公司"
+          title="客户管理中心"
           routes={routes}
           color="#5FA3E7"
         />
