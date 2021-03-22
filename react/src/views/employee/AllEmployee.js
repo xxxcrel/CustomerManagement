@@ -3,30 +3,11 @@ import React from 'react';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import { FormatTextdirectionLToRSharp } from "@material-ui/icons";
-import { API_URL } from "../assets/jss/components/constants";
+import { API_URL } from '../../constants/Constant';
 import { Link } from "react-router-dom";
-const tileData = [
-    {
-        img: "/assets/img/default_avatar.jpeg",
-        title: "hello"
-    }, {
-        img: "/assets/img/default_avatar.jpeg",
-        title: "hello"
-    }, {
-        img: "/assets/img/default_avatar.jpeg",
-        title: "hello"
-    }, {
-        img: "/assets/img/default_avatar.jpeg",
-        title: "hello"
-    },
-    {
-        img: "/assets/img/default_avatar.jpeg",
-        title: "hello"
-    },
 
-]
 
-export default function AllManger(props) {
+export default function AllEmployee(props) {
 
     const classes = useStyles();
     const [north, setNorth] = React.useState([]);
@@ -40,7 +21,7 @@ export default function AllManger(props) {
         if (east == null || east.length === 0) {
 
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[0]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[0]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -49,7 +30,7 @@ export default function AllManger(props) {
         }
         if (west == null | west.length === 0) {
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[1]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[1]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -58,7 +39,7 @@ export default function AllManger(props) {
         }
         if (south == null | south.length === 0) {
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[2]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[2]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -67,7 +48,7 @@ export default function AllManger(props) {
         }
         if (north == null | north.length === 0) {
 
-            fetch(`${API_URL}/manager/findByArea?area=${names[3]}`)
+            fetch(`${API_URL}/employee/findByArea?area=${names[3]}`)
                 .then(resp => resp.json())
                 .then(json => {
                     console.log(json["data"]);
@@ -81,12 +62,12 @@ export default function AllManger(props) {
             <div className={classes.lineWrapper}>
 
                 <Card className={classes.cardWrapper}>
-                    <h3 style={{ alignSelf: "center" }}>华北地区管理员</h3>
+                    <h3 style={{ alignSelf: "center" }}>华北地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {east.map((tile) => (
                             <GridListTile key={tile.avataUrl}>
-                                <Link to={{ pathname: "/manager/details", state: tile }}>
+                                <Link to={{ pathname: "/employee/details", state: tile }}>
                                     <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
                                 </Link>
                                 <h5>{tile.username}</h5>
@@ -97,12 +78,12 @@ export default function AllManger(props) {
                 </Card>
                 <Card className={classes.cardWrapper}>
 
-                    <h3 style={{ alignSelf: "center" }}>华南地区管理员</h3>
+                    <h3 style={{ alignSelf: "center" }}>华南地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {west.map((tile) => (
                             <GridListTile key={tile.avatarUrl}>
-                                <Link to={{ pathname: "/manager/details", state: tile }}>
+                                <Link to={{ pathname: "/employee/details", state: tile }}>
                                     <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
                                 </Link>
                                 <h5>{tile.username}</h5>
@@ -113,12 +94,12 @@ export default function AllManger(props) {
             </div>
             <div className={classes.lineWrapper}>
                 <Card className={classes.cardWrapper}>
-                    <h3 style={{ alignSelf: "center" }}>华西地区管理员</h3>
+                    <h3 style={{ alignSelf: "center" }}>华西地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {south.map((tile) => (
                             <GridListTile key={tile.avatarUrl}>
-                                <Link to={{ pathname: "/manager/details", state: tile }}>
+                                <Link to={{ pathname: "/employee/details", state: tile }}>
                                     <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
                                 </Link>
                                 <h5>{tile.username}</h5>
@@ -128,12 +109,12 @@ export default function AllManger(props) {
                 </Card>
 
                 <Card className={classes.cardWrapper}>
-                    <h3 style={{ alignSelf: "center" }}>华东地区管理员</h3>
+                    <h3 style={{ alignSelf: "center" }}>华东地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {north.map((tile) => (
                             <GridListTile key={tile.avatarUrl} >
-                                <Link to={{ pathname: "/manager/details/", state: tile }}>
+                                <Link to={{ pathname: "/employee/details/", state: tile }}>
                                     <Avatar className={classes.avatar} src={tile.avatarUrl} alt={tile.title} />
                                 </Link>
                                 <h5>{tile.username}</h5>

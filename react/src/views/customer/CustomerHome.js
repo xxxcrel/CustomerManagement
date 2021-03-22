@@ -1,29 +1,40 @@
-import Sidebar from './components/SideBar';
-import Home from "./views/Home";
-import CustomerManagement from "./views/CustomerManagement";
+import Sidebar from '../../components/SideBar';
+import Home from "./Statistics";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, } from 'react-router-dom';
 import { AppBar, makeStyles, Toolbar, IconButton, Button, Typography, Avatar } from '@material-ui/core';
-
-import styles from "./assets/jss/components/appStyle";
-import ContactUs from './views/ContactUs';
-import ManagerDetail from './views/ManagerDetail';
-import { LiveTvOutlined } from '@material-ui/icons';
+import styles from "../../assets/jss/components/appStyle";
+import ContactUs from './ContactUs';
+import EmployeeDetail from './EmployeeDetails';
+import AddCustomer from './AddCustomer';
+import AllCustomer from './AllCustomer';
+import AllProduct from './AllProduct';
+import ProductDetails from './ProductDetails';
 
 const routes = [
   {
-    path: "/customer/home",
+    path: "/customer/statistics",
     exact: true,
     sidebar: "客户统计",
     main: Home
   },
   {
-    path: "/customer/custome",
-    sidebar: "客户管理",
-    main: CustomerManagement
+    path: "/customer/all",
+    sidebar: "所有客户",
+    main: AllCustomer
+  },
+  {
+    path: "/customer/add",
+    sidebar: "添加客户",
+    main: AddCustomer
+  },
+  {
+    path: "/customer/porduct",
+    sidebar: "公司产品",
+    main: AllProduct
   },
   {
     path: "/customer/contact-us",
-    sidebar: "联系我们",
+    sidebar: "商业合作",
     main: ContactUs
   },
 
@@ -32,7 +43,7 @@ const useStyles = makeStyles(styles);
 
 let info;
 
-function App(props) {
+export default function CustomerHome(props) {
 
   console.log(props);
   if (props.location.state != null) {
@@ -41,7 +52,6 @@ function App(props) {
 
   }
 
-
   const classes = useStyles();
 
   return (
@@ -49,7 +59,7 @@ function App(props) {
 
       <div className={classes.sidebar}>
         <Sidebar
-          title="客户管理中心"
+          title="Cheese 科技有限公司"
           routes={routes}
           color="#5FA3E7"
         />
@@ -60,11 +70,11 @@ function App(props) {
         <AppBar className={classes.appBar} position="relative">
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
-            <Link to={{ pathname: "/customer/details", state: info }}>
-              <Avatar src={info.avatarUrl} alt="登入" />
+            <Link to={{ pathname: "/customer/employeeDetails", state: info }}>
+              <Avatar src="www" alt="登入" />
             </Link>
             <Link to="/login" style={{ textDecoration: "none", marginLeft: 20 }}>
-              <Button underline="none">注销</Button>
+              <Button style={{ backgroundColor: "red", color: "white", width: 50, height: 30 }}>注销</Button>
             </Link>
 
           </Toolbar>
@@ -73,8 +83,6 @@ function App(props) {
         <div className={classes.content}>
           <Switch>
             {routes.map((route, index) => (
-              // Render more <Route>s with the same paths as
-              // above, but different components this time.
               <Route
                 key={index}
                 path={route.path}
@@ -84,10 +92,14 @@ function App(props) {
             ))}
             <Route
               key={10}
-              path="/customer/details"
+              path="/customer/employeeDetails"
               exact={true}
-              component={ManagerDetail} />
-            {/* <Redirect from="/customer" to="/customer/home" /> */}
+              component={EmployeeDetail} />
+            <Route
+              key={11}
+              path="/customer/productDetails"
+              extract={true}
+              component={ProductDetails} />
           </Switch>
         </div>
 
@@ -95,5 +107,3 @@ function App(props) {
     </div>
   );
 }
-
-export default App;

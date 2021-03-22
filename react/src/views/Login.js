@@ -1,52 +1,30 @@
-import { Button, makeStyles, TextField, Snackbar, withStyles, FormHelperText } from "@material-ui/core";
-import MuiAlert from '@material-ui/lab/Alert';
+import { Button, makeStyles, TextField, Snackbar, withStyles, FormHelperText, Radio, RadioGroup } from "@material-ui/core";
 import React from "react";
 import { Link, hashHistory } from "react-router-dom";
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
 import Select from '@material-ui/core/Select';
-import InputBase from '@material-ui/core/InputBase';
-import { API_URL } from "../assets/jss/components/constants";
+import Alert from "../components/Alert";
+import { API_URL, BootstrapInput } from "../constants/Constant";
+import clsx from 'clsx';
 
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
+function StyledRadio(props) {
+    const classes = useStyles();
+
+    return (
+        <Radio
+            className={classes.root}
+            disableRipple
+            color="default"
+            checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
+            icon={<span className={classes.icon} />}
+            {...props}
+        />
+    );
 }
-const BootstrapInput = withStyles((theme) => ({
-    root: {
-        'label + &': {
-            marginTop: theme.spacing(3),
-        },
-    },
-    input: {
-        borderRadius: 4,
-        position: 'relative',
-        backgroundColor: theme.palette.background.paper,
-        border: '1px solid #ced4da',
-        fontSize: 14,
-        padding: '10px 26px 10px 12px',
-        transition: theme.transitions.create(['border-color', 'box-shadow']),
-        // Use the system font instead of the default Roboto font.
-        fontFamily: [
-            '-apple-system',
-            'BlinkMacSystemFont',
-            '"Segoe UI"',
-            'Roboto',
-            '"Helvetica Neue"',
-            'Arial',
-            'sans-serif',
-            '"Apple Color Emoji"',
-            '"Segoe UI Emoji"',
-            '"Segoe UI Symbol"',
-        ].join(','),
-        '&:focus': {
-            borderRadius: 4,
-            borderColor: '#80bdff',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        },
-    },
-}))(InputBase);
-
 export default function Login(props) {
     const classes = useStyles();
     const [username, setUsername] = React.useState("");
@@ -57,9 +35,24 @@ export default function Login(props) {
     const [usernameHelperText, setUsernameHelperText] = React.useState("");
     const [passwordError, setPasswordError] = React.useState(false);
     const [passwordHelperText, setPasswordHelperText] = React.useState("");
-    const [type, setType] = React.useState(0);
+    const [type, setType] = React.useState("customer");
+    const [loginState, setLoginState] = React.useState("success");
+    const [accountLabel, setAccountLabel] = React.useState("代表人")
     const handleChange = (event) => {
         setType(event.target.value);
+        switch (event.target.value) {
+            case "customer":
+                setAccountLabel("代表人");
+                break;
+            case "employee":
+                setAccountLabel("工号");
+                break;
+            case "admin":
+                setAccountLabel("账号")
+                break;
+            default:
+                break;
+        }
     };
 
     const onLogin = (event) => {
@@ -82,45 +75,76 @@ export default function Login(props) {
             setPasswordHelperText("密码不能为空或小于5位");
             return;
         }
-        if (type === 1) {
-            if (username === "admin" && password === "admin") {
-                setTimeout(() => {
-                    props.history.push("/manager/all")
-                }, 1500);
-                return;
-            }
+
+        switch (type) {
+            case "customer":
+                fetch(`${API_URL}/customer/login`, {
+                    method: "POST",
+                    body: loginForm
+                })
+                    .then(resp => resp.json())
+                    .then(json => {
+                        if (json["code"] === 200) {
+                            console.log(json);
+                            setSnackbarOpen(true);
+                            setLoginState("success");
+                            setToastMessage("登入成功");
+                            setTimeout(() => {
+                                props.history.push("/feedback/home", json["data"]);
+                            }, 1500);
+                        } else {
+                            setSnackbarOpen(true);
+                            setLoginState("error");
+                            setToastMessage("登入失败");
+                        }
+                    })
+                break;
+            case "employee":
+                fetch(`${API_URL}/employee/login`, {
+                    method: "POST",
+                    body: loginForm
+                }).then(resp => {
+                    if (resp.headers.get("Content-Type") === "application/json") {
+                        return resp.json();
+                    } else {
+                        console.log(resp);
+                        console.log("Oops, we haven't get JSON");
+                    }
+                }).then(data => {
+                    if (data["code"] === 200) {
+                        console.log(data);
+                        setSnackbarOpen(true);
+                        setLoginState("success");
+                        setToastMessage("登入成功");
+                        setTimeout(() => {
+                            props.history.push("/customer/statistics", data["data"]);
+                        }, 1500);
+                    } else {
+                        setSnackbarOpen(true);
+                        setLoginState("error");
+                        setToastMessage("登入失败");
+                    }
+                }).catch(error => {
+                    // props.history.push("/customer/home");
+                    setSnackbarOpen(true);
+                    setToastMessage(error)
+                    // console.log("Error: " + error);
+                })
+                break;
+            case "admin":
+                if (type === 2) {
+                    if (username === "admin" && password === "admin") {
+                        setTimeout(() => {
+                            props.history.push("/employee/all")
+                        }, 1500);
+                        return;
+                    }
+                }
+                break;
+            default:
+                break;
         }
-        fetch(`${API_URL}/manager/login`, {
-            method: "POST",
-            // 如果前端设置了no-cors, 则无论成功与否都不会返回数据,所以采用后端解决cors问题, 
-            // 见https://stackoverflow.com/questions/40182785/why-fetch-return-a-response-with-status-0
-            // mode: "no-cors",
-            body: loginForm
-        }).then(resp => {
-            if (resp.headers.get("Content-Type") === "application/json") {
-                return resp.json();
-            } else {
-                console.log(resp);
-                console.log("Oops, we haven't get JSON");
-            }
-        }).then(data => {
-            if (data["code"] === 200) {
-                console.log(data);
-                setSnackbarOpen(true);
-                setToastMessage("登入成功");
-                setTimeout(() => {
-                    props.history.push("/customer/home", data["data"]);
-                }, 1500);
-            } else {
-                setSnackbarOpen(true);
-                setToastMessage("登入失败");
-            }
-        }).catch(error => {
-            // props.history.push("/customer/home");
-            setSnackbarOpen(true);
-            setToastMessage(error)
-            console.log("Error: " + error);
-        })
+
     }
     const onUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -138,7 +162,7 @@ export default function Login(props) {
     return (
         <div className={classes.wrapper}>
             <div className={classes.loginPanel}>
-                <h4 className={classes.header}>管理员登入</h4>
+                <h4 className={classes.header}>登入</h4>
                 <form className={classes.inputWrapper}>
                     <TextField
                         error={usernameError}
@@ -147,7 +171,7 @@ export default function Login(props) {
                         onChange={onUsernameChange}
                         className={classes.inputField}
                         variant="outlined"
-                        label="账号"
+                        label={accountLabel}
                         size="small"
                         color="primary" />
                     <TextField
@@ -161,25 +185,14 @@ export default function Login(props) {
                         label="密码"
                         size="small"
                         color="primary" />
-
-                    <FormControl variant="outlined" className={classes.loginType}>
-                        {/* <InputLabel id="demo-customized-select-label">登入类型</InputLabel> */}
-                        {/* <FormHelperText>登入类型</FormHelperText> */}
-                        <Select
-                            label="账户类型"
-                            labelId="demo-customized-select-label"
-                            id="demo-customized-select"
-                            value={type}
-                            // variant=""
-                            onChange={handleChange}
-                            input={<BootstrapInput />}
-                        >
-                            <MenuItem value={0}>
-                                管理员
-                            </MenuItem>
-                            <MenuItem value={1}>系统管理员</MenuItem>
-
-                        </Select>
+                    <FormControl component="fieldset" className={classes.loginType}>
+                        <RadioGroup defaultValue={type} aria-label="type" name="customized-radios" onChange={handleChange} >
+                            <div>
+                                <FormControlLabel value="customer" control={<StyledRadio />} label="客户" />
+                                <FormControlLabel value="employee" control={<StyledRadio />} label="员工" />
+                                <FormControlLabel value="admin" control={<StyledRadio />} label="管理员" />
+                            </div>
+                        </RadioGroup>
                     </FormControl>
 
                 </form>
@@ -190,7 +203,7 @@ export default function Login(props) {
                     <Button className={classes.button} stylle={{ backgroundColor: "red", color: "red" }}>超级管理员登入</Button>
                 </Link> */}
                 <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
-                    <Alert severity="success">
+                    <Alert severity={loginState}>
                         {toastMessage}
                     </Alert>
                 </Snackbar>
@@ -235,16 +248,55 @@ const useStyles = makeStyles(theme => ({
     },
     inputField: {
         margin: "5px auto",
-        width: "220px",
+        width: "240px",
         outline: "none",
     },
     button: {
         borderRadius: "8px",
-        width: "220px",
+        width: "240px",
         marginTop: "10px",
         // backgroundImage: "linear-gradient(to right, #7B75B1, #19D6EB)",
     },
     loginType: {
-        marginTop: "20px"
-    }
+        marginTop: 15,
+        marginBottom: 10
+    },
+    root: {
+        '&:hover': {
+            backgroundColor: 'transparent',
+        },
+    },
+    icon: {
+        borderRadius: '50%',
+        width: 16,
+        height: 16,
+        boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
+        backgroundColor: '#f5f8fa',
+        backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',
+        '$root.Mui-focusVisible &': {
+            outline: '2px auto rgba(19,124,189,.6)',
+            outlineOffset: 2,
+        },
+        'input:hover ~ &': {
+            backgroundColor: '#ebf1f5',
+        },
+        'input:disabled ~ &': {
+            boxShadow: 'none',
+            background: 'rgba(206,217,224,.5)',
+        },
+    },
+    checkedIcon: {
+        backgroundColor: '#137cbd',
+        backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
+        '&:before': {
+            display: 'block',
+            width: 16,
+            height: 16,
+            backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',
+            content: '""',
+        },
+        'input:hover ~ &': {
+            backgroundColor: '#106ba3',
+        },
+    },
 }));

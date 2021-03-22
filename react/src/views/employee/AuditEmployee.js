@@ -1,4 +1,4 @@
-import { Avatar, makeStyles, Box, Typography, AppBar, Toolbar, IconButton, TextField, Button } from "@material-ui/core";
+import { Avatar, makeStyles, Box, Typography, AppBar, Toolbar, IconButton, TextField, Button, Snackbar } from "@material-ui/core";
 import PropTypes from 'prop-types';
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
@@ -15,7 +15,10 @@ import Select from '@material-ui/core/Select';
 import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import { AddCircleRounded, ArrowLeftRounded, BackspaceRounded, BackupRounded, KeyboardArrowLeftRounded } from "@material-ui/icons";
-
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const BootstrapInput = withStyles((theme) => ({
     root: {
         'label + &': {
@@ -82,8 +85,14 @@ export default function AuditManager(props) {
 
     const [value, setValue] = React.useState(0);
     const [permission, setPermission] = React.useState('');
-    const [area, setArea] = React.useState("")
+    const [area, setArea] = React.useState("");
+    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+    const [toastMessage, setToastMessage] = React.useState("");
+    const [loginState, setLoginState] = React.useState("success");
 
+    const onClose = (event, reason) => {
+        setSnackbarOpen(false);
+    }
     const handleAreaChange = e => {
         setArea(e.target.value);
     }
@@ -187,25 +196,15 @@ export default function AuditManager(props) {
                         <TextField variant="outlined" size="small" value={info.tel}></TextField>
 
                     </div>
+                    <div className={classes.inputWrapper}>
+                        <label>管理地区:</label>
+                        <TextField variant="outlined" size="small" value={info.area}></TextField>
+
+                    </div>
+
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     <div>
-
-                        <FormControl className={classes.margin}>
-                            <InputLabel htmlFor="demo-customized-select-native">地区</InputLabel>
-                            <NativeSelect
-                                id="demo-customized-select-native"
-                                value={area}
-                                onChange={handleAreaChange}
-                                input={<BootstrapInput />}
-                            >
-                                {/* <option aria-label="None" value="" /> */}
-                                <option value={10}>华东</option>
-                                <option value={20}>华西</option>
-                                <option value={30}>华南</option>
-                                <option value={40}>华北</option>
-                            </NativeSelect>
-                        </FormControl>
                         <FormControl className={classes.margin}>
                             <InputLabel htmlFor="demo-customized-select-native">权限</InputLabel>
                             <NativeSelect
@@ -224,9 +223,14 @@ export default function AuditManager(props) {
                             </NativeSelect>
                         </FormControl>
                         <Button style={{ marginTop: 25, position: "fixed", right: 10, backgroundColor: "red", color: "white" }}>删除</Button>
-                        <Button style={{ marginTop: 25, position: "fixed", right: 80, backgroundColor: "#50EBEB" }}>修改</Button>
+                        <Button onClick={e => { setSnackbarOpen(true); setToastMessage("添加权限:查看"); setLoginState("success"); }} style={{ marginTop: 25, position: "fixed", right: 80, backgroundColor: "#50EBEB" }}>修改</Button>
                     </div>
                 </TabPanel>
+                <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>
+                    <Alert severity={loginState}>
+                        {toastMessage}
+                    </Alert>
+                </Snackbar>
             </div>
         </div>
     )

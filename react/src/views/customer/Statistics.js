@@ -1,7 +1,7 @@
 import { Card, makeStyles } from '@material-ui/core';
 import * as echarts from 'echarts';
 import React from 'react';
-import { API_URL } from '../assets/jss/components/constants';
+import { API_URL } from '../../constants/Constant';
 
 export default function Home(props) {
     var statisMonthChart, ageChart, customerPorprotionChart, genderChart;
@@ -123,7 +123,7 @@ export default function Home(props) {
         visualMap: {
             show: false,
             min: 1,
-            max: 20,
+            max: 10,
             inRange: {
                 colorLightness: [0, 1]
             }
@@ -164,7 +164,7 @@ export default function Home(props) {
         visualMap: {
             show: false,
             min: 10,
-            max: 100,
+            max: 10,
             inRange: {
                 colorLightness: [0, 1]
             }

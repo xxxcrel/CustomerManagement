@@ -10,7 +10,7 @@ spring:
     password: hellowuxc
     url: jdbc:mysql://localhost:3306/employees?serverTimezone=Asia/Shanghai
 #    initialization-mode: always
-#    schema:
-#      - classpath:createAclSchemaMySQL.sql
-#      - classpath:createUserSchema.sql
+    schema:
+      - classpath:createAclSchemaMySQL.sql
+      - classpath:createUserSchema.sql
 #    data: classpath:data-mysql.sql

@@ -2,7 +2,6 @@ package beer.cheese.web.api;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,21 +19,46 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import beer.cheese.entity.Customer;
-import beer.cheese.entity.UserDTO;
+import beer.cheese.entity.Order;
+import beer.cheese.entity.Type;
+import beer.cheese.repository.TypeRepository;
+import beer.cheese.web.request.CustomerDTO;
 import beer.cheese.repository.CustomerRepository;
+import beer.cheese.repository.OrderRepository;
+import beer.cheese.service.CustomerService;
 import beer.cheese.view.Result;
 
 @RestController
-@RequestMapping(value = "/user", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/customer", produces = {MediaType.APPLICATION_JSON_VALUE})
 @CrossOrigin
-public class UserController {
+public class CustomerController {
 
-    private static final Log logger = LogFactory.getLog(UserController.class);
+    private static final Log logger = LogFactory.getLog(CustomerController.class);
 
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
 
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private TypeRepository typeRepository;
+
+
+    @PostMapping("/login")
+    public Result<Customer> login(@RequestParam String username, @RequestParam String password){
+        return Result.ok(customerService.login(username, password));
+    }
+
+    @GetMapping("/order")
+    public Result<List<Order>> purchasedProduct(@RequestParam Long customerId){
+        Customer customer = customerRepository.findById(customerId).get();
+        List<Order> orderList = orderRepository.findAllByCustomer(customer);
+        return Result.ok(orderList);
+    }
 
     @GetMapping(value = "/all", produces = {MediaType.APPLICATION_JSON_VALUE})
     public Result<List<Customer>> getUserList() {
@@ -43,16 +67,22 @@ public class UserController {
 
     @GetMapping
     public Result<Customer> getUser() {
-        Optional<Customer> user = customerRepository.findByUsername("wuxc");
-        return Result.ok(user.get());
+        Customer user = customerRepository.findByUsername("wuxc");
+        return Result.ok(user);
     }
 
-    @PostMapping
-    public Result<String> addUser(@RequestBody UserDTO userDTO){
+    @PostMapping("/add")
+    public Result<String> addCustomer(@RequestBody CustomerDTO customerDTO){
+        System.out.println(customerDTO);
+        if(customerRepository.existsByCompanyName(customerDTO.getCompanyName())){
+            return Result.error("该客户已经存在");
+        }
         Customer customer = new Customer();
-        BeanUtils.copyProperties(userDTO, customer);
+        Type type = typeRepository.findByTypeName(customerDTO.getType());
+        BeanUtils.copyProperties(customerDTO, customer, "type");
+        customer.setType(type);
         customerRepository.save(customer);
-        return Result.ok("add " + userDTO.getUsername() + " successful!!!");
+        return Result.ok("添加" + customerDTO.getCompanyName() + "成功!!!");
     }
     @PutMapping
     public Result<String> updateUser(@RequestParam("user_id") Long userId,

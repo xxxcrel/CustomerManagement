@@ -12,54 +12,51 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import beer.cheese.entity.Area;
-import beer.cheese.entity.Manager;
-import beer.cheese.repository.AreaRepository;
-import beer.cheese.repository.ManagerRepository;
-import beer.cheese.service.ManagerService;
+import beer.cheese.entity.Employee;
+import beer.cheese.repository.EmployeeRepository;
+import beer.cheese.service.EmployeeService;
 import beer.cheese.view.Result;
 
 @RestController
-@RequestMapping("/manager")
+@RequestMapping("/employee")
 @CrossOrigin
-public class ManagerController {
+public class EmployeeController {
     private final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
-    private ManagerService managerService;
+    private EmployeeService employeeService;
 
     @Autowired
-    private ManagerRepository managerRepository;
+    private EmployeeRepository employeeRepository;
 
-    @Autowired
-    private AreaRepository areaRepository;
 
     @PostMapping(value = "/login", produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
-    public Result<Manager> login(@RequestParam("username") String username,
-                                @RequestParam("password") String password) {
+    public Result<Employee> login(@RequestParam("username") String username,
+                                  @RequestParam("password") String password) {
         logger.info("Username: " + username);
         logger.info("Password: " + password);
 
-        return Result.ok(managerService.login(username, password));
+        return Result.ok(employeeService.login(username, password));
     }
 
     @GetMapping("/info")
-    public Result<Manager> getDetails(@RequestParam("jobNum") String jobNum){
-        return Result.ok(managerRepository.findByJobNum(jobNum).get());
+    public Result<Employee> getDetails(@RequestParam("jobNum") String jobNum){
+        return Result.ok(employeeRepository.findByJobNum(jobNum).get());
     }
 
     @GetMapping("/all")
     public Result getAllManager(){
-        return Result.ok(managerRepository.findAll());
+        return Result.ok(employeeRepository.findAll());
     }
 
     @GetMapping("/findByArea")
     public Result getManagerByArea(@RequestParam("area") String area){
         logger.info(area);
-        Area area1 = areaRepository.findByName(area);
-        logger.info("hello" + area1.getName() + "nothing");
-        logger.info("hello" + area1.getManagers());
-        return Result.ok(areaRepository.findByName(area).getManagers());
+        return Result.ok(employeeRepository.findAllByArea(area));
+    }
+    @GetMapping("/findAll")
+    public Result getAllEmployee(){
+        return Result.ok("ok");
     }
 }

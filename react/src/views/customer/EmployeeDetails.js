@@ -1,9 +1,9 @@
 import { Avatar, Divider, makeStyles, TextField, clsx, Button } from "@material-ui/core"
 import { Link } from "react-router-dom";
 import React from "react";
-import { API_URL } from "../assets/jss/components/constants";
+import { API_URL } from "../../constants/Constant";
 
-export default function ManagerDetail(props) {
+export default function EmployeeDetail(props) {
 
     const info = props.location.state;
     // var _body = new FormData();
