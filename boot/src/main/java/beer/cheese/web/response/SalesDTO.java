@@ -1,4 +1,4 @@
-package beer.cheese.entity;
+package beer.cheese.web.response;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
