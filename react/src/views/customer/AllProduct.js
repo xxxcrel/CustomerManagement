@@ -22,7 +22,7 @@ export default function AllProduct(props) {
     });
 
     const onItemClick = (event) => {
-
+        console.log("click");
     }
     return (
         <div className={classes.wraper}>

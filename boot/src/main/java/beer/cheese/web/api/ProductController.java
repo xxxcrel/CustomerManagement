@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +34,8 @@ import beer.cheese.web.request.RenewRequest;
 @RequestMapping("/product")
 @CrossOrigin
 public class ProductController {
+
+    private final Log logger = LogFactory.getLog(getClass());
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -90,8 +94,7 @@ public class ProductController {
     @GetMapping("/{id}/order")
     public Result<List<Order>> getCustomer(@PathVariable("id") Long productId){
         Product product = productRepository.findById(productId).get();
-        System.out.println(product);
-
+        logger.info(product);
         return Result.ok(orderRepository.findAllByProduct(product));
     }
 

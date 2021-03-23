@@ -25,13 +25,14 @@ public class EmployeeService {
 
 
     public Employee login(String jobNum, String password) {
-        Assert.notNull(jobNum, "工号不能为空");
+        Assert.notNull(jobNum, "账号不能为空");
         Assert.notNull(password, "密码不能为空");
 
         Employee employee = employeeRepository.findByJobNum(jobNum)
                 .orElseThrow(() -> new RuntimeException("can't find jobNum: " + jobNum));
         String truePasswd = employee.getPassword();
-        if (truePasswd == null || truePasswd.isEmpty() || password.isEmpty() || !truePasswd.equals(password)) {
+        if (truePasswd == null || truePasswd.isEmpty() || password.isEmpty()
+                || !truePasswd.equals(password)) {
             throw new BaseException(ResultEnum.ERROR, "密码错误");
         }
         return employee;

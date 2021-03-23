@@ -128,26 +128,20 @@ export default function AllCustomer(props) {
   }
 
   React.useEffect(() => {
-    console.log("effect start");
-    // setLoaded(false);
     if (!loaded) {
       setTimeout(() => {
         fetch(`${API_URL}/customer/all`)
           .then(resp => {
             return resp.json();
           }).then(data => {
-            // rows = data["data"];
             setLoaded(true);
             console.log(data["data"]);
             setData(data["data"]);
-            // rows = data["data"];
           }).catch(error => {
             console.log("Error: " + error);
-
           });
       }, 1000);
     }
-    console.log("effect end");
     return () => { console.log("cleanup") }
   })
 

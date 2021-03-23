@@ -24,31 +24,23 @@ public class StatisticsController {
     @Autowired
     private OrderRepository orderRepository;
 
-    @GetMapping("/sales")
-    public Result getProductSales(){
-        return Result.ok(orderRepository.groupByProduct());
-    }
-
     @GetMapping("/gender")
     public Result getFemaleStatistics() {
         return Result.ok(customerRepository.groupByGender());
     }
 
+    @GetMapping("/sales")
+    public Result getProductSales() {
+        return Result.ok(orderRepository.groupByProduct());
+    }
     @GetMapping("/location")
     public Result getLocationStatistics() {
-        return Result.ok(
-                customerRepository.groupByArea());
+        return Result.ok(customerRepository.groupByArea());
     }
-
     @GetMapping("/purchasingPower")
     public Result getAgeStatistics() {
-//        List<List<String>> resultArray = new ArrayList<>();
-//        ageList.forEach(ageRange -> {
-//            String rangeString = ageRange.getAfter() + "-" + ageRange.getBefore();
-//            Long count = customerRepository.countUsersByAgeBetween(ageRange.getAfter(), ageRange.getBefore());
-//            resultArray.add(Arrays.asList(rangeString, count.toString()));
-//        });
-
-        return Result.ok(orderRepository.groupByCustomer().stream().limit(5).collect(Collectors.toList()));
+        return Result.ok(orderRepository.groupByCustomer()
+                .stream().limit(5)
+                .collect(Collectors.toList()));
     }
 }

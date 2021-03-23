@@ -114,8 +114,8 @@ export default function FeedbackHome(props) {
                     rating: rating,
                     review: review
                 })
-            }).
-                then(resp => resp.json())
+            })
+                .then(resp => resp.json())
                 .then(json => {
                     console.log(json);
                     setSnackbarOpen(true);

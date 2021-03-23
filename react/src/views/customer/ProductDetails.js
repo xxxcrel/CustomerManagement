@@ -123,6 +123,11 @@ export default function ProductDetails(props) {
                         handleDialogClose();
                         refreshOrder();
                     }
+                }).catch(err => {
+                    setSnackbarOpen(true);
+                    setToastMessage("网络延迟,请稍后重试");
+                    setAddState("error");
+                    handleDialogClose();
                 })
         }
     }
