@@ -1,4 +1,4 @@
-package beer.cheese.entity;
+package beer.cheese.web.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

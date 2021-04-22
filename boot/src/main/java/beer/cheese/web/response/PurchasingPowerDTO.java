@@ -1,4 +1,4 @@
-package beer.cheese.entity;
+package beer.cheese.web.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PurchasingPower {
+public class PurchasingPowerDTO {
 
     /**
      * 客户名
