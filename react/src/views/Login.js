@@ -38,6 +38,7 @@ export default function Login(props) {
     const [type, setType] = React.useState("customer");
     const [loginState, setLoginState] = React.useState("success");
     const [accountLabel, setAccountLabel] = React.useState("代表人")
+
     const handleChange = (event) => {
         setType(event.target.value);
         switch (event.target.value) {
@@ -116,6 +117,7 @@ export default function Login(props) {
                         setSnackbarOpen(true);
                         setLoginState("success");
                         setToastMessage("登入成功");
+                        localStorage.setItem("info", JSON.stringify(data["data"]));
                         setTimeout(() => {
                             props.history.push("/customer/statistics", data["data"]);
                         }, 1500);

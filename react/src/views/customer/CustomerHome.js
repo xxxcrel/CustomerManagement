@@ -1,3 +1,4 @@
+import React from 'react';
 import Sidebar from '../../components/SideBar';
 import Home from "./Statistics";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect, } from 'react-router-dom';
@@ -9,6 +10,7 @@ import AddCustomer from './AddCustomer';
 import AllCustomer from './AllCustomer';
 import AllProduct from './AllProduct';
 import ProductDetails from './ProductDetails';
+import { API_URL } from '../../constants/Constant';
 
 const routes = [
   {
@@ -32,11 +34,11 @@ const routes = [
     sidebar: "产品列表",
     main: AllProduct
   },
-  {
-    path: "/customer/contact-us",
-    sidebar: "商业合作",
-    main: ContactUs
-  },
+  // {
+  //   path: "/customer/contact-us",
+  //   sidebar: "商业合作",
+  //   main: ContactUs
+  // },
 
 ]
 const useStyles = makeStyles(styles);
@@ -45,15 +47,28 @@ let info;
 
 export default function CustomerHome(props) {
 
-  console.log(props);
-  if (props.location.state != null) {
+  // console.log(props);
+  // if (props.location.state != null) {
 
-    info = props.location.state;
+  //   info = props.location.state;
 
-  }
+  // }
+  const [avatarUrl, setAvatarUrl] = React.useState(null);
 
+  let info;
   const classes = useStyles();
 
+  React.useEffect(() => {
+    var infoStr = localStorage.getItem("info");
+    var info = JSON.parse(infoStr);
+    setAvatarUrl(info.avatarUrl);
+    console.log("info: " + info);
+    return () => { };
+  }, []);
+
+  const onLogout = (e) => {
+    localStorage.removeItem("info");
+  }
   return (
     <div className={classes.wrapper}>
 
@@ -71,10 +86,10 @@ export default function CustomerHome(props) {
           <Toolbar className={classes.container}>
             <Typography style={{ flexGrow: "1" }} />
             <Link to={{ pathname: "/customer/employeeDetails", state: info }}>
-              <Avatar src={info.avatarUrl} alt="登入" />
+              <Avatar src={avatarUrl} alt="登入" />
             </Link>
             <Link to="/login" style={{ textDecoration: "none", marginLeft: 20 }}>
-              <Button style={{ backgroundColor: "red", color: "white", width: 50, height: 30 }}>注销</Button>
+              <Button style={{ backgroundColor: "red", color: "white", width: 50, height: 30 }} onClick={onLogout}>注销</Button>
             </Link>
 
           </Toolbar>

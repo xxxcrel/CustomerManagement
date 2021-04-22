@@ -13,7 +13,7 @@ export default function AddEmployee(props) {
         props.history.push("/login");
     }
 
-    const [selectedDate, setSelectedDate] = React.useState(new Date('2021-03-01T21:11:54'));
+    const [selectedDate, setSelectedDate] = React.useState(new Date());
 
     const handleDateChange = (date) => {
         setSelectedDate(date);

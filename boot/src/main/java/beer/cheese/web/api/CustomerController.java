@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import beer.cheese.entity.Customer;
+import beer.cheese.entity.Employee;
 import beer.cheese.entity.Order;
 import beer.cheese.entity.Type;
 import beer.cheese.repository.TypeRepository;
@@ -49,10 +51,18 @@ public class CustomerController {
 
 
     @PostMapping("/login")
-    public Result<Customer> login(@RequestParam String username, @RequestParam String password){
+    public Result<Customer> login(@RequestParam String username,
+                                  @RequestParam String password){
         return Result.ok(customerService.login(username, password));
     }
 
+    @PostMapping("/changePwd")
+    public Result<String> changePassword(@RequestParam("id") Long id, @RequestParam("newPwd")String newPassword){
+        Customer customer = customerRepository.findById(id).get();
+        customer.setPassword(newPassword);
+        customerRepository.save(customer);
+        return Result.ok("密码修改成功");
+    }
     @GetMapping("/order")
     public Result<List<Order>> purchasedProduct(@RequestParam Long customerId){
         Customer customer = customerRepository.findById(customerId).get();

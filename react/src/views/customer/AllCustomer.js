@@ -127,23 +127,23 @@ export default function AllCustomer(props) {
     setSnackbarOpen(false);
   }
 
-  React.useEffect(() => {
-    if (!loaded) {
-      setTimeout(() => {
-        fetch(`${API_URL}/customer/all`)
-          .then(resp => {
-            return resp.json();
-          }).then(data => {
-            setLoaded(true);
-            console.log(data["data"]);
-            setData(data["data"]);
-          }).catch(error => {
-            console.log("Error: " + error);
-          });
-      }, 1000);
-    }
-    return () => { console.log("cleanup") }
-  })
+          React.useEffect(() => {
+            if (!loaded) {
+              setTimeout(() => {
+                fetch(`${API_URL}/customer/all`)
+                  .then(resp => {
+                    return resp.json();
+                  }).then(data => {
+                    setLoaded(true);
+                    console.log(data["data"]);
+                    setData(data["data"]);
+                  }).catch(error => {
+                    console.log("Error: " + error);
+                  });
+              }, 1000);
+            }
+            return () => { console.log("cleanup") }
+          })
 
 
   const AreaSelector = () => {

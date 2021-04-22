@@ -348,7 +348,7 @@ public class InitData {
 
         employee.setGender(stepNum % 2 == 0 ? "男" : "女");
         employee.setState(stateRepository.findByName("实习"));
-        employee.setPermission(0x01 << 1);
+        employee.setPermission(1);
         employee.setArea(areas[random.nextInt(4)]);
         return employee;
     }

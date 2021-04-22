@@ -43,7 +43,6 @@ export default function FeedbackHome(props) {
 
     const customer = props.location.state;
     const classes = useStyles();
-    const [orders, setOrders] = React.useState([]);
     const [showDetails, setShowDetails] = React.useState(false);
     const [currentOrder, setCurrentOrder] = React.useState(null);
     const [review, setReview] = React.useState("");
@@ -53,10 +52,10 @@ export default function FeedbackHome(props) {
     const [alertState, setAlertState] = React.useState("success");
     const [toastMessage, setToastMessage] = React.useState("");
     const [dialog, openDialog] = React.useState(false);
+    const [orders, setOrders] = React.useState([]);
+    const [commented, setCommented] = React.useState("");
 
-    // console.log("hhhhhhh")
     React.useEffect(() => {
-        // console.log("hel")
         if (orders == null || orders.length === 0) {
             console.log(customer.customerId);
             fetch(`${API_URL}/customer/order?customerId=${customer.id}`)
@@ -76,6 +75,7 @@ export default function FeedbackHome(props) {
                         <Grid item xs={3}>
                             <IconButton style={{ width: 120, height: 120 }} onClick={e => {
                                 setCurrentOrder(order);
+                                setCommented(order.commented);
                                 setReview("");
                                 setRating(0);
                                 openDialog(true);
@@ -103,7 +103,7 @@ export default function FeedbackHome(props) {
             return;
         }
         if (review !== "" && rating !== 0) {
-            fetch("/product/comment", {
+            fetch(`${API_URL}/product/comment`, {
                 method: "POST",
                 headers: {
                     "content-type": "application/json"
@@ -121,6 +121,7 @@ export default function FeedbackHome(props) {
                     setSnackbarOpen(true);
                     setAlertState("success");
                     setToastMessage(json["data"]);
+                    openDialog(false);
                 })
         }
     }
@@ -149,9 +150,11 @@ export default function FeedbackHome(props) {
                         代表人: {customer.username}
                     </Typography>
 
-                    <Button variant="outlined" color="secondary" style={{ marginRight: 5 }}>
-                        修改密码
-                    </Button>
+                    <Link to={{ pathname: "/updatePassword", state: { type: "customer", id: customer.id } }} style={{ textDecoration: "none" }}>
+                        <Button variant="outlined" color="secondary" style={{ marginRight: 5 }}>
+                            修改密码
+                    </Button> </Link>
+
                     <Button variant="outlined" color="primary" onClick={e => {
                         props.history.goBack();
                     }}>
@@ -199,6 +202,7 @@ export default function FeedbackHome(props) {
                                 <TextField
                                     key="comment-field"
                                     error={reviewError}
+                                    disabled={commented}
                                     value={review}
                                     onChange={(e) => { setReview(e.target.value) }}
                                     variant="outlined"
@@ -208,13 +212,13 @@ export default function FeedbackHome(props) {
                                     // autoFocus    
                                     style={{ width: "100%", }} />
                                 {/* <TextField value={review} onChange={(e) => { setReview(e.target.value) }} autoFocus /> */}
-                                <Typography style={{ marginRight: 10 }}>
+                                <Typography style={{ marginRight: 10 }} >
                                     给产品打个评分吧!
                         </Typography>
-                                <Rating style={{ marginRight: 10, position: "relative", right: 0, marginBottom: 10 }} value={rating} onChange={e => { setRating(e.target.value) }} />
-                                <Button color="secondary" variant="outlined" style={{ marginRight: 10 }} onClick={onSubmitComment}>
-                                    提交评价
-                        </Button>
+                                <Rating disabled={commented} style={{ marginRight: 10, position: "relative", right: 0, marginBottom: 10 }} value={rating} onChange={e => { setRating(e.target.value) }} />
+                                <Button disabled={commented} color="secondary" variant="outlined" style={{ marginRight: 10 }} onClick={onSubmitComment}>
+                                    {commented ? "已评价" : "提交评价"}
+                                </Button>
                             </div>
                         </div>
                     </div >

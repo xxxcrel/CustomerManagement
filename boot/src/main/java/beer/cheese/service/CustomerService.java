@@ -17,7 +17,8 @@ public class CustomerService {
     public Customer login(String username, String password){
         Customer customer = customerRepository.findByUsername(username);
         String truePasswd = customer.getPassword();
-        if (truePasswd == null || truePasswd.isEmpty() || password.isEmpty() || !truePasswd.equals(password)) {
+        if (truePasswd == null || truePasswd.isEmpty() || password.isEmpty()
+                || !truePasswd.equals(password)) {
             throw new BaseException(ResultEnum.ERROR, "密码错误");
         }
         return customer;

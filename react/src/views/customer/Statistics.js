@@ -230,7 +230,6 @@ export default function Home(props) {
         fetch(`${API_URL}/api/statistics/sales`)
             .then(resp => resp.json())
             .then(json => {
-                // console.log(json);
                 if (sales == null || sales.length === 1) {
                     setSales(json["data"]);
 
@@ -239,20 +238,18 @@ export default function Home(props) {
         fetch(`${API_URL}/api/statistics/purchasingPower`)
             .then(resp => resp.json())
             .then(json => {
-                if (purchasingPower == null || purchasingPower.length == 1) {
+                if (purchasingPower == null || purchasingPower.length === 1) {
                     setPurchasingPower(json["data"]);
-                    // console.log(json["data"]);
                 }
             })
             .catch(error => {
                 console.log("Error: " + error);
             });
-
         fetch(`${API_URL}/api/statistics/location`)
             .then(resp => resp.json())
             .then(json => {
                 console.log(json);
-                if (locationData == null || locationData.length == 0)
+                if (locationData == null || locationData.length === 0)
                     setLocationData(json["data"]);
             })
             .catch(error => {
@@ -262,7 +259,7 @@ export default function Home(props) {
         fetch(`${API_URL}/api/statistics/gender`)
             .then(resp => resp.json())
             .then(json => {
-                if (genderData == null || genderData.length == 0)
+                if (genderData == null || genderData.length === 0)
                     setGenderData(json["data"]);
             })
             .catch(error => {

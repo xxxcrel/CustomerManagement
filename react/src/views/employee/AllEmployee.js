@@ -19,8 +19,6 @@ export default function AllEmployee(props) {
 
     React.useEffect(() => {
         if (east == null || east.length === 0) {
-
-
             fetch(`${API_URL}/employee/findByArea?area=${names[0]}`)
                 .then(resp => resp.json())
                 .then(json => {

@@ -16,6 +16,7 @@ import NativeSelect from '@material-ui/core/NativeSelect';
 import InputBase from '@material-ui/core/InputBase';
 import { AddCircleRounded, ArrowLeftRounded, BackspaceRounded, BackupRounded, KeyboardArrowLeftRounded } from "@material-ui/icons";
 import MuiAlert from '@material-ui/lab/Alert';
+import { API_URL } from "../../constants/Constant";
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
@@ -83,8 +84,9 @@ export default function AuditManager(props) {
 
     const info = props.location.state;
 
+    console.log("Employee: " + info.permission);
     const [value, setValue] = React.useState(0);
-    const [permission, setPermission] = React.useState('');
+    const [permission, setPermission] = React.useState(info.permission);
     const [area, setArea] = React.useState("");
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [toastMessage, setToastMessage] = React.useState("");
@@ -104,6 +106,20 @@ export default function AuditManager(props) {
         setValue(newValue);
     };
 
+    const onChangePermission = (event) => {
+        var form = new FormData();
+        form.set("id", info.id);
+        form.set("permission", permission);
+        fetch(`${API_URL}/employee/changePermission`, {
+            method: "POST",
+            body: form
+        }).then(resp => resp.json())
+            .then(json => {
+                setSnackbarOpen(true);
+                setToastMessage(json["data"]);
+                setLoginState("success");
+            })
+    }
 
     const classes = useStyles();
 
@@ -111,7 +127,7 @@ export default function AuditManager(props) {
         <div className={classes.wrapper}>
             <AppBar position="relative" style={{ boxShadow: "none", backgroundColor: "inherit" }}>
                 <Toolbar>
-                    <IconButton onClick={e => { props.history.goBack() }}>
+                    <IconButton onClick={e => { props.history.goBack(); }}>
                         <KeyboardArrowLeftRounded />
                     </IconButton>
 
@@ -215,15 +231,14 @@ export default function AuditManager(props) {
                             >
                                 <option aria-label="None" value={0}>无</option>
 
-                                <option value={10}>所有权</option>
-                                <option value={20}>查看</option>
-                                <option value={30}>添加</option>
-                                <option value={40}>删除</option>
-                                <option value={50}>修改</option>
+                                <option value={1}>所有权</option>
+                                <option value={2}>查看</option>
+                                <option value={3}>添加</option>
+                                <option value={4}>删除</option>
+                                <option value={5}>修改</option>
                             </NativeSelect>
                         </FormControl>
-                        <Button style={{ marginTop: 25, position: "fixed", right: 10, backgroundColor: "#50ebeb", color: "black" }}>修改</Button>
-                        {/* <Button onClick={e => { setSnackbarOpen(true); setToastMessage("添加权限:查看"); setLoginState("success"); }} style={{ marginTop: 25, position: "fixed", right: 80, backgroundColor: "#50EBEB" }}>修改</Button> */}
+                        <Button onClick={onChangePermission} style={{ marginTop: 25, position: "fixed", right: 10, backgroundColor: "#50ebeb", color: "black" }}>修改</Button>
                     </div>
                 </TabPanel>
                 <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={onClose}>

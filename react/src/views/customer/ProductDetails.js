@@ -24,18 +24,19 @@ export default function ProductDetails(props) {
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [addState, setAddState] = React.useState("success");
     const [toastMessage, setToastMessage] = React.useState("");
-    const [startDate, setStartDate] = React.useState(new Date('2021-03-01'));
-    const [endDate, setEndDate] = React.useState(new Date('2021-03-09'));
+    const [startDate, setStartDate] = React.useState(new Date());
+    const [endDate, setEndDate] = React.useState(new Date());
     const [customers, setCustomers] = React.useState([]);
     const [finalPrice, setFinalPrice] = React.useState(0);
     const [selectedCustomer, setSelectedCustoemr] = React.useState("");
 
     const handleStartChange = (date) => {
         setStartDate(date);
+        console.log(date);
     };
     const handleEndChange = (date) => {
         setEndDate(date);
-        var duration = (endDate - startDate) / (1000 * 60 * 60 * 24);
+        var duration = (date - startDate) / (1000 * 60 * 60 * 24);
         console.log(duration);
         if (duration > 0) {
             setFinalPrice(parseInt(duration / 365 * product.price));

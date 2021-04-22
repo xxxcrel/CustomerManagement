@@ -7,7 +7,6 @@ import Login from './views/Login';
 import ModifyPassword from './views/customer/ModifyPassword';
 import CustomerHome from './views/customer/CustomerHome';
 import EmployeeHome from './views/employee/EmployeeHome';
-import ProductDetails from './views/customer/ProductDetails';
 import FeedbackHome from './views/product/FeedbackHome';
 
 const hist = createBrowserHistory();

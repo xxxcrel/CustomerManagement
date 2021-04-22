@@ -1,5 +1,6 @@
 package beer.cheese.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -31,8 +32,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @Setter
 @Getter
-public class Employee {
-
+public class Employee implements Serializable {
+    private static final long serialVersionUID = 4020568460727567L;
     @Id
     @GeneratedValue
     private Long id;
