@@ -86,8 +86,13 @@ export default function AuditManager(props) {
 
     console.log("Employee: " + info.permission);
     const [value, setValue] = React.useState(0);
+    const [username, setUsername] = React.useState(info.username);
+    const [age, setAge] = React.useState(info.age);
+    const [gender, setGender] = React.useState(info.gender);
+    const [entryDate, setEntryDate] = React.useState(info.entryDate);
+    const [tel, setTel] = React.useState(info.tel);
     const [permission, setPermission] = React.useState(info.permission);
-    const [area, setArea] = React.useState("");
+    const [area, setArea] = React.useState(info.area);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
     const [toastMessage, setToastMessage] = React.useState("");
     const [loginState, setLoginState] = React.useState("success");
@@ -118,6 +123,26 @@ export default function AuditManager(props) {
                 setSnackbarOpen(true);
                 setToastMessage(json["data"]);
                 setLoginState("success");
+            })
+    }
+    const onChangeInfo = (event) => {
+        fetch(`${API_URL}/employee/updateInfo?id=${info.id}`, {
+            method: "POST",
+            body: JSON.stringify({
+                username: username,
+                age: age,
+                gender: gender,
+                tel: tel,
+                area: area
+            }),
+            headers: {
+                "content-type": "application/json"
+            }
+        }).then(resp => resp.json())
+            .then(json => {
+                setSnackbarOpen(true);
+                setLoginState("success");
+                setToastMessage(json["data"]);
             })
     }
 
@@ -155,7 +180,9 @@ export default function AuditManager(props) {
                     <Typography style={{ marginTop: 5 }}>
                         姓名: {info.username}
                     </Typography>
-                </div>
+                    <Typography style={{ marginTop: 5 }}>
+                        入职日期: {info.entryDate}
+                    </Typography> </div>
             </div>
 
             <div>
@@ -183,38 +210,38 @@ export default function AuditManager(props) {
                 </Paper>
                 <TabPanel value={value} index={0} style={{ width: "100%" }}>
                     <div style={{ width: "inherit" }}>
-                        <Button style={{ position: "fixed", right: 10, backgroundColor: "#50EBEB" }}>编辑</Button>
+                        <Button onClick={onChangeInfo} style={{ position: "fixed", right: 10, backgroundColor: "#50EBEB" }}>修改</Button>
 
                     </div>
                     <div className={classes.inputWrapper}>
                         <label style={{ marginRight: 30, paddingTop: 10 }}>姓名:</label>
-                        <TextField variant="outlined" size="small" value={info.username}></TextField>
+                        <TextField onChange={e => setUsername(e.target.value)} variant="outlined" size="small" value={username}></TextField>
 
                     </div>
                     <div className={classes.inputWrapper}>
                         <label style={{ marginRight: 30, marginTop: 10 }}>年龄:</label>
-                        <TextField variant="outlined" size="small" value={info.age}></TextField>
+                        <TextField onChange={e => setAge(e.target.value)} variant="outlined" size="small" value={age}></TextField>
 
                     </div>
                     <div className={classes.inputWrapper}>
                         <label style={{ marginRight: 30 }}>性别:</label>
-                        <TextField variant="outlined" size="small" value={info.gender}></TextField>
+                        <TextField onChange={e => setGender(e.target.value)} variant="outlined" size="small" value={gender}></TextField>
 
                     </div>
 
                     <div className={classes.inputWrapper}>
                         <label>入职日期:</label>
-                        <TextField variant="outlined" size="small" value={info.entryDate}></TextField>
+                        <TextField disabled onChange={e => setEntryDate(e.target.value)} variant="outlined" size="small" value={entryDate}></TextField>
 
                     </div>
                     <div className={classes.inputWrapper}>
                         <label>联系电话:</label>
-                        <TextField variant="outlined" size="small" value={info.tel}></TextField>
+                        <TextField onChange={e => setTel(e.target.value)} variant="outlined" size="small" value={tel}></TextField>
 
                     </div>
                     <div className={classes.inputWrapper}>
                         <label>管理地区:</label>
-                        <TextField variant="outlined" size="small" value={info.area}></TextField>
+                        <TextField onChange={e => setArea(e.target.value)} variant="outlined" size="small" value={area}></TextField>
 
                     </div>
 

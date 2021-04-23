@@ -1,15 +1,19 @@
 package beer.cheese.web.api;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -19,9 +23,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import beer.cheese.entity.Employee;
+import beer.cheese.entity.State;
 import beer.cheese.repository.EmployeeRepository;
+import beer.cheese.repository.StateRepository;
 import beer.cheese.service.EmployeeService;
 import beer.cheese.view.Result;
+import beer.cheese.web.request.EmployeeEntryDTO;
+import beer.cheese.web.request.UpdateDTO;
 
 @RestController
 @RequestMapping("/employee")
@@ -35,6 +43,9 @@ public class EmployeeController {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Autowired
+    private StateRepository stateRepository;
+
 
     @PostMapping(value = "/login", produces = {"application/json"})
     @ResponseStatus(HttpStatus.OK)
@@ -46,6 +57,18 @@ public class EmployeeController {
         Employee loginEmployee = employeeService.login(username, password);
 //        model.addAttribute("info", loginEmployee);
         return Result.ok(loginEmployee);
+    }
+
+    @PostMapping("/entry")
+    public Result<String> entry(@RequestBody EmployeeEntryDTO employeeEntryDTO){
+        Employee intern = new Employee();
+        State state = stateRepository.findByName(employeeEntryDTO.getState());
+        BeanUtils.copyProperties(employeeEntryDTO, intern);
+        intern.setEntryDate(new Date());
+        intern.setPermission(0);
+        intern.setState(state);
+        employeeRepository.save(intern);
+        return Result.ok("成功添加员工" + intern.getUsername());
     }
 
     @PostMapping("/changePermission")
@@ -74,6 +97,18 @@ public class EmployeeController {
 //        status.setComplete();
 //        return Result.ok("logout");
 //    }
+
+    @PostMapping("/updateInfo")
+    public Result<String> updateInfo(@RequestParam("id") Long id, @RequestBody UpdateDTO updateDTO){
+        Employee employee = employeeRepository.getOne(id);
+        employee.setUsername(updateDTO.getUsername());
+        employee.setAge(updateDTO.getAge());
+        employee.setGender(updateDTO.getGender());
+        employee.setArea(updateDTO.getArea());
+        employee.setTel(updateDTO.getTel());
+        employeeRepository.save(employee);
+        return Result.ok("更新" + employee.getUsername() + "信息成功");
+    }
     @GetMapping("/all")
     public Result getAllManager() {
         return Result.ok(employeeRepository.findAll());

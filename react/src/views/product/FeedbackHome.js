@@ -224,7 +224,7 @@ export default function FeedbackHome(props) {
                     </div >
                 </DialogContent>
             </Dialog>
-            <Snackbar open={snackbarOpen} onClose={e => { setSnackbarOpen(false) }}>
+            <Snackbar open={snackbarOpen} onClose={e => { setSnackbarOpen(false) }} autoHideDuration={1500}>
                 <Alert severity={alertState} >
                     {toastMessage}
                 </Alert>

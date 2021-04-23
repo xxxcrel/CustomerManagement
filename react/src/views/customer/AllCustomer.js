@@ -127,23 +127,23 @@ export default function AllCustomer(props) {
     setSnackbarOpen(false);
   }
 
-          React.useEffect(() => {
-            if (!loaded) {
-              setTimeout(() => {
-                fetch(`${API_URL}/customer/all`)
-                  .then(resp => {
-                    return resp.json();
-                  }).then(data => {
-                    setLoaded(true);
-                    console.log(data["data"]);
-                    setData(data["data"]);
-                  }).catch(error => {
-                    console.log("Error: " + error);
-                  });
-              }, 1000);
-            }
-            return () => { console.log("cleanup") }
-          })
+  React.useEffect(() => {
+    if (!loaded) {
+      setTimeout(() => {
+        fetch(`${API_URL}/customer/all`)
+          .then(resp => {
+            return resp.json();
+          }).then(data => {
+            setLoaded(true);
+            console.log(data["data"]);
+            setData(data["data"]);
+          }).catch(error => {
+            console.log("Error: " + error);
+          });
+      }, 1000);
+    }
+    return () => { console.log("cleanup") }
+  })
 
 
   const AreaSelector = () => {
@@ -207,20 +207,20 @@ export default function AllCustomer(props) {
 
             <div style={{ display: "flex", flexDirection: "row" }}>
               <h3 style={{ alignSelf: "center", textAlign: "center" }}>客户详细信息</h3>
-              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "#50EBEB", height: "30px", }} onClick={e => { setDisable(!disable) }}>编辑</Button></div>
+              <div style={{ alignSelf: "center", marginLeft: "100px" }}><Button style={{ backgroundColor: "#50EBEB", height: "30px", }} onClick={e => { setDisable(!disable) }}>修改</Button></div>
             </div>
             <div style={{ width: "100%", height: 360, display: "flex", flexDirection: "row", justifyContent: "center" }}>
               <div style={{ display: "flex", flexDirection: "column" }}>
-                <TextField variant="outlined" size="small" disabled label="地区" style={{ width: 280, height: 50 }} value={rowData.area.name} > </TextField>
-                <TextField variant="outlined" size="small" disabled label="姓名" style={{ width: 280, height: 50 }} value={rowData.username}> </TextField>
-                <TextField variant="outlined" size="small" disabled={disable} label="电话" style={{ width: 280, height: 50 }} value={rowData.tel}> </TextField>
-                <TextField variant="outlined" size="small" disabled label="性别" style={{ width: 280, height: 50 }} value={rowData.gender}> </TextField>
-                <TextField variant="outlined" size="small" disabled label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
-                <TextField variant="outlined" size="small" disabled={disable} label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField>
+                <TextField variant="outlined" size="small" label="客户类型" style={{ width: 280, height: 50 }} value={rowData.type.typeDesc}> </TextField>
+                <TextField variant="outlined" size="small" label="地区" style={{ width: 280, height: 50 }} value={rowData.area} > </TextField>
+                <TextField variant="outlined" size="small" label="姓名" style={{ width: 280, height: 50 }} value={rowData.username}> </TextField>
+                <TextField variant="outlined" size="small" label="电话" style={{ width: 280, height: 50 }} value={rowData.tel}> </TextField>
+                <TextField variant="outlined" size="small" label="性别" style={{ width: 280, height: 50 }} value={rowData.gender}> </TextField>
+                <TextField variant="outlined" size="small" label="年龄" style={{ width: 280, height: 50 }} value={rowData.age}> </TextField>
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", marginLeft: 80 }}>
-                <TextField variant="outlined" size="small" disabled label="客户类型" style={{ width: 280, height: 50 }} value={rowData.type.typeDesc}> </TextField>
+                <TextField variant="outlined" size="small" label="地址" style={{ width: 280, height: 50 }} value={rowData.address}> </TextField>
               </div>
             </div>
           </div>
@@ -243,12 +243,6 @@ export default function AllCustomer(props) {
     </div>
 
   );
-}
-
-function DetailPanel(rowData) {
-  // const classes = useStyles();
-
-
 }
 
 

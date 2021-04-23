@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
    @Query("select new beer.cheese.web.response.SalesDTO(o.product.name, count(o.product)) from Order o group by o.product order by count(o.product) desc")
    List<SalesDTO> groupByProduct();
 
-   @Query("select new beer.cheese.web.response.PurchasingPower(o.customer.companyName, count(o.customer)) from Order o group by o.customer order by count(o.customer) desc")
+   @Query("select new beer.cheese.web.response.PurchasingPowerDTO(o.customer.companyName, count(o.customer)) from Order o group by o.customer order by count(o.customer) desc")
    List<PurchasingPowerDTO> groupByCustomer();
    Order findByCustomerAndProduct(Customer customer, Product product);
 
