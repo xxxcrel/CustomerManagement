@@ -2,9 +2,11 @@ package beer.cheese.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,10 +27,12 @@ public class Order {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "tbl_customer_id")
     private Customer customer;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "tbl_product_id")
     private Product product;
 
     private Date startTime;

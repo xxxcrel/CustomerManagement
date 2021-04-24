@@ -60,7 +60,7 @@ export default function AllEmployee(props) {
             <div className={classes.lineWrapper}>
 
                 <Card className={classes.cardWrapper}>
-                    <h3 style={{ alignSelf: "center" }}>华北地区</h3>
+                    <h3 style={{ alignSelf: "center" }}>华东地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {east.map((tile) => (
@@ -76,7 +76,7 @@ export default function AllEmployee(props) {
                 </Card>
                 <Card className={classes.cardWrapper}>
 
-                    <h3 style={{ alignSelf: "center" }}>华南地区</h3>
+                    <h3 style={{ alignSelf: "center" }}>华西地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {west.map((tile) => (
@@ -92,7 +92,7 @@ export default function AllEmployee(props) {
             </div>
             <div className={classes.lineWrapper}>
                 <Card className={classes.cardWrapper}>
-                    <h3 style={{ alignSelf: "center" }}>华西地区</h3>
+                    <h3 style={{ alignSelf: "center" }}>华南地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {south.map((tile) => (
@@ -107,7 +107,7 @@ export default function AllEmployee(props) {
                 </Card>
 
                 <Card className={classes.cardWrapper}>
-                    <h3 style={{ alignSelf: "center" }}>华东地区</h3>
+                    <h3 style={{ alignSelf: "center" }}>华北地区</h3>
                     <hr style={{ width: 480 }} />
                     <GridList cellHeight={160} className={classes.gridList} cols={5}>
                         {north.map((tile) => (

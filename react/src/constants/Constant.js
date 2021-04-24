@@ -37,4 +37,4 @@ export const BootstrapInput = withStyles((theme) => ({
 }))(InputBase);
 
 
-export const API_URL = "http://www.cheese.beer:5147";
+export const API_URL = "http://localhost:5147";

@@ -160,7 +160,7 @@ export default function AllCustomer(props) {
     <div className={classes.tableWrapper}>
       <MaterialTable
         // backgroundColor="#f5f7fa"
-        title={AreaSelector()}
+        // title={AreaSelector()}
         style={{ boxShadow: "none" }}
         icons={tableIcons}
         columns={columns}

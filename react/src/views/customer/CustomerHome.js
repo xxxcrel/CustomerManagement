@@ -43,8 +43,6 @@ const routes = [
 ]
 const useStyles = makeStyles(styles);
 
-let info;
-
 export default function CustomerHome(props) {
 
   // console.log(props);

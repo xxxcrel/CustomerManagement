@@ -67,6 +67,7 @@ public class EmployeeController {
         intern.setEntryDate(new Date());
         intern.setPermission(0);
         intern.setState(state);
+        intern.setAvatarUrl("http://www.cheese.beer/img/img2.jpg");
         employeeRepository.save(intern);
         return Result.ok("成功添加员工" + intern.getUsername());
     }

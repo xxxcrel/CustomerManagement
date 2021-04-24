@@ -42,7 +42,7 @@ export default function AllProduct(props) {
                             <Divider />
                             <div style={{ height: 240 }}>
                                 <Typography style={{ fontSize: 15, color: "gray", marginTop: 7 }}>
-                                    {product.desc}
+                                    {product.description}
                                 </Typography>
                             </div>
                             <Divider />

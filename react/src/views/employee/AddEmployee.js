@@ -15,7 +15,7 @@ function Alert(props) {
 export default function AddEmployee(props) {
 
     var genders = ["女", "男"];
-    var areas = ["华东", "华西", "华北", "华南"];
+    var areas = ["华东", "华西", "华南", "华北"];
     var states = ["实习", "在职", "请假中", "调休中", "离职"];
     const [username, setUsername] = React.useState("");
     const [password, setPassword] = React.useState("");
@@ -64,9 +64,9 @@ export default function AddEmployee(props) {
     const classes = useStyles();
     return (
         <div className={classes.wrapper}>
-            <Avatar className={classes.avatarWrapper}>
+            {/* <Avatar className={classes.avatarWrapper} src="http://www.cheese.beer/">
                 <AddAPhoto />
-            </Avatar>
+            </Avatar> */}
             <b className={classes.labelWrapper}>姓名:</b>
 
             <TextField value={username} onChange={e => setUsername(e.target.value)} className={classes.inputWrapper} size="small" variant="outlined" />
@@ -87,9 +87,9 @@ export default function AddEmployee(props) {
             <b className={classes.labelWrapper}>管理区域:</b>
             <TextField value={area} onChange={e => setArea(e.target.value)} select className={classes.inputWrapper} size="small" variant="outlined" >
                 <MenuItem value={0}>华东</MenuItem>
-                <MenuItem value={1}>华北</MenuItem>
+                <MenuItem value={1}>华西</MenuItem>
                 <MenuItem value={2}>华南</MenuItem>
-                <MenuItem value={3}>华西</MenuItem>
+                <MenuItem value={3}>华北</MenuItem>
             </TextField>
             {/* <b className={classes.labelWrapper}>入职日期:</b>
             <MuiPickersUtilsProvider utils={DateFnsUtils}>

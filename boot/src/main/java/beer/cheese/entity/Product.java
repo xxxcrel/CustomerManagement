@@ -2,6 +2,7 @@ package beer.cheese.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "tbl_product")
@@ -21,14 +21,14 @@ import lombok.ToString;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Product {
+
     @Id
     private Long id;
 
     private String name;
 
-    private String desc;
+    private String description;
 
     private String icon;
 
@@ -37,6 +37,7 @@ public class Product {
     /**
      * 促销价格
      */
+    @Column(name = "promotion_price")
     private long promotionPrice;
 
     /**

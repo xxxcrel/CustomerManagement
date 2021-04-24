@@ -27,7 +27,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "tbl_manager")
+@Table(name = "tbl_employee")
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -74,8 +74,7 @@ public class Employee implements Serializable {
      * 1：实习；2：在职；3：请假中；4：调休中；5：离职
      */
     @OneToOne
-    @JoinColumn(name = "state_id")
-//    @JsonIgnore
+    @JoinColumn(name = "tbl_state_id")
     private State state;
 
     @Override

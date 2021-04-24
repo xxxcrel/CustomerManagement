@@ -156,7 +156,7 @@ export default function ProductDetails(props) {
                             产品详情
                         </Typography>
                         <Typography>
-                            {product.desc}
+                            {product.description}
                         </Typography>
 
                     </div>

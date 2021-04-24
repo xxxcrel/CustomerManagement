@@ -62,6 +62,7 @@ public class Customer {
      * 1：普通用户，2：VIP，3：超级VIP
      */
     @OneToOne
+    @JoinColumn(name = "tbl_type_id")
     private Type type;
 
     public Customer(String companyName, String area, String username, String password, Long age, String gender, String tel, String address) {

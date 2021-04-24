@@ -8,7 +8,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     show-sql: true
     properties:
       hibernate:
@@ -20,6 +20,6 @@ spring:
   main:
     banner-mode: off
   profiles:
-    active: test
+    active: prod
   mvc:
     throw-exception-if-no-handler-found: true
