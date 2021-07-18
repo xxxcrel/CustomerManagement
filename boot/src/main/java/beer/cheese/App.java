@@ -9,14 +9,6 @@ public class App {
 
     public static void main(String[] args) {
        ApplicationContext ctx =  SpringApplication.run(App.class);
-//       UserRepository userRepository = (UserRepository) ctx.getBean(UserRepository.class);
-//       User user = new User();
-//       user.setAge(12L);
-//       user.setUsername("wuxc");
-//       user.setGender("male");
-//       user.setTel("13086114764");
-//       user.setIdCard("362331199805140517");
-//       userRepository.save(user);
     }
 
 }
