@@ -1,4 +1,7 @@
-客户信息管理系统
-=============
+太草了
+=====
 
-- 前端采用React，后端采用SpringBoot
+- 前端React，后端SpringBoot(此系统无任何参考价值, 攒commit, 水Open Source License)
+- 感谢JetBrains
+
+![jetbrains](/jetbrains.svg)
