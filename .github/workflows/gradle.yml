@@ -24,6 +24,6 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: change directory
-      run: cd boo
+      run: cd boot
     - name: Build with Gradle
       run: ./gradlew build
