@@ -45,6 +45,8 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         push: true
+        context: ./boot
+        file: ./boot/Dockerfile
         tags: xxxcrel/cm:lastest
     -
       name: Image digest
