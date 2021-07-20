@@ -30,6 +30,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
+    - name: ls -alR
+      run: ls -al
     - name: npm install
       working-directory: ./react
       run: npm install
