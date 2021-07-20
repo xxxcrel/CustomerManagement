@@ -1,0 +1,15 @@
+version: "3.9"
+services: 
+  cm:
+    image: xxxcrel/cm:lastest
+    container_name: cm
+    ports: 
+      - "5147:5147"
+  cm-frontend:
+    image: xxxcrel/cm-frontend:lastest
+    container_name: cm-frontend
+    ports: 
+      - "80:80"
+  mysql: 
+    image: mysql:8
+    config: mysql
