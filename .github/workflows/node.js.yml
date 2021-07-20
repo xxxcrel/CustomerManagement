@@ -30,10 +30,12 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - name: npm install and npm run build
-      run: |
-        npm i
-        npm run build
+    - name: npm install
+      working-directory: ./react
+      run: npm install
+    - name: npm build
+      working-directory: ./react
+      run: npm build
     -
       name: Set up QEMU
       uses: docker/setup-qemu-action@v1
