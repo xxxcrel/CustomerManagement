@@ -47,7 +47,7 @@ jobs:
         push: true
         context: ./boot
         file: ./boot/Dockerfile
-        tags: xxxcrel/cm:lastest
+        tags: xxxcrel/cm:latest
     -
       name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
