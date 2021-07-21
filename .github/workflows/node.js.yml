@@ -46,7 +46,7 @@ jobs:
         push: true
         context: ./react
         file: ./react/Dockerfile
-        tags: xxxcrel/cm-frontend:lastest
+        tags: xxxcrel/cm-frontend:latest
     -
       name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
