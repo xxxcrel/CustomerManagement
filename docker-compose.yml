@@ -12,4 +12,7 @@ services:
       - "80:80"
   mysql: 
     image: mysql:8
-    config: mysql
+    environment:
+      MYSQL_USER: wuxc
+      MYSQL_PASSWORD: hellowuxc
+      MYSQL_DATABASE: employees
